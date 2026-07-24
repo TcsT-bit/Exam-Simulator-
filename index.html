@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V2.3 - REAL AI</title>
+<title>SHANA CALC TECH PARADISE V2.5 - FINAL</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;}
@@ -21,8 +21,6 @@
 .card h2{font-size:18px; margin-bottom:12px; color:var(--accent);}
 .subject-btn{padding:18px; margin:8px 0; background: linear-gradient(135deg, #3b0764, #581c87); border:1px solid rgba(168,85,247,0.3); border-radius:14px; color:#fff; cursor:pointer; font-weight:800; width:100%; font-size:15px; transition:0.3s;}
 .subject-btn:hover{transform:translateY(-2px); box-shadow:0 5px 20px rgba(168,85,247,0.4);}
-.subject-btn.god{background: linear-gradient(135deg, #ef4444, #f97316); animation: glow 2s infinite;}
-  @keyframes glow{0%,100%{box-shadow:0 0 10px #ef4444}50%{box-shadow:0 0 25px #ef4444}}
 .upload-box{border:2px dashed var(--accent); border-radius:14px; padding:25px; text-align:center; cursor:pointer; transition:0.3s;}
 .upload-box:hover{background:rgba(0,212,255,0.1);}
 .upload-box input{display:none;}
@@ -31,103 +29,64 @@
 .btn.red{background:linear-gradient(135deg, #ef4444, #dc2626);}
 .btn.yellow{background:var(--yellow); color:#000;}
 .btn.green{background:var(--green);}
-.timer{font-size:28px; font-weight:800; color:var(--accent); text-align:center; background:rgba(0,0,0,0.5); padding:10px; border-radius:12px;}
-.quiz-card{background:rgba(0,0,0,0.5); padding:20px; border-radius:16px; margin-bottom:16px; border-left:4px solid var(--accent);}
-.quiz-option{padding:14px; margin:8px 0; background:#1f2937; border-radius:10px; cursor:pointer; border:2px solid transparent; transition:0.2s;}
-.quiz-option:hover{border-color:var(--accent);}
-.quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
-.quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
-.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(35px, 1fr)); gap:6px; margin:12px 0; max-height:350px; overflow-y:auto;}
-.nav-btn{padding:8px; background:#1f2937; border:none; border-radius:8px; color:#fff; cursor:pointer; font-size:11px; font-weight:700;}
-.nav-btn.done{background:#065f46;}.nav-btn.wrong{background:#7f1d1d;}.nav-btn.current{border:2px solid var(--accent);}
 .ai-key{width:100%; padding:12px; background:#1f2937; border:1px solid #374151; border-radius:10px; color:#fff; margin-top:8px;}
 </style>
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V2.3</h1>
-  <p class="subtitle">AI CAPS EXAM SIMULATOR | R - 12 + TVET + UNI | Upload Notes → Generate Questions</p>
+  <h1>SHANA CALC TECH PARADISE V2.5</h1>
+  <p class="subtitle">AI CAPS EXAM SIMULATOR | ALL SA SUBJECTS | Upload Notes → Generate 30 Questions</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
     <button class="tab-btn" onclick="switchTab(event,'primary')">PRIMARY R-7</button>
-    <button class="tab-btn" onclick="switchTab(event,'tertiary')">TVET + UNIVERSITY</button>
+    <button class="tab-btn" onclick="switchTab(event,'tvet')">TVET N1-N6</button>
+    <button class="tab-btn" onclick="switchTab(event,'university')">UNIVERSITY</button>
   </div>
 
   <div id="menu">
     <div class="grid">
       <div class="card">
         <h2>1. SELECT LEVEL & SUBJECT</h2>
-        <div id="subjectList">
-          <button class="subject-btn" onclick="startPaper('maths', 50)">MATHEMATICS - Test 50 Qs</button>
-          <button class="subject-btn god" onclick="startPaper('maths', 150)">MATHEMATICS - FULL 150 Qs GOD MODE</button>
-          <button class="subject-btn" onclick="startPaper('science', 50)">NATURAL SCIENCES - Test 50 Qs</button>
-          <button class="subject-btn" onclick="startPaper('civil', 50)">CIVIL TECHNOLOGY - Test 50 Qs</button>
-        </div>
+        <div id="subjectList"></div>
       </div>
 
       <div class="card">
         <h2>2. AI PARADISE: UPLOAD YOUR NOTES</h2>
-        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Get FREE key: ai.google.dev</p>
-
         <label class="upload-box" for="fileUpload">
-          📤 Click or Drag Notes Here<br>
-          <small>JPG, PNG, PDF</small>
+          📤 Click or Drag Notes Here<br><small>JPG, PNG, PDF</small>
           <input type="file" id="fileUpload" accept=".pdf,.jpg,.png" onchange="handleUpload(event)">
         </label>
-
         <input type="password" id="apiKey" class="ai-key" placeholder="Paste your FREE Gemini API Key Here">
         <button class="btn" style="width:100%; font-size:12px;" onclick="saveApiKey()">💾 Save Key Locally</button>
         <div id="keyStatus" style="font-size:11px; color:var(--green); text-align:center; margin-top:4px;"></div>
 
         <select id="levelSelect" class="ai-key" onchange="updateGradeOptions()">
-          <option value="Primary">Primary R-7</option>
-          <option value="Secondary" selected>Secondary G8-12</option>
-          <option value="TVET">TVET N1-N6</option>
-          <option value="University">University Year 1</option>
+          <option value="primary">Primary R-7</option>
+          <option value="secondary" selected>Secondary G8-12</option>
+          <option value="tvet">TVET N1-N6</option>
+          <option value="university">University Year 1</option>
         </select>
-
-        <select id="gradeSelect" class="ai-key">
-          <option>Grade 8</option><option>Grade 9</option><option>Grade 10</option><option>Grade 11</option><option>Grade 12</option>
-        </select>
-
-        <select id="subjectSelect" class="ai-key">
-          <option>Civil Technology</option><option>Mathematics</option><option>Physical Science</option>
-        </select>
+        <select id="gradeSelect" class="ai-key"></select>
+        <select id="subjectSelect" class="ai-key"></select>
 
         <button class="btn green" style="width:100%; margin-top:10px;" onclick="generateFromNotes()">✨ GENERATE 30 QUESTIONS WITH AI</button>
         <div id="uploadStatus" style="margin-top:10px; font-size:12px;"></div>
       </div>
     </div>
-
     <div class="card" style="margin-top:15px;">
-      <h2>3. MY SAVED QUESTION BANKS - LocalStorage</h2>
-      <div id="savedBanks">No banks yet. Generate from notes above.</div>
+      <h2>3. MY SAVED QUESTION BANKS</h2>
+      <div id="savedBanks">No banks yet.</div>
       <button class="btn yellow" onclick="clearStorage()">Clear All Local Data</button>
     </div>
   </div>
-
-  <div id="examArea" style="display:none;">
-    <div class="timer" id="timer">Time: 02:00:00</div>
-    <div id="navGrid" class="nav-grid"></div>
-    <div id="paperTitle" style="text-align:center; font-weight:800; margin:15px 0; font-size:18px;"></div>
-    <div id="questionsArea"></div>
-    <div style="display:flex; justify-content:space-between;">
-      <button class="btn yellow" onclick="prevQ()">← Previous</button>
-      <button class="btn" onclick="nextQ()">Next →</button>
-    </div>
-    <button class="btn" onclick="backToMenu()">← Back to Menu</button>
-    <button class="btn red" id="submitBtn" onclick="submitPaper()">SUBMIT PAPER</button>
-    <div id="memoArea" style="margin-top:20px; padding:18px; background:#000; border-radius:14px; display:none;"></div>
-  </div>
+  <div id="examArea" style="display:none;"><div id="questionsArea"></div></div>
 </div>
 
 <script>
-let currentPaper=[], userAnswers=[], timer, timeLeft=7200, currentQ=0, selectedModule='';
+let currentPaper=[], userAnswers=[], timer, timeLeft=7200, currentQ=0;
 let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
-let currentTab = 'secondary';
-let uploadedFileBase64 = null;
-let uploadedMimeType = null;
+let uploadedFileBase64 = null; let uploadedMimeType = null;
 
 const subjectData = {
   primary: ['Grade R','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7'],
@@ -136,177 +95,56 @@ const subjectData = {
   university: ['Year 1 Semester 1','Year 1 Semester 2']
 }
 const subjectsByLevel = {
-  primary: ['Mathematics','English HL','Natural Science','Social Science','Life Skills'],
-  secondary: ['Mathematics','Physical Science','Civil Technology','Mechanical Technology','English FAL','EMS'],
-  tvet: ['Building Science','Engineering Drawing','Mathematics N3','Industrial Organisation'],
-  university: ['Calculus 1','Physics 1','Introduction to Engineering','Academic Literacy']
+  primary: ['Mathematics','English HL','Natural Science','Social Science','Life Skills','Technology','Creative Arts'],
+  secondary: ['Mathematics','Math Literacy','Physical Science','Life Science','Civil Technology','Mechanical Technology','Electrical Technology','Engineering Graphics','Accounting','Business Studies','Economics','Geography','History','English FAL','Afrikaans FAL','Life Orientation','IT','CAT'],
+  tvet: ['Building Science','Engineering Drawing','Mathematics N3','Industrial Organisation','Civil Construction','Trade Theory','Plant Operation'],
+  university: ['Calculus 1','Physics 1','Chemistry 1','Introduction to Engineering','Academic Literacy','Engineering Graphics','Programming 1']
 }
 
 window.onload = () => {
   const savedKey = localStorage.getItem('shanaApiKey');
   if(savedKey) {document.getElementById('apiKey').value = savedKey; document.getElementById('keyStatus').innerText = 'Key Loaded'}
+  switchTab(null, 'secondary');
   loadSavedBanks();
 }
-
-function saveApiKey(){
-  localStorage.setItem('shanaApiKey', document.getElementById('apiKey').value);
-  document.getElementById('keyStatus').innerText = 'API Key Saved Locally!';
-  setTimeout(()=>document.getElementById('keyStatus').innerText='', 2000);
-}
-
+function saveApiKey(){ localStorage.setItem('shanaApiKey', document.getElementById('apiKey').value); document.getElementById('keyStatus').innerText = 'API Key Saved!'; setTimeout(()=>document.getElementById('keyStatus').innerText='', 2000); }
 function switchTab(event, tab){
-  currentTab = tab;
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  let html = '';
-  subjectsByLevel[tab].forEach(sub=>{
-    html += `<button class="subject-btn" onclick="startPaper('${sub.toLowerCase().replace(/ /g,'')}','50')">${sub.toUpperCase()} - Test 50 Qs</button>`;
-  });
+  if(event) event.target.classList.add('active'); else document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+  let html = ''; subjectsByLevel[tab].forEach(sub=>{ html += `<button class="subject-btn" onclick="alert('Upload notes first')">${sub.toUpperCase()}</button>`; });
   document.getElementById('subjectList').innerHTML = html;
+  document.getElementById('levelSelect').value = tab;
   updateGradeOptions();
 }
-
 function updateGradeOptions(){
   const level = document.getElementById('levelSelect').value.toLowerCase();
-  const gradeSel = document.getElementById('gradeSelect');
-  const subjectSel = document.getElementById('subjectSelect');
-  gradeSel.innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join('');
-  subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join('');
+  document.getElementById('gradeSelect').innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join('');
+  document.getElementById('subjectSelect').innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join('');
 }
-
-function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
-const baseBank = { maths: [], civil: [], science: [] }
-
 function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBanks)); loadSavedBanks(); }
-
-function loadSavedBanks(){
-  let html = '';
-  for(let key in myBanks){
-    html += `<div style="background:#1f2937; padding:10px; border-radius:8px; margin:5px 0; display:flex; justify-content:space-between; align-items:center;">
-      <span>${key} - ${myBanks[key].length} Qs</span>
-      <button class="btn" onclick="startCustomBank('${key}')">Start Test</button>
-    </div>`;
-  }
-  document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
-}
-
-function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-      uploadedMimeType = file.type;
-      resolve(reader.result.split(',')[1]);
-    }
-    reader.onerror = error => reject(error);
-  });
-}
-
-function handleUpload(e){
-  const file = e.target.files[0];
-  if(file) {
-    document.getElementById('uploadStatus').innerText = `✅ Loaded: ${file.name}. Now click GENERATE.`;
-    fileToBase64(file).then(b64 => { uploadedFileBase64 = b64; });
-  }
-}
-
-// REAL GEMINI 2.0 FLASH API - FIXED BRACKETS
+function loadSavedBanks(){ let html = ''; for(let key in myBanks){ html += `<div style="background:#1f2937; padding:10px; border-radius:8px; margin:5px 0;">${key} - ${myBanks[key].length} Qs</div>`; } document.getElementById('savedBanks').innerHTML = html || 'No banks yet.'; }
+function fileToBase64(file) { return new Promise((resolve) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = () => { uploadedMimeType = file.type; resolve(reader.result.split(',')[1]); } }); }
+function handleUpload(e){ const file = e.target.files[0]; if(file) { document.getElementById('uploadStatus').innerText = `✅ Loaded: ${file.name}`; fileToBase64(file).then(b64 => { uploadedFileBase64 = b64; }); }
 async function generateFromNotes(){
-  const apiKey = document.getElementById('apiKey').value;
-  const file = document.getElementById('fileUpload').files[0];
-  const level = document.getElementById('levelSelect').value;
-  const grade = document.getElementById('gradeSelect').value;
-  const subject = document.getElementById('subjectSelect').value;
-
+  const apiKey = document.getElementById('apiKey').value; const file = document.getElementById('fileUpload').files[0];
+  const level = document.getElementById('levelSelect').value; const grade = document.getElementById('gradeSelect').value; const subject = document.getElementById('subjectSelect').value;
   if(!apiKey ||!file ||!uploadedFileBase64) return alert('Please add API Key and Upload a file first');
-  saveApiKey();
-
-  document.getElementById('uploadStatus').innerText = `⏳ AI is reading your notes and generating 30 questions... This takes ~10s`;
-
-  const prompt = `You are a South African ${level} CAPS teacher for ${subject} ${grade}.
-Task: Read the uploaded notes/image and generate EXACTLY 30 exam questions.
-Rules:
-1. 10 MCQ with 4 options A,B,C,D. Include correct answer letter.
-2. 10 DEF/Short questions. Include keywords array for marking.
-3. 10 APP/Application questions. Include keywords array.
-4. Questions must ONLY come from the uploaded content. Match CAPS ${grade} difficulty.
-5. Output ONLY valid JSON array. No markdown. Format:
-[{"type":"MCQ","marks":1,"q":"question","options":["A. opt1","B. opt2","C. opt3","D. opt4"],"ans":"B"},
-{"type":"DEF","marks":2,"q":"Define...","ans":"answer","keywords":["word1","word2"]},
-{"type":"APP","marks":4,"q":"Explain...","ans":"answer","keywords":["word1","word2"]}]`;
-
+  document.getElementById('uploadStatus').innerText = `⏳ AI generating 30 questions...`;
+  const prompt = `You are a South African ${level} CAPS teacher for ${subject} ${grade}. Read uploaded notes and generate EXACTLY 30 exam questions. 10 MCQ, 10 DEF with keywords, 10 APP with keywords. Output ONLY valid JSON array.`;
   try {
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{
-          parts: [
-            { text: prompt },
-            { inline_data: { mime_type: uploadedMimeType, data: uploadedFileBase64 } // FIXED ] HERE
-          ]
-        }]
-      })
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [ { text: prompt }, { inline_data: { mime_type: uploadedMimeType, data: uploadedFileBase64 } } ] }] })
     });
-
-    const data = await response.json();
-    if(data.error) throw new Error(data.error.message);
-
-    let text = data.candidates[0].content.parts[0].text;
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    const data = await response.json(); if(data.error) throw new Error(data.error.message);
+    let text = data.candidates[0].content.parts[0].text.replace(/```json/g, '').replace(/```/g, '').trim();
     let questions = JSON.parse(text);
-
     let bankName = `${level} ${grade} ${subject} - ${new Date().toLocaleDateString()}`;
-    myBanks[bankName] = questions;
-    saveToStorage();
+    myBanks[bankName] = questions; saveToStorage();
     document.getElementById('uploadStatus').innerText = `✅ Generated ${questions.length} questions! Saved as "${bankName}"`;
-
-  } catch(err) {
-    console.error(err);
-    document.getElementById('uploadStatus').innerText = `❌ Error: ${err.message}. Check your API key and internet`;
-  }
+  } catch(err) { document.getElementById('uploadStatus').innerText = `❌ Error: ${err.message}`; }
 }
-
-function startCustomBank(name){
-  currentPaper = shuffle([...myBanks[name]]);
-  userAnswers = new Array(currentPaper.length).fill(null); currentQ = 0; timeLeft = currentPaper.length * 48;
-  document.getElementById('menu').style.display = 'none'; document.getElementById('examArea').style.display = 'block';
-  document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} QUESTIONS`;
-  buildNav(); showQuestion();
-  clearInterval(timer); timer = setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0) submitPaper(); },1000);
-}
-
-function startPaper(mod, count){
-  alert('Upload notes first to generate questions for this subject');
-  backToMenu();
-}
-
-function updateTimer(){ let h=Math.floor(timeLeft/3600), m=Math.floor((timeLeft%3600)/60), s=timeLeft%60; document.getElementById('timer').innerText = `Time: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
-function buildNav(){ let html=''; currentPaper.forEach((_,i)=>{ html+=`<button class="nav-btn" id="nav${i}" onclick="goToQ(${i})">${i+1}</button>`; }); document.getElementById('navGrid').innerHTML=html; updateNav(); }
-function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add(userAnswers[i]?'done':'wrong'); } }); }
-function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Type your answer..." style="width:100%; height:100px; background:#1f2937; color:#fff; border-radius:8px; padding:10px;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
-function checkMCQ(el, choice){ userAnswers[currentQ] = (choice===currentPaper[currentQ].ans); el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong')); el.classList.add(userAnswers[currentQ]?'correct':'wrong'); updateNav(); }
-function saveText(){ userAnswers[currentQ] = document.getElementById('textAns').value; updateNav(); }
-function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion(); }
-function prevQ(){ if(currentQ>0) currentQ--; showQuestion(); }
-function goToQ(i){ currentQ=i; showQuestion(); }
-function backToMenu(){ clearInterval(timer); document.getElementById('examArea').style.display='none'; document.getElementById('menu').style.display='block'; }
-function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); }
-function gradeTextAnswer(userAns, keywords){ if(!userAns) return 0; let lower = userAns.toLowerCase(); let hits = keywords.filter(k=>lower.includes(k.toLowerCase())).length; return Math.min(1, hits/keywords.length); }
-function submitPaper(){
-  clearInterval(timer); let score=0, total=0, memoHtml='<h2>MEMO + RESULTS</h2>';
-  currentPaper.forEach((q,i)=>{
-    total+=q.marks;
-    let correct=false;
-    if(q.type==="MCQ") correct=userAnswers[i];
-    else correct=gradeTextAnswer(userAnswers[i], q.keywords)>=0.5;
-    if(correct) score+=q.marks;
-    memoHtml+=`<div style="margin:10px 0;"><b>Q${i+1}:</b> ${q.q}<br><b>Answer:</b> ${q.ans||q.keywords.join(', ')} ${correct?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--red)">✗</span>'}</div>`;
-  });
-  let percent = ((score/total)*100).toFixed(1);
-  memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2>` + memoHtml;
-  document.getElementById('memoArea').innerHTML=memoHtml; document.getElementById('memoArea').style.display='block'; document.getElementById('submitBtn').style.display='none';
-}
+function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } } // FIXED }
 </script>
 </body>
 </html>
