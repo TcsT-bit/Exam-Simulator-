@@ -76,7 +76,7 @@
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">TIER 5</span></h1>
-  <p>Smart Template AI v5.0 - No API Needed. Bloom's Taxonomy + Smart Distractors + 3x Faster Video OCR</p>
+  <p>Smart Template AI v7.1 - No API Needed. Bloom's Taxonomy + Smart Distractors + Mobile Keyword Fix</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -199,7 +199,6 @@ async function getAIAnswer(questionText, subject) {
     let score = 0;
     item.keywords.forEach(kw => {
       if(questionText.includes(kw)) score += 2;
-      // synonym check
       for(let syn in SYNONYMS){ if(questionText.includes(syn) && SYNONYMS[syn].includes(kw)) score += 1; }
     });
     if(score > highestScore) { highestScore = score; bestMatch = item; }
@@ -214,7 +213,6 @@ async function getAIAnswer(questionText, subject) {
 // TIER 5 BRAIN 2: GENERATE SMART DISTRACTORS FROM NOTES
 function generateSmartDistractors(q, subject){
   let wrong = [];
-  // Pull 3 random sentences from notes as "plausible but wrong"
   for(let i=0; i<3; i++){
     let rand = notesKeywords[Math.floor(Math.random()*notesKeywords.length)] || "Concept";
     wrong.push(`Related to ${rand}`);
@@ -227,16 +225,15 @@ function generateSmartDistractors(q, subject){
   }
 }
 
-// TIER 5 BRAIN 3: BLOOM'S TAXONOMY QUESTION GENERATOR
-function generateBloomsQuestion(sentences, keywords, level, i){
+// TIER 5 BRAIN 3: BLOOM'S TAXONOMY QUESTION GENERATOR - FIXED
+function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
   const blooms = ["Remember","Understand","Apply","Analyze","Evaluate"];
   let bloom = blooms[i % 5];
-  let term1 = keywords[i % keywords.length] || "Concept";
 
   if(bloom === "Remember") return {q:`Define: What is ${term1}?`, type:"REM"};
   if(bloom === "Understand") return {q:`Explain in your own words: ${term1}`, type:"UND"};
   if(bloom === "Apply") return {q:`Apply: How would you use ${term1} in real life?`, type:"APP"};
-  if(bloom === "Analyze") return {q:`Analyze: Compare ${term1} with ${keywords[(i+3)%keywords.length]}`, type:"ANA"};
+  if(bloom === "Analyze") return {q:`Analyze: Compare ${term1} with ${term2}`, type:"ANA"};
   return {q:`Evaluate: Is ${term1} important for ${level}? Justify.`, type:"EVAL"};
 }
 
@@ -264,7 +261,6 @@ function extractFramesFromVideo(videoFile) {
       const result = await tesseractWorker.recognize(blob);
       let newText = result.data.text.trim();
 
-      // SKIP DUPLICATES - TIER 5 SPEED BOOST
       if(newText.length > 20 && newText!== lastText){
         framesText.push(newText);
         lastText = newText;
@@ -382,7 +378,8 @@ async function handleUpload(e){
   const results = await Promise.all(promises);
   allText = results.join('');
   uploadedText = allText;
-  notesKeywords = [...new Set(allText.split(' ').filter(w => w.length > 4))];
+  // FIXED: Clean keywords here so mobile works
+  notesKeywords = [...new Set(allText.split(/\W+/).filter(w => w.length > 4))].slice(0,100);
   document.getElementById('notesPaste').value = uploadedText;
   document.getElementById('uploadStatus').innerText = `✅ Read ${files.length} files! ${uploadedText.length} chars`;
   document.getElementById('ocrProgress').style.display = 'none';
@@ -395,9 +392,17 @@ async function generateFromNotes(){
   const subject = document.getElementById('subjectSelect').value;
   if(notes.length < 50) return alert('Please upload files or paste notes first. Need at least 50 characters');
   document.getElementById('uploadStatus').innerText = `⏳ TIER 5 AI is analyzing with Bloom's Taxonomy...`;
+
   let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
   let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
-  let keywords = notesKeywords.slice(0, 50);
+
+  // FIXED: Force keywords from notes if empty
+  if(notesKeywords.length < 10){
+    notesKeywords = [...new Set(notes.split(/\W+/).filter(w => w.length > 4))].slice(0,100);
+  }
+  if(notesKeywords.length < 10) notesKeywords = ["Mitochondria","Photosynthesis","Cell","DNA","Ecosystem","Respiration","Biodiversity","Chromosome","Chloroplast","Nucleus"];
+
+  let keywords = notesKeywords;
   currentPaper = [];
   const isQuestionPaper = questions.length > 3 || currentMode === 'questions';
 
@@ -411,14 +416,16 @@ async function generateFromNotes(){
       currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: ai.ans, explanation: ai.exp, marks: 2, source: ai.source});
     }
   } else {
-    // TIER 5: BLOOM'S 30 QUESTIONS
+    // TIER 5: BLOOM'S 30 QUESTIONS with REAL keywords
     for(let i=0; i<30; i++){
-      let bq = generateBloomsQuestion(sentences, keywords, grade, i);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: keywords.slice(0,3), modelAnswer: `Answer based on: ${keywords.slice(0,2).join(', ')}`, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SHANA T5"});
+      let term1 = keywords[i % keywords.length];
+      let term2 = keywords[(i+3) % keywords.length];
+      let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: `Answer based on: ${term1} and ${term2}`, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SHANA T5"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.0-TIER5 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V7.1-FIXED - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} TIER 5 SMART Q+A!`;
@@ -466,7 +473,7 @@ function gradeTextAnswer(userAns, q){
   if(!userAns) return false;
   let lower = userAns.toLowerCase();
   let hits = q.keywords.filter(k=>lower.includes(k.toLowerCase())).length;
-  return hits >= 1; // TIER 5: more lenient
+  return hits >= 1;
 }
 
 function submitPaper(){
