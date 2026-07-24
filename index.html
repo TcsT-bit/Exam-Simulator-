@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V2.5 - ALL SA SUBJECTS</title>
+<title>SHANA CALC TECH PARADISE V2.6 - GOD TIER</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;}
@@ -45,7 +45,7 @@
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V2.5</h1>
+  <h1>SHANA CALC TECH PARADISE V2.6</h1>
   <p class="subtitle">AI CAPS EXAM SIMULATOR | ALL SA SUBJECTS | Upload Notes → Generate Questions</p>
 
   <div class="tabs">
@@ -121,7 +121,7 @@ let currentTab = 'secondary';
 let uploadedFileBase64 = null;
 let uploadedMimeType = null;
 
-// ENHANCED: ALL SA SUBJECTS
+// ALL SA SUBJECTS - ENHANCED
 const subjectData = {
   primary: ['Grade R','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7'],
   secondary: ['Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'],
@@ -286,7 +286,7 @@ function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion();
 function prevQ(){ if(currentQ>0) currentQ--; showQuestion(); }
 function goToQ(i){ currentQ=i; showQuestion(); }
 function backToMenu(){ clearInterval(timer); document.getElementById('examArea').style.display='none'; document.getElementById('menu').style.display='block'; }
-function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } // FIXED } ADDED
+function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } } // FIXED: ADDED CLOSING }
 function gradeTextAnswer(userAns, keywords){ if(!userAns) return 0; let lower = userAns.toLowerCase(); let hits = keywords.filter(k=>lower.includes(k.toLowerCase())).length; return Math.min(1, hits/keywords.length); }
 function submitPaper(){
   clearInterval(timer); let score=0, total=0, memoHtml='<h2>MEMO + RESULTS</h2>';
