@@ -17,10 +17,6 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
 .section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
 .section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
-.tabs{display:flex; gap:8px; margin-bottom:30px; justify-content:center; flex-wrap:wrap;}
-.tab-btn{padding:10px 18px; background:var(--card2); border:1px solid var(--border); border-radius:20px; color:#9aa0a6; cursor:pointer; font-weight:500; transition:0.3s; font-size:14px;}
-.tab-btn:hover{background:#2d3748; color:#fff;}
-.tab-btn.active{background: linear-gradient(90deg, #4285f4, #8ab4f8); color:#fff; border:none;}
 .grid{display:grid; grid-template-columns: 1fr; gap:24px;}
 .card{background:var(--card); padding:24px; border-radius:16px; border:1px solid var(--border);}
 .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
@@ -53,13 +49,14 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
 .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 .tier-badge{background:var(--green); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-left:8px; color:#000;}
+.label{font-size:12px; color:#9aa0a6; margin:10px 0 5px; font-weight:500;}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">SA CAPS COMPLETE</span></h1>
-  <p>Smart Exam Generator v7.10 - All SA Subjects. Paste Notes. Get Real Memo.</p>
+  <p>Smart Exam Generator v7.11 - All SA Subjects. Paste Notes. Get Real Memo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -69,6 +66,12 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 
   <div id="menu">
     <div class="grid">
+      <div class="card">
+        <h2>1. Quick Select Subject</h2>
+        <div class="label">Choose Subject</div>
+        <select id="quickSubject" class="ai-key" onchange="syncQuickToMain()"></select>
+      </div>
+
       <div class="card">
         <h2>2. Smart AI: Paste Your Notes</h2>
         <span class="badge">TIER 5: FULL SA CAPS KNOWLEDGE ENGINE</span>
@@ -80,6 +83,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 
         <textarea id="notesPaste" class="ai-key" placeholder="PASTE YOUR CAPS NOTES HERE..." style="height:180px; margin-top:10px;"></textarea>
 
+        <div class="label">Level</div>
         <select id="levelSelect" class="ai-key" onchange="updateGradeOptions()">
           <option value="primary">Primary R-7</option>
           <option value="secondary" selected>Secondary G8-12</option>
@@ -87,7 +91,10 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
           <option value="university">University</option>
         </select>
 
+        <div class="label">Grade</div>
         <select id="gradeSelect" class="ai-key"></select>
+
+        <div class="label">Subject</div>
         <select id="subjectSelect" class="ai-key"></select>
 
         <button class="btn orange" onclick="generateFromNotes()">✨ GENERATE 30 CAPS QUESTIONS</button>
@@ -138,7 +145,7 @@ const subjectsByLevel = {
   university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
 }
 
-// ====== V7.10 KNOWLEDGE ENGINE ======
+// ====== V7.11 KNOWLEDGE ENGINE ======
 const KNOWLEDGE_ENGINE = {
   "Natural Science and Technology": [],
   "Physical Sciences": [],
@@ -221,18 +228,39 @@ function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
 }
 
 window.onload = () => {
+  loadQuickDropdown();
   updateGradeOptions();
   loadSavedBanks();
 }
 
+function loadQuickDropdown(){
+  let allSubjects = [];
+  Object.values(subjectsByLevel).forEach(arr => allSubjects.push(...arr));
+  allSubjects = [...new Set(allSubjects)];
+  document.getElementById('quickSubject').innerHTML = allSubjects.map(s=>`<option>${s}</option>`).join('');
+}
+
+function syncQuickToMain(){
+  const selected = document.getElementById('quickSubject').value;
+  // find which level it belongs to
+  for(let level in subjectsByLevel){
+    if(subjectsByLevel[level].includes(selected)){
+      document.getElementById('levelSelect').value = level;
+      updateGradeOptions();
+      document.getElementById('subjectSelect').value = selected;
+      break;
+    }
+  }
+}
+
 function setMode(mode){ currentMode = mode; document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active')); document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active'); }
 
-function updateGradeOptions(){ 
-  const level = document.getElementById('levelSelect').value.toLowerCase(); 
-  const gradeSel = document.getElementById('gradeSelect'); 
-  const subjectSel = document.getElementById('subjectSelect'); 
-  gradeSel.innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join(''); 
-  subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join(''); 
+function updateGradeOptions(){
+  const level = document.getElementById('levelSelect').value.toLowerCase();
+  const gradeSel = document.getElementById('gradeSelect');
+  const subjectSel = document.getElementById('subjectSelect');
+  gradeSel.innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join('');
+  subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join('');
 }
 
 function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
@@ -265,7 +293,7 @@ async function generateFromNotes(){
       let options = shuffle([kbItem.term, keywords[(i+1)%keywords.length], keywords[(i+2)%keywords.length], keywords[(i+3)%keywords.length]]);
       let correctIndex = options.indexOf(kbItem.term);
       let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.10"});
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.11"});
     }
   } else {
     for(let i=0; i<30; i++){
@@ -273,11 +301,11 @@ async function generateFromNotes(){
       let term2 = keywords[(i+3) % keywords.length];
       let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
       let modelAns = generateModelAnswer(bq.q, keywords);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.10"});
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.11"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.10 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V7.11 - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} QUESTIONS!`;
