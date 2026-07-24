@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V2.8.1 - FIXED OCR</title>
+<title>SHANA CALC TECH PARADISE V2.9 - ADVANCED AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
-  :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;}
+  :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--purple:#a855f7;}
   *{margin:0;padding:0;box-sizing:border-box;font-family: 'Inter', sans-serif;}
   body{background: radial-gradient(circle at top, #1e1b4b, var(--bg)); color:var(--text); padding:15px; min-height:100vh;}
 .calc{max-width:1200px; margin:auto; background:var(--card); border-radius:28px; padding:25px; backdrop-filter:blur(25px); border:1px solid rgba(0,212,255,0.2); box-shadow:0 0 40px rgba(168,85,247,0.2);}
@@ -31,6 +31,7 @@
 .btn.red{background:linear-gradient(135deg, #ef4444, #dc2626);}
 .btn.yellow{background:var(--yellow); color:#000;}
 .btn.green{background:var(--green);}
+.btn.purple{background:var(--purple);}
 .timer{font-size:28px; font-weight:800; color:var(--accent); text-align:center; background:rgba(0,0,0,0.5); padding:10px; border-radius:12px;}
 .quiz-card{background:rgba(0,0,0,0.5); padding:20px; border-radius:16px; margin-bottom:16px; border-left:4px solid var(--accent);}
 .quiz-option{padding:14px; margin:8px 0; background:#1f2937; border-radius:10px; cursor:pointer; border:2px solid transparent; transition:0.2s;}
@@ -41,15 +42,16 @@
 .nav-btn{padding:8px; background:#1f2937; border:none; border-radius:8px; color:#fff; cursor:pointer; font-size:11px; font-weight:700;}
 .nav-btn.done{background:#065f46;}.nav-btn.wrong{background:#7f1d1d;}.nav-btn.current{border:2px solid var(--accent);}
 .ai-key{width:100%; padding:12px; background:#1f2937; border:1px solid #374151; border-radius:10px; color:#fff; margin-top:8px;}
-.badge{background:var(--green); padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:10px;}
+.badge{background:var(--purple); padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:10px;}
 #ocrProgress{height:6px; background:#1f2937; border-radius:10px; overflow:hidden; margin-top:8px; display:none;}
 #ocrProgressBar{height:100%; width:0%; background:var(--green); transition:0.3s;}
+.file-list{margin-top:10px; font-size:12px; color:var(--green);}
 </style>
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V2.8.1</h1>
-  <p class="subtitle">TEMPLATE AI + OCR FIXED | Reads Pictures & PDFs | 0 API KEY</p>
+  <h1>SHANA CALC TECH PARADISE V2.9</h1>
+  <p class="subtitle">ADVANCED AI + MULTI UPLOAD | Bloom's Taxonomy | 0 API KEY</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
@@ -66,15 +68,16 @@
       </div>
 
       <div class="card">
-        <h2>2. TEMPLATE AI PARADISE: UPLOAD YOUR NOTES</h2>
-        <span class="badge">OCR FIXED</span>
-        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload JPG, PNG, PDF. AI will read it automatically</p>
+        <h2>2. ADVANCED TEMPLATE AI: UPLOAD YOUR NOTES</h2>
+        <span class="badge">MULTI-UPLOAD + HARD MODE</span>
+        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload multiple JPG/PNG/PDF. Hold Ctrl to select many</p>
 
         <label class="upload-box" for="fileUpload">
-          📤 Click or Drag Notes Here<br>
-          <small>JPG, PNG, PDF, TXT</small>
-          <input type="file" id="fileUpload" accept=".pdf,.jpg,.jpeg,.png,.txt" onchange="handleUpload(event)">
+          📤 Click or Drag Multiple Notes Here<br>
+          <small>JPG, PNG, PDF, TXT - Select many files</small>
+          <input type="file" id="fileUpload" accept=".pdf,.jpg,.jpeg,.png,.txt" multiple onchange="handleUpload(event)">
         </label>
+        <div id="fileList" class="file-list"></div>
         <div id="ocrProgress"><div id="ocrProgressBar"></div></div>
 
         <textarea id="notesPaste" class="ai-key" placeholder="OR Paste your notes here directly..." style="height:120px; margin-top:10px;"></textarea>
@@ -89,7 +92,7 @@
         <select id="gradeSelect" class="ai-key"></select>
         <select id="subjectSelect" class="ai-key"></select>
 
-        <button class="btn green" style="width:100%; margin-top:10px;" onclick="generateFromNotes()">✨ GENERATE 30 QUESTIONS WITH TEMPLATE AI</button>
+        <button class="btn purple" style="width:100%; margin-top:10px;" onclick="generateFromNotes()">✨ GENERATE 30 ADVANCED QUESTIONS</button>
         <div id="uploadStatus" style="margin-top:10px; font-size:12px;"></div>
       </div>
     </div>
@@ -178,124 +181,113 @@ function loadSavedBanks(){
   document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
 }
 
-// FIXED OCR FUNCTION
+// MULTI FILE OCR FUNCTION
 async function handleUpload(e){
-  const file = e.target.files[0];
-  if(!file) return;
+  const files = Array.from(e.target.files);
+  if(files.length === 0) return;
 
-  document.getElementById('uploadStatus').innerText = `⏳ Reading ${file.name}...`;
+  document.getElementById('fileList').innerHTML = files.map(f => `📄 ${f.name}`).join('<br>');
+  document.getElementById('uploadStatus').innerText = `⏳ Reading ${files.length} files...`;
   document.getElementById('ocrProgress').style.display = 'block';
-  document.getElementById('ocrProgressBar').style.width = '0%';
 
-  if(file.type === 'text/plain'){
-    const reader = new FileReader();
-    reader.onload = () => {
-      uploadedText = reader.result;
-      document.getElementById('notesPaste').value = uploadedText;
-      document.getElementById('uploadStatus').innerText = `✅ Loaded: ${file.name}`;
-      document.getElementById('ocrProgress').style.display = 'none';
-    }
-    reader.readAsText(file);
-  } else if(file.type.startsWith('image/')){
-    // OCR FOR IMAGES - FIXED SYNTAX
-    const result = await Tesseract.recognize(
-      file,
-      'eng',
-      {
+  let allText = '';
+
+  for(let idx = 0; idx < files.length; idx++){
+    const file = files[idx];
+    document.getElementById('ocrProgressBar').style.width = `${(idx/files.length)*100}%`;
+
+    if(file.type === 'text/plain'){
+      const text = await file.text();
+      allText += text + '\n\n';
+    } else if(file.type.startsWith('image/')){
+      const result = await Tesseract.recognize(file, 'eng', {
         logger: m => {
-          if(m.status === 'recognizing text'){
+          if(m.status === 'recognizing text' && files.length === 1){
             document.getElementById('ocrProgressBar').style.width = `${m.progress * 100}%`;
           }
         }
+      });
+      allText += result.data.text + '\n\n';
+    } else if(file.type === 'application/pdf'){
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+      for(let i = 1; i <= pdf.numPages; i++){
+        const page = await pdf.getPage(i);
+        const content = await page.getTextContent();
+        allText += content.items.map(item => item.str).join(' ') + '\n';
       }
-    );
-    uploadedText = result.data.text;
-    document.getElementById('notesPaste').value = uploadedText;
-    document.getElementById('uploadStatus').innerText = `✅ OCR Complete! ${uploadedText.length} characters extracted`;
-    document.getElementById('ocrProgress').style.display = 'none';
-  } else if(file.type === 'application/pdf'){
-    // PDF SUPPORT ADDED
-    document.getElementById('uploadStatus').innerText = `⏳ Reading PDF pages...`;
-    const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-    let fullText = '';
-    for(let i = 1; i <= pdf.numPages; i++){
-      document.getElementById('ocrProgressBar').style.width = `${(i/pdf.numPages)*100}%`;
-      const page = await pdf.getPage(i);
-      const content = await page.getTextContent();
-      fullText += content.items.map(item => item.str).join(' ') + '\n';
     }
-    uploadedText = fullText;
-    document.getElementById('notesPaste').value = uploadedText;
-    document.getElementById('uploadStatus').innerText = `✅ PDF Read! ${pdf.numPages} pages, ${uploadedText.length} characters`;
-    document.getElementById('ocrProgress').style.display = 'none';
   }
+
+  uploadedText = allText;
+  document.getElementById('notesPaste').value = uploadedText;
+  document.getElementById('uploadStatus').innerText = `✅ Read ${files.length} files! ${uploadedText.length} characters total`;
+  document.getElementById('ocrProgress').style.display = 'none';
 }
 
-// ADVANCED TEMPLATE AI ENGINE
+// ADVANCED TEMPLATE AI ENGINE - BLOOM'S TAXONOMY
 function generateFromNotes(){
   const notes = document.getElementById('notesPaste').value || uploadedText;
   const level = document.getElementById('levelSelect').value;
   const grade = document.getElementById('gradeSelect').value;
   const subject = document.getElementById('subjectSelect').value;
 
-  if(notes.length < 50) return alert('Please upload file or paste notes first. Need at least 50 characters');
+  if(notes.length < 50) return alert('Please upload files or paste notes first. Need at least 50 characters');
 
-  document.getElementById('uploadStatus').innerText = `⏳ Template AI is analyzing notes and generating 30 questions...`;
+  document.getElementById('uploadStatus').innerText = `⏳ Advanced AI is analyzing and creating HARD questions...`;
 
-  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 10);
-  let keywords = [];
-  sentences.forEach(s => {
-    let words = s.split(' ').filter(w => w.length > 4);
-    keywords.push(...words.slice(0,3));
-  });
-  keywords = [...new Set(keywords)].slice(0, 40);
+  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
+  let keywords = [...new Set(notes.split(' ').filter(w => w.length > 5))].slice(0, 50);
 
   currentPaper = [];
 
+  // 10 HARD MCQ - APPLICATION & ANALYSIS
   for(let i=0; i<10; i++){
-    let correct = sentences[i % sentences.length] || keywords[i];
+    let context = sentences[i % sentences.length];
     let distractors = shuffle(keywords).slice(0,3);
     currentPaper.push({
       type: "MCQ",
-      q: `According to your notes on ${subject}, which statement is correct?`,
-      options: [`A) ${correct}`, `B) ${distractors[0]}`, `C) ${distractors[1]}`, `D) ${distractors[2]}`],
+      q: `Scenario: In ${subject}, if ${context.toLowerCase().substring(0,80)}... What would be the MOST likely outcome?`,
+      options: [`A) ${context}`, `B) ${distractors[0]}`, `C) ${distractors[1]}`, `D) ${distractors[2]}`],
       ans: "A",
-      marks: 1
-    });
-  }
-
-  for(let i=10; i<20; i++){
-    let term = keywords[i % keywords.length] || "Concept";
-    currentPaper.push({
-      type: "DEF",
-      q: `Define: ${term} in the context of ${subject}`,
-      keywords: [term, keywords[(i+1)%keywords.length]],
       marks: 2
     });
   }
 
-  for(let i=20; i<30; i++){
-    let app = sentences[i % sentences.length] || keywords[i % keywords.length];
+  // 10 ANALYSIS QUESTIONS
+  for(let i=10; i<20; i++){
+    let term1 = keywords[i % keywords.length];
+    let term2 = keywords[(i+5) % keywords.length];
     currentPaper.push({
-      type: "APP",
-      q: `Explain how "${app}" is applied in ${subject} for ${grade}`,
-      keywords: [app.substring(0,20), subject, grade],
-      marks: 3
+      type: "ANALYSIS",
+      q: `Analyze the relationship between "${term1}" and "${term2}" in ${subject}. How does one affect the other?`,
+      keywords: [term1, term2, "relationship", "affect", subject],
+      marks: 4
     });
   }
 
-  let bankName = `${level} ${grade} ${subject} - ${new Date().toLocaleDateString()}`;
+  // 10 EVALUATION/APPLICATION QUESTIONS
+  for(let i=20; i<30; i++){
+    let problem = sentences[i % sentences.length];
+    currentPaper.push({
+      type: "EVAL",
+      q: `Evaluate this situation: ${problem}. Suggest 2 solutions and justify which is better for ${grade} ${subject}`,
+      keywords: [problem.substring(0,20), "solution", "justify", "better", subject],
+      marks: 6
+    });
+  }
+
+  let bankName = `${level} ${grade} ${subject} ADVANCED - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
-  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} questions! Saved as "${bankName}"`;
+  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} ADVANCED questions! Saved as "${bankName}"`;
 }
 
 function startCustomBank(name){
   currentPaper = shuffle([...myBanks[name]]);
-  userAnswers = new Array(currentPaper.length).fill(null); currentQ = 0; timeLeft = currentPaper.length * 48;
+  userAnswers = new Array(currentPaper.length).fill(null); currentQ = 0; timeLeft = currentPaper.length * 60;
   document.getElementById('menu').style.display = 'none'; document.getElementById('examArea').style.display = 'block';
-  document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} QUESTIONS`;
+  document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} ADVANCED QUESTIONS`;
   buildNav(); showQuestion();
   clearInterval(timer); timer = setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0) submitPaper(); },1000);
 }
@@ -303,7 +295,7 @@ function startCustomBank(name){
 function updateTimer(){ let h=Math.floor(timeLeft/3600), m=Math.floor((timeLeft%3600)/60), s=timeLeft%60; document.getElementById('timer').innerText = `Time: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
 function buildNav(){ let html=''; currentPaper.forEach((_,i)=>{ html+=`<button class="nav-btn" id="nav${i}" onclick="goToQ(${i})">${i+1}</button>`; }); document.getElementById('navGrid').innerHTML=html; updateNav(); }
 function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add(userAnswers[i]?'done':'wrong'); } }); }
-function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Type your answer..." style="width:100%; height:100px; background:#1f2937; color:#fff; border-radius:8px; padding:10px;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
+function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:#1f2937; color:#fff; border-radius:8px; padding:10px;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
 function checkMCQ(el, choice){ userAnswers[currentQ] = (choice===currentPaper[currentQ].ans); el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong')); el.classList.add(userAnswers[currentQ]?'correct':'wrong'); updateNav(); }
 function saveText(){ userAnswers[currentQ] = document.getElementById('textAns').value; updateNav(); }
 function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion(); }
@@ -318,9 +310,9 @@ function submitPaper(){
     total+=q.marks;
     let correct=false;
     if(q.type==="MCQ") correct=userAnswers[i];
-    else correct=gradeTextAnswer(userAnswers[i], q.keywords)>=0.5;
+    else correct=gradeTextAnswer(userAnswers[i], q.keywords)>=0.4;
     if(correct) score+=q.marks;
-    memoHtml+=`<div style="margin:10px 0;"><b>Q${i+1}:</b> ${q.q}<br><b>Answer:</b> ${q.ans||q.keywords.join(', ')} ${correct?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--red)">✗</span>'}</div>`;
+    memoHtml+=`<div style="margin:10px 0;"><b>Q${i+1}:</b> ${q.q}<br><b>Keywords:</b> ${q.ans||q.keywords.join(', ')} ${correct?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--red)">✗</span>'}</div>`;
   });
   let percent = ((score/total)*100).toFixed(1);
   memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2>` + memoHtml;
