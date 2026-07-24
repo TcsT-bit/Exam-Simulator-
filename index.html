@@ -27,6 +27,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
 .subject-btn{padding:14px 16px; margin:8px 0; background: var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer; font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;}
 .subject-btn:hover{background:#2d3748; border-color:var(--accent);}
+.subject-btn.active{background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none; color:#fff;}
 .btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
 .btn:hover{background:#2d3748;}
 .btn.red{background:#ea4335; color:#fff; border:none;}
@@ -56,13 +57,14 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
 .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 .tier-badge{background:var(--green); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-left:8px; color:#000;}
+.grade-grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap:8px; margin-bottom:15px;}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">SA CAPS COMPLETE</span></h1>
-  <p>Smart Exam Generator v7.8 - All SA Subjects. Paste Notes. Get Real Memo.</p>
+  <p>Smart Exam Generator v7.9 - All SA Subjects. Paste Notes. Get Real Memo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -81,6 +83,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
     <div class="grid">
       <div class="card">
         <h2>1. Select Level & Subject</h2>
+        <div id="gradeGrid" class="grade-grid"></div>
         <div id="subjectList"></div>
       </div>
 
@@ -96,15 +99,9 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 
         <textarea id="notesPaste" class="ai-key" placeholder="PASTE YOUR CAPS NOTES HERE..." style="height:180px; margin-top:10px;"></textarea>
 
-        <select id="levelSelect" class="ai-key" onchange="updateGradeOptions()">
-          <option value="primary">Primary R-7</option>
-          <option value="secondary" selected>Secondary G8-12</option>
-          <option value="tvet">TVET N1-N6</option>
-          <option value="university">University</option>
-        </select>
-
-        <select id="gradeSelect" class="ai-key"></select>
-        <select id="subjectSelect" class="ai-key"></select>
+        <select id="levelSelect" class="ai-key" style="display:none;"></select>
+        <select id="gradeSelect" class="ai-key" style="display:none;"></select>
+        <select id="subjectSelect" class="ai-key" style="display:none;"></select>
 
         <button class="btn orange" onclick="generateFromNotes()">✨ GENERATE 30 CAPS QUESTIONS</button>
         <div id="uploadStatus" style="margin-top:10px; font-size:12px; color:#9aa0a6;"></div>
@@ -139,6 +136,8 @@ let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
 let currentTab = 'secondary';
 let currentMode = 'notes';
 let notesKeywords = [];
+let selectedGrade = '';
+let selectedSubject = '';
 
 // ====== 100% COMPLETE SA DBE SUBJECTS ======
 const subjectData = {
@@ -155,8 +154,7 @@ const subjectsByLevel = {
   university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
 }
 
-// ====== V7.8 KNOWLEDGE ENGINE - PASTE YOUR NOTES HERE ======
-// FORMAT: {term: "Atom", define: "Def", explain: "Exp", apply: "App", ana: "Compare", eval: "Importance"}
+// ====== V7.9 KNOWLEDGE ENGINE ======
 const KNOWLEDGE_ENGINE = {
   "Natural Science and Technology": [],
   "Physical Sciences": [],
@@ -183,16 +181,7 @@ const KNOWLEDGE_ENGINE = {
   "Tourism": [],
   "Hospitality Studies": [],
   "Social Sciences": [],
-  "Life Skills": [],
-  "Engineering Studies N1-N3": [],
-  "Engineering Studies N4-N6": [],
-  "Business Studies N4-N6": [],
-  "Financial Accounting": [],
-  "Cost and Management Accounting": [],
-  "Calculus": [],
-  "Physics": [],
-  "Chemistry": [],
-  "Biology": []
+  "Life Skills": []
 }
 
 function extractKeywords(text){
@@ -253,8 +242,49 @@ window.onload = () => {
 }
 
 function setMode(mode){ currentMode = mode; document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active')); document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active'); }
-function switchTab(event, tab){ currentTab = tab; document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); if(event) event.target.classList.add('active'); else document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active'); let html = ''; subjectsByLevel[tab].forEach(sub=>{ html += `<button class="subject-btn" onclick="document.getElementById('subjectSelect').value='${sub}'">${sub}</button>`; }); document.getElementById('subjectList').innerHTML = html; document.getElementById('levelSelect').value = tab; updateGradeOptions(); }
-function updateGradeOptions(){ const level = document.getElementById('levelSelect').value.toLowerCase(); const gradeSel = document.getElementById('gradeSelect'); const subjectSel = document.getElementById('subjectSelect'); gradeSel.innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join(''); subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join(''); }
+
+function selectGrade(grade){
+  selectedGrade = grade;
+  document.getElementById('gradeSelect').value = grade;
+  document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  loadSubjects();
+}
+
+function selectSubject(sub){
+  selectedSubject = sub;
+  document.getElementById('subjectSelect').value = sub;
+  document.querySelectorAll('.subject-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+}
+
+function switchTab(event, tab){ 
+  currentTab = tab; 
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); 
+  if(event) event.target.classList.add('active'); 
+  else document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active'); 
+  document.getElementById('levelSelect').value = tab; 
+  loadGrades();
+  document.getElementById('subjectList').innerHTML = '<p style="color:#9aa0a6;">Select a grade first</p>';
+}
+
+function loadGrades(){
+  const level = document.getElementById('levelSelect').value.toLowerCase();
+  let html = '';
+  subjectData[level].forEach(g=>{
+    html += `<button class="subject-btn grade-btn" onclick="selectGrade('${g}')">${g}</button>`;
+  });
+  document.getElementById('gradeGrid').innerHTML = html;
+}
+
+function loadSubjects(){
+  let html = '';
+  subjectsByLevel[currentTab].forEach(sub=>{
+    html += `<button class="subject-btn" onclick="selectSubject('${sub}')">${sub}</button>`;
+  });
+  document.getElementById('subjectList').innerHTML = html;
+}
+
 function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
 function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBanks)); loadSavedBanks(); }
 function loadSavedBanks(){ let html = ''; for(let key in myBanks){ html += `<div style="background:var(--card2); padding:12px; border-radius:8px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);"> <span>${key} - ${myBanks[key].length} Qs</span> <button class="btn" onclick="startCustomBank('${key}')">Start Test</button> </div>`; } document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.'; }
@@ -264,6 +294,7 @@ async function generateFromNotes(){
   const level = document.getElementById('levelSelect').value;
   const grade = document.getElementById('gradeSelect').value;
   const subject = document.getElementById('subjectSelect').value;
+  if(!grade ||!subject) return alert('Please select Grade and Subject first');
   if(notes.length < 50) return alert('Please paste CAPS notes first.');
   document.getElementById('uploadStatus').innerText = `⏳ SHANA AI is analyzing...`;
 
@@ -285,7 +316,7 @@ async function generateFromNotes(){
       let options = shuffle([kbItem.term, keywords[(i+1)%keywords.length], keywords[(i+2)%keywords.length], keywords[(i+3)%keywords.length]]);
       let correctIndex = options.indexOf(kbItem.term);
       let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.8"});
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.9"});
     }
   } else {
     for(let i=0; i<30; i++){
@@ -293,11 +324,11 @@ async function generateFromNotes(){
       let term2 = keywords[(i+3) % keywords.length];
       let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
       let modelAns = generateModelAnswer(bq.q, keywords);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.8"});
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.9"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.8 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V7.9 - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} QUESTIONS!`;
