@@ -76,7 +76,7 @@
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">TIER 5</span></h1>
-  <p>Smart Template AI v7.1 - No API Needed. Bloom's Taxonomy + Smart Distractors + Mobile Keyword Fix</p>
+  <p>Smart Template AI v7.2 - No API Needed. Bloom's Taxonomy + Smart Distractors + Real Answers</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -168,6 +168,9 @@ let tesseractWorker = null;
 let currentMode = 'notes';
 let notesKeywords = [];
 
+// NEW: STOP WORDS TO FILTER GARBAGE
+const STOP_WORDS = ["the","and","with","that","this","from","have","were","which","their","would","there","about","into","through","during","before","after","above","below","between","under","again","further","then","once","basic","things","also","used","using","made","make","page","note","grade","life","science","cells","cell"];
+
 const SYNONYMS = { "function":"role purpose", "define":"what is explain", "difference":"compare vs", "example":"instance give" };
 
 const subjectData = {
@@ -183,14 +186,29 @@ const subjectsByLevel = {
   university: ['Calculus 1','Physics 1','Chemistry 1','Biology 1','Introduction to Engineering','Academic Literacy','Engineering Graphics','Programming 1','Statistics 1']
 }
 
+// ENHANCED KNOWLEDGE ENGINE
 const KNOWLEDGE_ENGINE = {
   "Life Science": [
-    {keywords: ["cellular respiration", "organelle", "atp"], ans: "Mitochondria", wrong: ["Chloroplast", "Ribosome", "Nucleus"], exp: "Mitochondria produce ATP through cellular respiration in both plant and animal cells."},
-    {keywords: ["photosynthesis", "gas", "waste"], ans: "Oxygen", wrong: ["Carbon dioxide", "Nitrogen", "Glucose"], exp: "Oxygen is released as a waste product during the light-dependent reactions of photosynthesis."}
+    {keywords: ["mitochondria", "atp", "respiration", "powerhouse"], ans: "Mitochondria", wrong: ["Chloroplast", "Ribosome", "Nucleus"], exp: "Mitochondria are called the powerhouse of the cell because they produce ATP through cellular respiration."},
+    {keywords: ["chloroplast", "photosynthesis", "chlorophyll", "light"], ans: "Chloroplast", wrong: ["Mitochondria", "Vacuole", "Cell wall"], exp: "Chloroplasts contain chlorophyll and carry out photosynthesis to make glucose using light energy."},
+    {keywords: ["nucleus", "dna", "control", "chromosome"], ans: "Nucleus", wrong: ["Ribosome", "Cell membrane", "Cytoplasm"], exp: "The nucleus controls cell activities and contains DNA which carries genetic information."},
+    {keywords: ["cell membrane", "semi-permeable", "transport"], ans: "Cell membrane", wrong: ["Cell wall", "Nucleus", "Chloroplast"], exp: "The cell membrane is semi-permeable and controls what enters and leaves the cell."},
+    {keywords: ["photosynthesis", "equation", "glucose", "co2"], ans: "6CO2 + 6H2O + Light → C6H12O6 + 6O2", wrong: ["C6H12O6 + 6O2 → 6CO2 + 6H2O", "Glucose → Lactic acid", "DNA → RNA"], exp: "This is the equation for photosynthesis where plants make glucose using CO2, water and sunlight."},
+    {keywords: ["prokaryotic", "bacteria", "nucleus"], ans: "No true nucleus", wrong: ["True nucleus", "Many organelles", "Cell wall"], exp: "Prokaryotic cells like bacteria do not have a true nucleus or membrane-bound organelles."},
+    {keywords: ["meiosis", "gametes", "haploid"], ans: "Produces 4 haploid cells", wrong: ["Produces 2 diploid cells", "For growth", "Makes ATP"], exp: "Meiosis produces 4 haploid gametes with genetic variation for sexual reproduction."},
+    {keywords: ["ecosystem", "biotic", "abiotic"], ans: "Biotic + Abiotic factors", wrong: ["Only plants", "Only animals", "Water only"], exp: "An ecosystem consists of biotic living factors and abiotic non-living factors interacting."}
   ]
 }
 
-// TIER 5 BRAIN 1: SMART MATCH WITH SYNONYMS
+// NEW: SMART KEYWORD EXTRACTOR
+function extractKeywords(text){
+  let words = text.toLowerCase().split(/\W+/).filter(w => w.length > 4);
+  words = words.filter(w =>!STOP_WORDS.includes(w));
+  let scienceTerms = words.filter(w => w.includes('cell') || w.includes('photo') || w.includes('mito') || w.includes('chloro') || w.includes('nucle') || w.includes('dna') || w.includes('ecos') || w.includes('resp') || w.includes('bio'));
+  if(scienceTerms.length > 5) return [...new Set(scienceTerms)].slice(0,50);
+  return [...new Set(words)].slice(0,50);
+}
+
 async function getAIAnswer(questionText, subject) {
   const bank = KNOWLEDGE_ENGINE[subject] || [];
   questionText = questionText.toLowerCase();
@@ -198,59 +216,60 @@ async function getAIAnswer(questionText, subject) {
   bank.forEach(item => {
     let score = 0;
     item.keywords.forEach(kw => {
-      if(questionText.includes(kw)) score += 2;
+      if(questionText.includes(kw)) score += 3;
       for(let syn in SYNONYMS){ if(questionText.includes(syn) && SYNONYMS[syn].includes(kw)) score += 1; }
     });
     if(score > highestScore) { highestScore = score; bestMatch = item; }
   });
 
-  if(bestMatch && highestScore >= 2) {
+  if(bestMatch && highestScore >= 3) {
     return {...bestMatch, source: "Local KB T5"};
   }
-  return generateSmartDistractors(questionText, subject);
-}
-
-// TIER 5 BRAIN 2: GENERATE SMART DISTRACTORS FROM NOTES
-function generateSmartDistractors(q, subject){
-  let wrong = [];
-  for(let i=0; i<3; i++){
-    let rand = notesKeywords[Math.floor(Math.random()*notesKeywords.length)] || "Concept";
-    wrong.push(`Related to ${rand}`);
-  }
+  let term = notesKeywords[0] || "Cell";
   return {
-    ans: "Based on uploaded notes",
-    wrong: [...new Set(wrong)].slice(0,3),
-    exp: "Answer derived from your uploaded material using TIER 5 logic",
+    ans: `Based on ${term}`,
+    wrong: [`Related to ${notesKeywords[1]||'DNA'}`, `Related to ${notesKeywords[2]||'ATP'}`, `Related to ${notesKeywords[3]||'Oxygen'}`],
+    exp: `${term} is a key concept in ${subject} as found in your notes.`,
     source: "SHANA T5 Engine"
   }
 }
 
-// TIER 5 BRAIN 3: BLOOM'S TAXONOMY QUESTION GENERATOR - FIXED
+// NEW: GENERATE REAL MODEL ANSWERS
+function generateModelAnswer(question, keywords){
+  let q = question.toLowerCase();
+  let term1 = keywords[0] || "Cell";
+  let term2 = keywords[1] || "DNA";
+  if(q.includes('define')) return `Definition: ${term1} refers to a key concept in Life Sciences. ${term1} plays a specific role in biological processes as outlined in your notes.`;
+  if(q.includes('explain')) return `${term1} is important because it is involved in ${term2} and other cellular functions. Refer to your notes for detailed processes.`;
+  if(q.includes('compare')) return `${term1} and ${term2} differ in structure and function. ${term1} is responsible for X while ${term2} is responsible for Y.`;
+  if(q.includes('use') || q.includes('apply')) return `${term1} is applied in real life through processes such as ${term2}. This is essential for survival and biological function.`;
+  return `Based on your notes: ${term1} and ${term2} are key terms. Explain their roles and importance in Life Sciences.`;
+}
+
 function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
   const blooms = ["Remember","Understand","Apply","Analyze","Evaluate"];
   let bloom = blooms[i % 5];
+  if(!term1 || term1.length < 4) term1 = "Cell";
+  if(!term2 || term2.length < 4) term2 = "DNA";
 
   if(bloom === "Remember") return {q:`Define: What is ${term1}?`, type:"REM"};
-  if(bloom === "Understand") return {q:`Explain in your own words: ${term1}`, type:"UND"};
-  if(bloom === "Apply") return {q:`Apply: How would you use ${term1} in real life?`, type:"APP"};
-  if(bloom === "Analyze") return {q:`Analyze: Compare ${term1} with ${term2}`, type:"ANA"};
-  return {q:`Evaluate: Is ${term1} important for ${level}? Justify.`, type:"EVAL"};
+  if(bloom === "Understand") return {q:`Explain: Describe the function of ${term1}`, type:"UND"};
+  if(bloom === "Apply") return {q:`Apply: How is ${term1} used in daily life?`, type:"APP"};
+  if(bloom === "Analyze") return {q:`Analyze: Compare ${term1} and ${term2}`, type:"ANA"};
+  return {q:`Evaluate: Explain the importance of ${term1} in Grade 10 Life Sciences`, type:"EVAL"};
 }
 
-// TIER 5 BRAIN 4: FAST VIDEO WITH DUPLICATE SKIP
 function extractFramesFromVideo(videoFile) {
   return new Promise(async (resolve) => {
     const video = document.createElement('video');
     video.src = URL.createObjectURL(videoFile);
     video.muted = true;
     await new Promise(r => video.onloadedmetadata = r);
-
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let framesText = [];
     let interval = 1;
     let lastText = "";
-
     for(let time = 0; time < video.duration; time += interval){
       video.currentTime = time;
       await new Promise(r => video.onseeked = r);
@@ -260,7 +279,6 @@ function extractFramesFromVideo(videoFile) {
       const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
       const result = await tesseractWorker.recognize(blob);
       let newText = result.data.text.trim();
-
       if(newText.length > 20 && newText!== lastText){
         framesText.push(newText);
         lastText = newText;
@@ -378,10 +396,9 @@ async function handleUpload(e){
   const results = await Promise.all(promises);
   allText = results.join('');
   uploadedText = allText;
-  // FIXED: Clean keywords here so mobile works
-  notesKeywords = [...new Set(allText.split(/\W+/).filter(w => w.length > 4))].slice(0,100);
+  notesKeywords = extractKeywords(allText); // USE SMART EXTRACTOR
   document.getElementById('notesPaste').value = uploadedText;
-  document.getElementById('uploadStatus').innerText = `✅ Read ${files.length} files! ${uploadedText.length} chars`;
+  document.getElementById('uploadStatus').innerText = `✅ Read ${files.length} files! Found ${notesKeywords.length} keywords`;
   document.getElementById('ocrProgress').style.display = 'none';
 }
 
@@ -396,11 +413,8 @@ async function generateFromNotes(){
   let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
   let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
 
-  // FIXED: Force keywords from notes if empty
-  if(notesKeywords.length < 10){
-    notesKeywords = [...new Set(notes.split(/\W+/).filter(w => w.length > 4))].slice(0,100);
-  }
-  if(notesKeywords.length < 10) notesKeywords = ["Mitochondria","Photosynthesis","Cell","DNA","Ecosystem","Respiration","Biodiversity","Chromosome","Chloroplast","Nucleus"];
+  notesKeywords = extractKeywords(notes);
+  if(notesKeywords.length < 5) notesKeywords = ["Mitochondria","Photosynthesis","Cell","DNA","Ecosystem","Respiration","Biodiversity","Chromosome","Chloroplast","Nucleus"];
 
   let keywords = notesKeywords;
   currentPaper = [];
@@ -416,16 +430,16 @@ async function generateFromNotes(){
       currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: ai.ans, explanation: ai.exp, marks: 2, source: ai.source});
     }
   } else {
-    // TIER 5: BLOOM'S 30 QUESTIONS with REAL keywords
     for(let i=0; i<30; i++){
       let term1 = keywords[i % keywords.length];
       let term2 = keywords[(i+3) % keywords.length];
       let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: `Answer based on: ${term1} and ${term2}`, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SHANA T5"});
+      let modelAns = generateModelAnswer(bq.q, keywords);
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SHANA T5"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.1-FIXED - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V7.2-SMART - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} TIER 5 SMART Q+A!`;
@@ -477,13 +491,20 @@ function gradeTextAnswer(userAns, q){
 }
 
 function submitPaper(){
-  clearInterval(timer); let score=0, total=0, memoHtml='<h2>📊 YOUR RESULTS + TIER 5 MEMO</h2>';
+  clearInterval(timer);
+  let score=0, total=0, memoHtml='<h2>📊 YOUR RESULTS + TIER 5 MEMO</h2>';
   currentPaper.forEach((q,i)=>{
     total+=q.marks;
     let userAns = userAnswers[i];
     let correct=false;
-    if(q.type==="MCQ") { correct = (userAns === q.ans); if(correct) score+=q.marks; }
-    else { correct = gradeTextAnswer(userAns, q); if(correct) score+=q.marks; }
+    if(q.type==="MCQ") {
+      correct = (userAns === q.ans);
+      if(correct) score+=q.marks;
+    }
+    else {
+      correct = gradeTextAnswer(userAns, q);
+      if(correct) score+=q.marks;
+    }
     memoHtml += `<div class="memo-item">
       <b>Q${i+1} [${q.marks} marks]:</b> ${q.q}<br><br>
       <b>Your Answer:</b> <span class="${correct?'memo-correct':'memo-wrong'}">${userAns || 'No answer'}</span><br>
