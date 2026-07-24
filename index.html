@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V2.8 - TEMPLATE AI + OCR</title>
+<title>SHANA CALC TECH PARADISE V2.8.1 - FIXED OCR</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;}
   *{margin:0;padding:0;box-sizing:border-box;font-family: 'Inter', sans-serif;}
@@ -47,8 +48,8 @@
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V2.8</h1>
-  <p class="subtitle">TEMPLATE AI + OCR | Reads Pictures & PDFs | 0 API KEY | 0 INTERNET</p>
+  <h1>SHANA CALC TECH PARADISE V2.8.1</h1>
+  <p class="subtitle">TEMPLATE AI + OCR FIXED | Reads Pictures & PDFs | 0 API KEY</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
@@ -66,7 +67,7 @@
 
       <div class="card">
         <h2>2. TEMPLATE AI PARADISE: UPLOAD YOUR NOTES</h2>
-        <span class="badge">NOW WITH OCR</span>
+        <span class="badge">OCR FIXED</span>
         <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload JPG, PNG, PDF. AI will read it automatically</p>
 
         <label class="upload-box" for="fileUpload">
@@ -116,6 +117,8 @@
 </div>
 
 <script>
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
 let currentPaper=[], userAnswers=[], timer, timeLeft=7200, currentQ=0;
 let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
 let currentTab = 'secondary';
@@ -175,32 +178,56 @@ function loadSavedBanks(){
   document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
 }
 
-// NEW OCR FUNCTION
+// FIXED OCR FUNCTION
 async function handleUpload(e){
   const file = e.target.files[0];
   if(!file) return;
 
   document.getElementById('uploadStatus').innerText = `⏳ Reading ${file.name}...`;
   document.getElementById('ocrProgress').style.display = 'block';
+  document.getElementById('ocrProgressBar').style.width = '0%';
 
   if(file.type === 'text/plain'){
     const reader = new FileReader();
-    reader.onload = () => { uploadedText = reader.result; document.getElementById('uploadStatus').innerText = `✅ Loaded: ${file.name}`; }
+    reader.onload = () => {
+      uploadedText = reader.result;
+      document.getElementById('notesPaste').value = uploadedText;
+      document.getElementById('uploadStatus').innerText = `✅ Loaded: ${file.name}`;
+      document.getElementById('ocrProgress').style.display = 'none';
+    }
     reader.readAsText(file);
-  } else {
-    // OCR FOR IMAGES AND PDF
-    const { data: { text } = await Tesseract.recognize(
+  } else if(file.type.startsWith('image/')){
+    // OCR FOR IMAGES - FIXED SYNTAX
+    const result = await Tesseract.recognize(
       file,
       'eng',
-      { logger: m => {
-        if(m.status === 'recognizing text'){
-          document.getElementById('ocrProgressBar').style.width = `${m.progress * 100}%`;
+      {
+        logger: m => {
+          if(m.status === 'recognizing text'){
+            document.getElementById('ocrProgressBar').style.width = `${m.progress * 100}%`;
+          }
         }
-      }}
+      }
     );
-    uploadedText = text;
-    document.getElementById('notesPaste').value = text; // show extracted text
-    document.getElementById('uploadStatus').innerText = `✅ OCR Complete! ${text.length} characters extracted`;
+    uploadedText = result.data.text;
+    document.getElementById('notesPaste').value = uploadedText;
+    document.getElementById('uploadStatus').innerText = `✅ OCR Complete! ${uploadedText.length} characters extracted`;
+    document.getElementById('ocrProgress').style.display = 'none';
+  } else if(file.type === 'application/pdf'){
+    // PDF SUPPORT ADDED
+    document.getElementById('uploadStatus').innerText = `⏳ Reading PDF pages...`;
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+    let fullText = '';
+    for(let i = 1; i <= pdf.numPages; i++){
+      document.getElementById('ocrProgressBar').style.width = `${(i/pdf.numPages)*100}%`;
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      fullText += content.items.map(item => item.str).join(' ') + '\n';
+    }
+    uploadedText = fullText;
+    document.getElementById('notesPaste').value = uploadedText;
+    document.getElementById('uploadStatus').innerText = `✅ PDF Read! ${pdf.numPages} pages, ${uploadedText.length} characters`;
     document.getElementById('ocrProgress').style.display = 'none';
   }
 }
