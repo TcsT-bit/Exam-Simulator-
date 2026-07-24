@@ -15,73 +15,73 @@
   }
   *{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', 'Inter', sans-serif;}
   body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, rgba(66,133,244,0.15) 0%, transparent 50%); color:var(--text); padding:0; min-height:100vh;}
- .container{max-width:1200px; margin:auto; padding:20px;}
- .hero{padding:60px 20px 40px; text-align:center;}
- .hero h1{font-size:48px; font-weight:700; margin-bottom:16px; line-height:1.2;}
- .hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
- .btn-primary{padding:12px 24px; background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none; border-radius:24px; color:#fff; cursor:pointer; font-weight:500; font-size:15px; transition:0.3s; box-shadow:0 2px 6px rgba(66,133,244,0.4);}
- .btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
- .section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
- .section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
- .tabs{display:flex; gap:8px; margin-bottom:30px; justify-content:center; flex-wrap:wrap;}
- .tab-btn{padding:10px 18px; background:var(--card2); border:1px solid var(--border); border-radius:20px; color:#9aa0a6; cursor:pointer; font-weight:500; transition:0.3s; font-size:14px;}
- .tab-btn:hover{background:#2d3748; color:#fff;}
- .tab-btn.active{background: linear-gradient(90deg, #4285f4, #8ab4f8); color:#fff; border:none;}
- .grid{display:grid; grid-template-columns: 1fr 1fr; gap:24px;}
+.container{max-width:1200px; margin:auto; padding:20px;}
+.hero{padding:60px 20px 40px; text-align:center;}
+.hero h1{font-size:48px; font-weight:700; margin-bottom:16px; line-height:1.2;}
+.hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
+.btn-primary{padding:12px 24px; background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none; border-radius:24px; color:#fff; cursor:pointer; font-weight:500; font-size:15px; transition:0.3s; box-shadow:0 2px 6px rgba(66,133,244,0.4);}
+.btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
+.section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
+.section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
+.tabs{display:flex; gap:8px; margin-bottom:30px; justify-content:center; flex-wrap:wrap;}
+.tab-btn{padding:10px 18px; background:var(--card2); border:1px solid var(--border); border-radius:20px; color:#9aa0a6; cursor:pointer; font-weight:500; transition:0.3s; font-size:14px;}
+.tab-btn:hover{background:#2d3748; color:#fff;}
+.tab-btn.active{background: linear-gradient(90deg, #4285f4, #8ab4f8); color:#fff; border:none;}
+.grid{display:grid; grid-template-columns: 1fr 1fr; gap:24px;}
   @media(max-width:900px){.grid{grid-template-columns:1fr;}}
- .card{background:var(--card); padding:24px; border-radius:16px; border:1px solid var(--border);}
- .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
- .subject-btn{padding:14px 16px; margin:8px 0; background: var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer; font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;}
- .subject-btn:hover{background:#2d3748; border-color:var(--accent);}
- .upload-box{border:1px dashed var(--accent); border-radius:12px; padding:30px 20px; text-align:center; cursor:pointer; transition:0.3s; background:rgba(66,133,244,0.05);}
- .upload-box:hover{background:rgba(66,133,244,0.1); border-color:var(--accent2);}
- .upload-box input{display:none;}
- .upload-icon{font-size:32px; margin-bottom:8px;}
- .btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
- .btn:hover{background:#2d3748;}
- .btn.red{background:#ea4335; color:#fff; border:none;}
- .btn.yellow{background:var(--yellow); color:#000; border:none;}
- .btn.orange{background: linear-gradient(90deg, #ff6d00, #ff9100); color:#fff; border:none; font-weight:700; font-size:15px; padding:14px; width:100%; border-radius:8px; box-shadow:0 2px 6px rgba(255,109,0,0.4);}
- .btn.orange:hover{box-shadow:0 4px 12px rgba(255,109,0,0.6); transform:translateY(-1px);}
- .timer{font-size:24px; font-weight:700; color:var(--accent); text-align:center; background:var(--card2); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;}
- .quiz-card{background:var(--card2); padding:20px; border-radius:12px; margin-bottom:16px; border-left:4px solid var(--accent);}
- .quiz-option{padding:14px; margin:8px 0; background:var(--card); border-radius:8px; cursor:pointer; border:1px solid var(--border); transition:0.2s;}
- .quiz-option:hover{border-color:var(--accent); background:#2d3748;}
- .quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
- .quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
- .nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
- .nav-btn{padding:8px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500;}
- .nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
- .nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
- .nav-btn.current{border:2px solid var(--accent);}
- .ai-key{width:100%; padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; margin-top:10px; font-size:14px;}
- .ai-key:focus{border-color:var(--accent); outline:none;}
- .badge{background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:12px; color:#000;}
+.card{background:var(--card); padding:24px; border-radius:16px; border:1px solid var(--border);}
+.card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
+.subject-btn{padding:14px 16px; margin:8px 0; background: var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer; font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;}
+.subject-btn:hover{background:#2d3748; border-color:var(--accent);}
+.upload-box{border:1px dashed var(--accent); border-radius:12px; padding:30px 20px; text-align:center; cursor:pointer; transition:0.3s; background:rgba(66,133,244,0.05);}
+.upload-box:hover{background:rgba(66,133,244,0.1); border-color:var(--accent2);}
+.upload-box input{display:none;}
+.upload-icon{font-size:32px; margin-bottom:8px;}
+.btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
+.btn:hover{background:#2d3748;}
+.btn.red{background:#ea4335; color:#fff; border:none;}
+.btn.yellow{background:var(--yellow); color:#000; border:none;}
+.btn.orange{background: linear-gradient(90deg, #ff6d00, #ff9100); color:#fff; border:none; font-weight:700; font-size:15px; padding:14px; width:100%; border-radius:8px; box-shadow:0 2px 6px rgba(255,109,0,0.4);}
+.btn.orange:hover{box-shadow:0 4px 12px rgba(255,109,0,0.6); transform:translateY(-1px);}
+.timer{font-size:24px; font-weight:700; color:var(--accent); text-align:center; background:var(--card2); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;}
+.quiz-card{background:var(--card2); padding:20px; border-radius:12px; margin-bottom:16px; border-left:4px solid var(--accent);}
+.quiz-option{padding:14px; margin:8px 0; background:var(--card); border-radius:8px; cursor:pointer; border:1px solid var(--border); transition:0.2s;}
+.quiz-option:hover{border-color:var(--accent); background:#2d3748;}
+.quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
+.quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
+.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
+.nav-btn{padding:8px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500;}
+.nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
+.nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
+.nav-btn.current{border:2px solid var(--accent);}
+.ai-key{width:100%; padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; margin-top:10px; font-size:14px;}
+.ai-key:focus{border-color:var(--accent); outline:none;}
+.badge{background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:12px; color:#000;}
   #ocrProgress{height:6px; background:var(--card2); border-radius:10px; overflow:hidden; margin-top:10px; display:none;}
   #ocrProgressBar{height:100%; width:0%; background:var(--accent); transition:0.3s;}
- .file-list{margin-top:12px; font-size:12px; color:var(--green);}
+.file-list{margin-top:12px; font-size:12px; color:var(--green);}
   canvas{display:none;}
- .memo-item{margin:15px 0; padding:18px; background:var(--card2); border-radius:12px; border-left:3px solid var(--accent);}
- .memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
- .mode-toggle{display:flex; gap:10px; margin:12px 0;}
- .mode-btn{padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;}
- .mode-btn:hover{border-color:var(--accent); color:#fff;}
- .mode-btn.active{border-color:var(--accent); background:rgba(66,133,244,0.15); color:#8ab4f8;}
- .explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
- .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
+.memo-item{margin:15px 0; padding:18px; background:var(--card2); border-radius:12px; border-left:3px solid var(--accent);}
+.memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
+.mode-toggle{display:flex; gap:10px; margin:12px 0;}
+.mode-btn{padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;}
+.mode-btn:hover{border-color:var(--accent); color:#fff;}
+.mode-btn.active{border-color:var(--accent); background:rgba(66,133,244,0.15); color:#8ab4f8;}
+.explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
+.source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>SHANA AI</h1>
-  <p>Generate questions and auto-answer them. Uses your local KB first, then auto-researches online with DuckDuckGo.</p>
+  <p>Generate questions and auto-answer them. Now supports VIDEO uploads. Uses your local KB first, then auto-researches online with DuckDuckGo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
 <div class="container" id="app">
   <h2 class="section-title">Smart Exam Generator</h2>
-  <p class="section-sub">Upload notes or question papers. AI will create 30 questions with answers.</p>
+  <p class="section-sub">Upload notes, PDFs, Images OR Video. AI will create 30 questions with answers.</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
@@ -99,8 +99,8 @@
 
       <div class="card">
         <h2>2. Smart AI: Upload Your Notes</h2>
-        <span class="badge">AUTO-RESEARCH MODE</span>
-        <p style="font-size:13px; color:#9aa0a6; margin-bottom:12px;">Works with Notes OR Question Papers. Uses internet if not in KB</p>
+        <span class="badge">AUTO-RESEARCH + VIDEO MODE</span>
+        <p style="font-size:13px; color:#9aa0a6; margin-bottom:12px;">Works with Notes, PDF, Images, Video. 1 frame per second</p>
 
         <div class="mode-toggle">
           <button class="mode-btn active" id="modeNotes" onclick="setMode('notes')">📚 Notes Mode</button>
@@ -110,8 +110,8 @@
         <label class="upload-box" for="fileUpload">
           <div class="upload-icon">📤</div>
           Click or Drag Files Here<br>
-          <small style="color:#9aa0a6;">JPG, PNG, PDF, TXT - Multiple files</small>
-          <input type="file" id="fileUpload" accept=".pdf,.jpg,.jpeg,.png,.txt" multiple onchange="handleUpload(event)">
+          <small style="color:#9aa0a6;">JPG, PNG, PDF, TXT, MP4, MOV, WEBM - Multiple files</small>
+          <input type="file" id="fileUpload" accept=".pdf,.jpg,.jpeg,.png,.txt,.mp4,.mov,.webm" multiple onchange="handleUpload(event)">
         </label>
         <div id="fileList" class="file-list"></div>
         <div id="ocrProgress"><div id="ocrProgressBar"></div></div>
@@ -211,9 +211,8 @@ async function getAIAnswer(questionText, subject) {
     return {...bestMatch, source: "Local KB"};
   }
 
-  // DUCKDUCKGO RESEARCH
   document.getElementById('uploadStatus').innerText = `⏳ Researching: ${questionText.substring(0,40)}...`;
-  await new Promise(r => setTimeout(r, 400)); // small delay so DDG doesn't block
+  await new Promise(r => setTimeout(r, 400));
 
   try {
     const searchQuery = `${questionText} ${subject} ${document.getElementById('gradeSelect').value} definition explanation`;
@@ -236,6 +235,43 @@ async function getAIAnswer(questionText, subject) {
   } catch(e){
     return {ans: "Offline", wrong: ["Check internet", "Use notes", "Try again"], exp: "Could not search. " + e.message, source: "Error"}
   }
+}
+
+// NEW: VIDEO FRAME EXTRACTION
+function extractFramesFromVideo(videoFile) {
+  return new Promise(async (resolve) => {
+    const video = document.createElement('video');
+    video.src = URL.createObjectURL(videoFile);
+    video.muted = true;
+
+    await new Promise(r => video.onloadedmetadata = r);
+
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let framesText = [];
+    let interval = 1; // 1 FRAME PER SECOND AS REQUESTED
+
+    document.getElementById('uploadStatus').innerText = `⏳ Video: ${Math.floor(video.duration)}s total. Extracting...`;
+
+    for(let time = 0; time < video.duration; time += interval){
+      video.currentTime = time;
+      await new Promise(r => video.onseeked = r);
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.filter = 'grayscale(100%) contrast(150%) brightness(110%)';
+      ctx.drawImage(video, 0, 0);
+
+      const blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.8));
+      const result = await tesseractWorker.recognize(blob);
+      if(result.data.text.trim().length > 10) framesText.push(result.data.text);
+
+      let progress = (time / video.duration) * 100;
+      document.getElementById('ocrProgressBar').style.width = `${progress}%`;
+      document.getElementById('uploadStatus').innerText = `⏳ Scanning video... ${Math.floor(time)}s / ${Math.floor(video.duration)}s`;
+    }
+    resolve(framesText.join('\n\n'));
+  });
 }
 
 window.onload = async () => {
@@ -334,7 +370,13 @@ async function handleUpload(e){
         completed++; document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
         return pdfText + '\n\n';
       }
-    } catch(err) { return ''; }
+      // VIDEO SUPPORT
+      else if(file.type.startsWith('video/')){
+        const videoText = await extractFramesFromVideo(file);
+        completed++; document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
+        return videoText + '\n\n';
+      }
+    } catch(err) { console.log(err); return ''; }
     return '';
   });
   const results = await Promise.all(promises);
@@ -384,7 +426,7 @@ async function generateFromNotes(){
     let problem = sentences[i % sentences.length] || "a concept from your notes";
     currentPaper.push({type: "EVAL", q: `Evaluate: ${problem}. Propose 2 solutions and justify which is best for ${grade} ${subject}`, keywords: ["solution", "justify", subject], modelAnswer: `Give 2 solutions and explain with reasons which one is better.`, explanation: "State 2 solutions, then justify with facts which is best.", marks: 6, source: "Generated"});
   }
-  let bankName = `${level} ${grade} ${subject} V5.0-DDG - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V6.0-VIDEO - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} SMART Q+A with Research!`;
