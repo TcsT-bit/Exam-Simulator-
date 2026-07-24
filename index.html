@@ -831,19 +831,31 @@ function extractKeywords(text){
   let found = []; let lowerText = text.toLowerCase();
   let subject = document.getElementById('subjectSelect').value;
   let keywordBank = KNOWLEDGE_ENGINE[subject] || [];
-  keywordBank.forEach(item => { if(lowerText.includes(item.term.toLowerCase())) found.push(item.term); });
-  if(found.length < 3){ let words = text.split(/\W+/).filter(w => w.length > 5); found = [...new Set(words)].slice(0,20); }
+  // Scan for ALL terms in the bank, not just first word
+  keywordBank.forEach(item => { 
+    if(lowerText.includes(item.term.toLowerCase())) found.push(item.term); 
+  });
+  if(found.length < 3){ 
+    let words = text.split(/\W+/).filter(w => w.length > 5); 
+    found = [...new Set(words)].slice(0,20); 
+  }
   return [...new Set(found)].slice(0,30);
 }
 
 function generateModelAnswer(question, keywords){
   let subject = document.getElementById('subjectSelect').value;
-  let bank = KNOWLEDGE_ENGINE[subject] || []; let term1 = keywords[0] || "Concept";
+  let bank = KNOWLEDGE_ENGINE[subject] || []; 
+  
+  // SMART MATCH: Find which keyword is actually in the question
+  let qLower = question.toLowerCase();
+  let term1 = keywords.find(k => qLower.includes(k.toLowerCase())) || keywords[0] || "Concept";
+  
   let kbItem = bank.find(item => item.term.toLowerCase() === term1.toLowerCase());
+  
   if(kbItem){
     if(question.includes('Define')) return `Memo: ${kbItem.define}`;
-    if(question.includes('Explain')) return `Memo: ${kbItem.explain}`;
-    if(question.includes('Apply')) return `Memo: ${kbItem.apply || kbItem.explain}`;
+    if(question.includes('Explain') || question.includes('role')) return `Memo: ${kbItem.explain}`;
+    if(question.includes('Apply') || question.includes('application')) return `Memo: ${kbItem.apply || kbItem.explain}`;
     if(question.includes('Analyze')) return `Memo: ${kbItem.ana || kbItem.explain}`;
     if(question.includes('Evaluate')) return `Memo: ${kbItem.eval || kbItem.explain}`;
     return `Memo: ${kbItem.explain}`;
