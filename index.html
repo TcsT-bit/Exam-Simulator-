@@ -58,6 +58,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 .tier-badge{background:var(--green); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-left:8px; color:#000;}
 .grade-grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap:8px; margin-bottom:15px;}
+.label{font-size:12px; color:#9aa0a6; margin:10px 0 5px; font-weight:500;}
 </style>
 </head>
 <body>
@@ -83,8 +84,10 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
     <div class="grid">
       <div class="card">
         <h2>1. Select Level & Subject</h2>
+        <div class="label">Step 1: Pick Grade</div>
         <div id="gradeGrid" class="grade-grid"></div>
-        <div id="subjectList"></div>
+        <div class="label">Step 2: Pick Subject</div>
+        <div id="subjectList"><p style="color:#9aa0a6;">Select a grade first</p></div>
       </div>
 
       <div class="card">
@@ -136,8 +139,6 @@ let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
 let currentTab = 'secondary';
 let currentMode = 'notes';
 let notesKeywords = [];
-let selectedGrade = '';
-let selectedSubject = '';
 
 // ====== 100% COMPLETE SA DBE SUBJECTS ======
 const subjectData = {
@@ -154,7 +155,7 @@ const subjectsByLevel = {
   university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
 }
 
-// ====== V7.9 KNOWLEDGE ENGINE ======
+// ====== V7.8 KNOWLEDGE ENGINE ======
 const KNOWLEDGE_ENGINE = {
   "Natural Science and Technology": [],
   "Physical Sciences": [],
@@ -181,7 +182,16 @@ const KNOWLEDGE_ENGINE = {
   "Tourism": [],
   "Hospitality Studies": [],
   "Social Sciences": [],
-  "Life Skills": []
+  "Life Skills": [],
+  "Engineering Studies N1-N3": [],
+  "Engineering Studies N4-N6": [],
+  "Business Studies N4-N6": [],
+  "Financial Accounting": [],
+  "Cost and Management Accounting": [],
+  "Calculus": [],
+  "Physics": [],
+  "Chemistry": [],
+  "Biology": []
 }
 
 function extractKeywords(text){
@@ -244,7 +254,6 @@ window.onload = () => {
 function setMode(mode){ currentMode = mode; document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active')); document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active'); }
 
 function selectGrade(grade){
-  selectedGrade = grade;
   document.getElementById('gradeSelect').value = grade;
   document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
@@ -252,7 +261,6 @@ function selectGrade(grade){
 }
 
 function selectSubject(sub){
-  selectedSubject = sub;
   document.getElementById('subjectSelect').value = sub;
   document.querySelectorAll('.subject-btn').forEach(b=>b.classList.remove('active'));
   event.target.classList.add('active');
