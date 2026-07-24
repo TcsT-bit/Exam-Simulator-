@@ -27,7 +27,6 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
 .subject-btn{padding:14px 16px; margin:8px 0; background: var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer; font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;}
 .subject-btn:hover{background:#2d3748; border-color:var(--accent);}
-.subject-btn.active{background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none; color:#fff;}
 .btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
 .btn:hover{background:#2d3748;}
 .btn.red{background:#ea4335; color:#fff; border:none;}
@@ -57,7 +56,6 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
 .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 .tier-badge{background:var(--green); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-left:8px; color:#000;}
-.grade-grid{display:grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap:8px; margin-bottom:15px;}
 .label{font-size:12px; color:#9aa0a6; margin:10px 0 5px; font-weight:500;}
 </style>
 </head>
@@ -84,10 +82,12 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
     <div class="grid">
       <div class="card">
         <h2>1. Select Level & Subject</h2>
-        <div class="label">Step 1: Pick Grade</div>
-        <div id="gradeGrid" class="grade-grid"></div>
-        <div class="label">Step 2: Pick Subject</div>
-        <div id="subjectList"><p style="color:#9aa0a6;">Select a grade first</p></div>
+        <div class="label">Level</div>
+        <select id="levelSelect1" class="ai-key" onchange="updateOptions1()"></select>
+        <div class="label">Grade</div>
+        <select id="gradeSelect1" class="ai-key" onchange="updateSubject1()"></select>
+        <div class="label">Subject</div>
+        <select id="subjectSelect1" class="ai-key"></select>
       </div>
 
       <div class="card">
@@ -215,9 +215,9 @@ function generateModelAnswer(question, keywords){
   let subject = document.getElementById('subjectSelect').value;
   let bank = KNOWLEDGE_ENGINE[subject] || [];
   let term1 = keywords[0] || "Concept";
-  
+
   let kbItem = bank.find(item => item.term.toLowerCase() === term1.toLowerCase());
-  
+
   if(kbItem){
     if(question.includes('Define')) return `Memo: ${kbItem.define}`;
     if(question.includes('Explain')) return `Memo: ${kbItem.explain}`;
@@ -226,7 +226,7 @@ function generateModelAnswer(question, keywords){
     if(question.includes('Evaluate')) return `Memo: ${kbItem.eval || kbItem.explain}`;
     return `Memo: ${kbItem.explain}`;
   }
-  
+
   return `Memo from Notes: ${term1} is a key concept in ${subject}. Refer to your notes for a detailed explanation.`;
 }
 
@@ -249,48 +249,47 @@ function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
 window.onload = () => {
   switchTab(null, 'secondary');
   loadSavedBanks();
+  initDropdowns1(); // NEW: init section 1 dropdowns
 }
+
+function initDropdowns1(){
+  const levelSel = document.getElementById('levelSelect1');
+  levelSel.innerHTML = Object.keys(subjectData).map(l=>`<option value="${l}">${l.charAt(0).toUpperCase()+l.slice(1)}</option>`).join('');
+  levelSel.value = currentTab;
+  updateOptions1();
+}
+
+function updateOptions1(){
+  const level = document.getElementById('levelSelect1').value;
+  const gradeSel = document.getElementById('gradeSelect1');
+  const subjectSel = document.getElementById('subjectSelect1');
+
+  gradeSel.innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join('');
+  subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join('');
+
+  // sync with hidden selects in section 2
+  document.getElementById('levelSelect').value = level;
+  document.getElementById('gradeSelect').value = gradeSel.value;
+  document.getElementById('subjectSelect').value = subjectSel.value;
+}
+
+function updateSubject1(){
+  document.getElementById('gradeSelect').value = document.getElementById('gradeSelect1').value;
+  document.getElementById('subjectSelect').value = document.getElementById('subjectSelect1').value;
+}
+
+document.getElementById('subjectSelect1').addEventListener('change', updateSubject1);
 
 function setMode(mode){ currentMode = mode; document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active')); document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active'); }
 
-function selectGrade(grade){
-  document.getElementById('gradeSelect').value = grade;
-  document.querySelectorAll('.grade-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  loadSubjects();
-}
-
-function selectSubject(sub){
-  document.getElementById('subjectSelect').value = sub;
-  document.querySelectorAll('.subject-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-}
-
-function switchTab(event, tab){ 
-  currentTab = tab; 
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active')); 
-  if(event) event.target.classList.add('active'); 
-  else document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active'); 
-  document.getElementById('levelSelect').value = tab; 
-  loadGrades();
-  document.getElementById('subjectList').innerHTML = '<p style="color:#9aa0a6;">Select a grade first</p>';
-}
-
-function loadGrades(){
-  const level = document.getElementById('levelSelect').value.toLowerCase();
-  let html = '';
-  subjectData[level].forEach(g=>{
-    html += `<button class="subject-btn grade-btn" onclick="selectGrade('${g}')">${g}</button>`;
-  });
-  document.getElementById('gradeGrid').innerHTML = html;
-}
-
-function loadSubjects(){
-  let html = '';
-  subjectsByLevel[currentTab].forEach(sub=>{
-    html += `<button class="subject-btn" onclick="selectSubject('${sub}')">${sub}</button>`;
-  });
-  document.getElementById('subjectList').innerHTML = html;
+function switchTab(event, tab){
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  if(event) event.target.classList.add('active');
+  else document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+  document.getElementById('levelSelect').value = tab;
+  document.getElementById('levelSelect1').value = tab;
+  updateOptions1();
 }
 
 function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
@@ -298,11 +297,15 @@ function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBa
 function loadSavedBanks(){ let html = ''; for(let key in myBanks){ html += `<div style="background:var(--card2); padding:12px; border-radius:8px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);"> <span>${key} - ${myBanks[key].length} Qs</span> <button class="btn" onclick="startCustomBank('${key}')">Start Test</button> </div>`; } document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.'; }
 
 async function generateFromNotes(){
+  // sync section 1 dropdowns to hidden ones
+  document.getElementById('levelSelect').value = document.getElementById('levelSelect1').value;
+  document.getElementById('gradeSelect').value = document.getElementById('gradeSelect1').value;
+  document.getElementById('subjectSelect').value = document.getElementById('subjectSelect1').value;
+
   const notes = document.getElementById('notesPaste').value;
   const level = document.getElementById('levelSelect').value;
   const grade = document.getElementById('gradeSelect').value;
   const subject = document.getElementById('subjectSelect').value;
-  if(!grade ||!subject) return alert('Please select Grade and Subject first');
   if(notes.length < 50) return alert('Please paste CAPS notes first.');
   document.getElementById('uploadStatus').innerText = `⏳ SHANA AI is analyzing...`;
 
