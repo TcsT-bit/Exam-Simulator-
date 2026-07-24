@@ -3,171 +3,167 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V4.1 - GOD TIER AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+<title>SHANA AI - Smart Exam Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   :root{
-    --bg:#060710;--card:rgba(15,18,35,0.55);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;
-    --green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--purple:#a855f7;--orange:#f97316;
-    --glass:rgba(255,255,255,0.05); --border:rgba(0,212,255,0.2);
+    --bg:#0b0e14;--card:#111827;--card2:#1f2937;--accent:#4285f4;--accent2:#8ab4f8;--text:#e8eaed;
+    --green:#34a853;--red:#ea4335;--yellow:#fbbc04;--orange:#ff6d00;
+    --border:rgba(255,255,255,0.1);
   }
-  *{margin:0;padding:0;box-sizing:border-box;font-family: 'Inter', sans-serif;}
+  *{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', 'Inter', sans-serif;}
 
-  /* AMBIENT 5/10 - Animated gradient + glow blobs */
   body{
-    background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, #581c87 0%, transparent 50%),
-                linear-gradient(180deg, #060710, #030303);
-    color:var(--text); padding:15px; min-height:100vh; animation: bgMove 20s infinite alternate;
-  }
-  @keyframes bgMove {
-    0% {background-position: 0% 0%, 100% 100%, 0 0}
-    100% {background-position: 100% 0%, 0% 100%, 0 0}
+    background: #0b0e14;
+    background-image: radial-gradient(circle at 25% 10%, rgba(66,133,244,0.15) 0%, transparent 50%);
+    color:var(--text); padding:0; min-height:100vh;
   }
 
- .calc{
-    max-width:1200px; margin:auto; background:var(--card); border-radius:28px; padding:25px;
-    backdrop-filter:blur(25px); border:1px solid var(--border);
-    box-shadow:0 0 60px rgba(168,85,247,0.25), inset 0 0 0 1px rgba(255,255,255,0.05);
+.container{max-width:1200px; margin:auto; padding:20px;}
+
+  /* HERO SECTION LIKE SCREENSHOT */
+.hero{padding:60px 20px 40px; text-align:center;}
+.hero h1{font-size:48px; font-weight:700; margin-bottom:16px; line-height:1.2;}
+.hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
+.btn-primary{
+    padding:12px 24px; background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none;
+    border-radius:24px; color:#fff; cursor:pointer; font-weight:500; font-size:15px;
+    transition:0.3s; box-shadow:0 2px 6px rgba(66,133,244,0.4);
+  }
+.btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
+
+.section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
+.section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
+
+  /* TABS */
+.tabs{display:flex; gap:8px; margin-bottom:30px; justify-content:center; flex-wrap:wrap;}
+.tab-btn{
+    padding:10px 18px; background:var(--card2); border:1px solid var(--border);
+    border-radius:20px; color:#9aa0a6; cursor:pointer; font-weight:500; transition:0.3s; font-size:14px;
+  }
+.tab-btn:hover{background:#2d3748; color:#fff;}
+.tab-btn.active{
+    background: linear-gradient(90deg, #4285f4, #8ab4f8); color:#fff; border:none;
   }
 
-  h1{
-    background: linear-gradient(90deg, #00d4ff, #a855f7, #f97316);
-    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-    text-align:center; font-size:28px; font-weight:800; letter-spacing:0.5px;
-    text-shadow: 0 0 20px rgba(0,212,255,0.3);
-  }
- .subtitle{text-align:center; color:#94a3b8; margin-bottom:25px; font-size:14px;}
-
-  /* TABS 5/10 */
- .tabs{display:flex; gap:10px; margin-bottom:25px; justify-content:center; flex-wrap:wrap;}
- .tab-btn{
-    padding:12px 20px; background:var(--glass); border:1px solid var(--border);
-    border-radius:14px; color:#cbd5e1; cursor:pointer; font-weight:700; transition:0.3s;
-  }
- .tab-btn:hover{border-color:var(--accent); transform:translateY(-2px);}
- .tab-btn.active{
-    background:linear-gradient(135deg, #00d4ff, #a855f7); color:#fff;
-    box-shadow:0 0 20px rgba(0,212,255,0.4); border:none;
-  }
-
- .grid{display:grid; grid-template-columns: 1fr 1fr; gap:20px;}
+.grid{display:grid; grid-template-columns: 1fr 1fr; gap:24px;}
   @media(max-width:900px){.grid{grid-template-columns:1fr;}}
 
-  /* CARDS 5/10 - Glassmorphism */
- .card{
-    background:var(--glass); padding:22px; border-radius:20px;
-    border:1px solid var(--border); backdrop-filter:blur(20px);
-    box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  /* CARDS LIKE SCREENSHOT */
+.card{
+    background:var(--card); padding:24px; border-radius:16px;
+    border:1px solid var(--border);
   }
- .card h2{font-size:17px; margin-bottom:14px; color:var(--accent); font-weight:800;}
+.card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
 
- .subject-btn{
-    padding:18px; margin:8px 0; background: linear-gradient(135deg, rgba(59,7,100,0.6), rgba(88,28,135,0.6));
-    border:1px solid rgba(168,85,247,0.3); border-radius:14px; color:#fff; cursor:pointer;
-    font-weight:800; width:100%; font-size:15px; transition:0.3s; text-align:left;
+.subject-btn{
+    padding:14px 16px; margin:8px 0; background: var(--card2);
+    border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer;
+    font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;
   }
- .subject-btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 25px rgba(168,85,247,0.5);
-    border-color:var(--accent2);
-  }
+.subject-btn:hover{background:#2d3748; border-color:var(--accent);}
 
-  /* UPLOAD BOX 5/10 */
- .upload-box{
-    border:2px dashed var(--accent); border-radius:16px; padding:30px 20px; text-align:center;
-    cursor:pointer; transition:0.3s; background:rgba(0,212,255,0.05);
+  /* UPLOAD BOX */
+.upload-box{
+    border:1px dashed var(--accent); border-radius:12px; padding:30px 20px; text-align:center;
+    cursor:pointer; transition:0.3s; background:rgba(66,133,244,0.05);
   }
- .upload-box:hover{background:rgba(0,212,255,0.12); border-color:var(--accent2); transform:scale(1.01);}
- .upload-box input{display:none;}
+.upload-box:hover{background:rgba(66,133,244,0.1); border-color:var(--accent2);}
+.upload-box input{display:none;}
+.upload-icon{font-size:32px; margin-bottom:8px;}
 
-  /* BUTTONS 5/10 */
- .btn{
-    padding:14px 20px; background: linear-gradient(135deg, #00d4ff, #a855f7); border:none;
-    border-radius:12px; color:#fff; cursor:pointer; font-weight:800; margin:5px;
-    transition:0.3s; box-shadow:0 4px 15px rgba(0,212,255,0.3);
+  /* BUTTONS */
+.btn{
+    padding:12px 20px; background: var(--card2); border:1px solid var(--border);
+    border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px;
+    transition:0.2s;
   }
- .btn:hover{transform:translateY(-2px) scale(1.03); box-shadow:0 6px 25px rgba(168,85,247,0.5);}
- .btn.red{background:linear-gradient(135deg, #ef4444, #dc2626);}
- .btn.yellow{background:var(--yellow); color:#000; box-shadow:0 4px 15px rgba(245,158,11,0.3);}
-
-  /* ORANGE GENERATE BUTTON LIKE YOUR SCREENSHOT */
- .btn.orange{
-    background: linear-gradient(135deg, #ff8c00, #ff6a00);
-    box-shadow: 0 0 25px rgba(249,115,22,0.6); font-size:16px; padding:16px; width:100%;
+.btn:hover{background:#2d3748;}
+.btn.red{background:#ea4335; color:#fff; border:none;}
+.btn.yellow{background:var(--yellow); color:#000; border:none;}
+.btn.orange{
+    background: linear-gradient(90deg, #ff6d00, #ff9100); color:#fff; border:none;
+    font-weight:700; font-size:15px; padding:14px; width:100%; border-radius:8px;
+    box-shadow:0 2px 6px rgba(255,109,0,0.4);
   }
- .btn.orange:hover{box-shadow: 0 0 35px rgba(249,115,22,0.9);}
+.btn.orange:hover{box-shadow:0 4px 12px rgba(255,109,0,0.6); transform:translateY(-1px);}
 
- .timer{
-    font-size:28px; font-weight:800; color:var(--accent); text-align:center;
-    background:rgba(0,0,0,0.5); padding:12px; border-radius:12px; border:1px solid var(--border);
+.timer{
+    font-size:24px; font-weight:700; color:var(--accent); text-align:center;
+    background:var(--card2); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;
   }
 
- .quiz-card{background:rgba(0,0,0,0.4); padding:20px; border-radius:16px; margin-bottom:16px; border-left:4px solid var(--accent);}
- .quiz-option{
-    padding:14px; margin:8px 0; background:var(--glass); border-radius:12px; cursor:pointer;
-    border:2px solid transparent; transition:0.2s;
+.quiz-card{background:var(--card2); padding:20px; border-radius:12px; margin-bottom:16px; border-left:4px solid var(--accent);}
+.quiz-option{
+    padding:14px; margin:8px 0; background:var(--card); border-radius:8px; cursor:pointer;
+    border:1px solid var(--border); transition:0.2s;
   }
- .quiz-option:hover{border-color:var(--accent); background:rgba(0,212,255,0.1);}
- .quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
- .quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
+.quiz-option:hover{border-color:var(--accent); background:#2d3748;}
+.quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
+.quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
 
- .nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(35px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
- .nav-btn{
-    padding:8px; background:var(--glass); border:1px solid var(--border);
-    border-radius:10px; color:#fff; cursor:pointer; font-size:11px; font-weight:700;
+.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
+.nav-btn{
+    padding:8px; background:var(--card2); border:1px solid var(--border);
+    border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500;
   }
- .nav-btn.done{background:#065f46; border-color:#22c55e;}.nav-btn.wrong{background:#7f1d1d; border-color:#ef4444;}.nav-btn.current{border:2px solid var(--accent); box-shadow:0 0 10px var(--accent);}
+.nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
+.nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
+.nav-btn.current{border:2px solid var(--accent);}
 
-  /* INPUTS 5/10 */
- .ai-key{
-    width:100%; padding:14px; background:rgba(0,0,0,0.4); border:1px solid #374151;
-    border-radius:12px; color:#fff; margin-top:10px; font-size:14px;
-    transition:0.3s;
+  /* INPUTS */
+.ai-key{
+    width:100%; padding:12px; background:var(--card2); border:1px solid var(--border);
+    border-radius:8px; color:#e8eaed; margin-top:10px; font-size:14px;
   }
- .ai-key:focus{border-color:var(--accent); box-shadow:0 0 15px rgba(0,212,255,0.3); outline:none;}
+.ai-key:focus{border-color:var(--accent); outline:none;}
 
- .badge{
-    background:linear-gradient(135deg, #f97316, #ea580c); padding:6px 12px;
-    border-radius:20px; font-size:11px; font-weight:800; display:inline-block; margin-bottom:12px;
-    box-shadow:0 0 15px rgba(249,115,22,0.5);
+.badge{
+    background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px;
+    font-weight:700; display:inline-block; margin-bottom:12px; color:#000;
   }
 
-  #ocrProgress{height:8px; background:#1f2937; border-radius:10px; overflow:hidden; margin-top:10px; display:none;}
-  #ocrProgressBar{height:100%; width:0%; background:linear-gradient(90deg, #22c55e, #00d4ff); transition:0.3s;}
+  #ocrProgress{height:6px; background:var(--card2); border-radius:10px; overflow:hidden; margin-top:10px; display:none;}
+  #ocrProgressBar{height:100%; width:0%; background:var(--accent); transition:0.3s;}
 
- .file-list{margin-top:12px; font-size:12px; color:var(--green);}
+.file-list{margin-top:12px; font-size:12px; color:var(--green);}
   canvas{display:none;}
 
- .memo-item{
-    margin:15px 0; padding:18px; background:rgba(0,0,0,0.4); border-radius:12px;
+.memo-item{
+    margin:15px 0; padding:18px; background:var(--card2); border-radius:12px;
     border-left:3px solid var(--accent);
   }
- .memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
+.memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
 
- .mode-toggle{display:flex; gap:10px; margin:12px 0;}
- .mode-btn{
-    padding:12px; background:var(--glass); border:2px solid #374151; border-radius:12px;
-    color:#cbd5e1; cursor:pointer; flex:1; font-weight:700; transition:0.3s; display:flex; align-items:center; justify-content:center; gap:8px;
+.mode-toggle{display:flex; gap:10px; margin:12px 0;}
+.mode-btn{
+    padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px;
+    color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
   }
- .mode-btn:hover{border-color:var(--accent);}
- .mode-btn.active{
-    border-color:var(--accent); background:rgba(0,212,255,0.15); color:#fff;
-    box-shadow:0 0 15px rgba(0,212,255,0.3);
+.mode-btn:hover{border-color:var(--accent); color:#fff;}
+.mode-btn.active{
+    border-color:var(--accent); background:rgba(66,133,244,0.15); color:#8ab4f8;
   }
 
- .explanation{
-    margin-top:10px; padding:12px; background:rgba(0,212,255,0.1); border-radius:10px;
-    font-size:13px; color:#a5f3fc; border-left:3px solid var(--accent);
+.explanation{
+    margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px;
+    font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);
   }
 </style>
 </head>
 <body>
-<div class="calc">
-  <h1>SHANA CALC TECH PARADISE V4.1</h1>
-  <p class="subtitle">GOD TIER | OFFLINE AI | 47 SUBJECTS</p>
+
+<div class="hero">
+  <h1>SHANA AI</h1>
+  <p>Unlock AI models to generate questions, auto-grade papers, and transform your study workflow with tools that work 100% offline.</p>
+  <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
+</div>
+
+<div class="container" id="app">
+  <h2 class="section-title">Smart Exam Generator</h2>
+  <p class="section-sub">Upload notes or question papers. AI will create 30 questions with answers.</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
@@ -179,14 +175,14 @@
   <div id="menu">
     <div class="grid">
       <div class="card">
-        <h2>1. SELECT LEVEL & SUBJECT</h2>
+        <h2>1. Select Level & Subject</h2>
         <div id="subjectList"></div>
       </div>
 
       <div class="card">
-        <h2>2. SMART AI: UPLOAD YOUR NOTES</h2>
+        <h2>2. Smart AI: Upload Your Notes</h2>
         <span class="badge">AUTO-ANSWER MODE</span>
-        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Works with Notes OR Question Papers. AI will create answers</p>
+        <p style="font-size:13px; color:#9aa0a6; margin-bottom:12px;">Works with Notes OR Question Papers. AI will create answers</p>
 
         <div class="mode-toggle">
           <button class="mode-btn active" id="modeNotes" onclick="setMode('notes')">📚 Notes Mode</button>
@@ -194,8 +190,9 @@
         </div>
 
         <label class="upload-box" for="fileUpload">
-          📤 Click or Drag Files Here<br>
-          <small>JPG, PNG, PDF, TXT - Multiple files</small>
+          <div class="upload-icon">📤</div>
+          Click or Drag Files Here<br>
+          <small style="color:#9aa0a6;">JPG, PNG, PDF, TXT - Multiple files</small>
           <input type="file" id="fileUpload" accept=".pdf,.jpg,.jpeg,.png,.txt" multiple onchange="handleUpload(event)">
         </label>
         <div id="fileList" class="file-list"></div>
@@ -214,12 +211,12 @@
         <select id="subjectSelect" class="ai-key"></select>
 
         <button class="btn orange" onclick="generateFromNotes()">✨ GENERATE 30 QUESTIONS + AI ANSWERS</button>
-        <div id="uploadStatus" style="margin-top:10px; font-size:12px;"></div>
+        <div id="uploadStatus" style="margin-top:10px; font-size:12px; color:#9aa0a6;"></div>
       </div>
     </div>
 
-    <div class="card" style="margin-top:15px;">
-      <h2>3. MY SAVED QUESTION BANKS</h2>
+    <div class="card" style="margin-top:24px;">
+      <h2>3. My Saved Question Banks</h2>
       <div id="savedBanks">No banks yet. Generate from notes above.</div>
       <button class="btn yellow" onclick="clearStorage()">Clear All Local Data</button>
     </div>
@@ -228,7 +225,7 @@
   <div id="examArea" style="display:none;">
     <div class="timer" id="timer">Time: 02:00:00</div>
     <div id="navGrid" class="nav-grid"></div>
-    <div id="paperTitle" style="text-align:center; font-weight:800; margin:15px 0; font-size:18px;"></div>
+    <div id="paperTitle" style="text-align:center; font-weight:700; margin:15px 0; font-size:18px;"></div>
     <div id="questionsArea"></div>
     <div style="display:flex; justify-content:space-between;">
       <button class="btn yellow" onclick="prevQ()">← Previous</button>
@@ -236,7 +233,7 @@
     </div>
     <button class="btn" onclick="backToMenu()">← Back to Menu</button>
     <button class="btn red" id="submitBtn" onclick="submitPaper()">SUBMIT PAPER</button>
-    <div id="memoArea" style="margin-top:20px; padding:18px; background:#000; border-radius:14px; display:none;"></div>
+    <div id="memoArea" style="margin-top:20px; padding:18px; background:var(--card); border-radius:14px; display:none;"></div>
   </div>
 </div>
 <canvas id="canvas"></canvas>
@@ -249,7 +246,7 @@ let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
 let currentTab = 'secondary';
 let uploadedText = '';
 let tesseractWorker = null;
-let currentMode = 'notes'; // 'notes' or 'questions'
+let currentMode = 'notes';
 
 const subjectData = {
   primary: ['Grade R','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7'],
@@ -264,7 +261,6 @@ const subjectsByLevel = {
   university: ['Calculus 1','Physics 1','Chemistry 1','Biology 1','Introduction to Engineering','Academic Literacy','Engineering Graphics','Programming 1','Statistics 1']
 }
 
-// ========== SHANA V4.0 KNOWLEDGE ENGINE - FILL THIS UP ==========
 const KNOWLEDGE_ENGINE = {
   "Mathematics": [], "Math Literacy": [], "Physical Science": [],
   "Life Science": [
@@ -319,7 +315,7 @@ function switchTab(event, tab){
   else document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
   let html = '';
   subjectsByLevel[tab].forEach(sub=>{
-    html += `<button class="subject-btn" onclick="alert('Upload notes first to generate questions for ${sub}')">${sub.toUpperCase()} - Test 50 Qs</button>`;
+    html += `<button class="subject-btn" onclick="alert('Upload notes first to generate questions for ${sub}')">${sub}</button>`;
   });
   document.getElementById('subjectList').innerHTML = html;
   document.getElementById('levelSelect').value = tab;
@@ -339,7 +335,7 @@ function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBa
 function loadSavedBanks(){
   let html = '';
   for(let key in myBanks){
-    html += `<div style="background:var(--glass); padding:12px; border-radius:10px; margin:5px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
+    html += `<div style="background:var(--card2); padding:12px; border-radius:8px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
       <span>${key} - ${myBanks[key].length} Qs</span>
       <button class="btn" onclick="startCustomBank('${key}')">Start Test</button>
     </div>`;
@@ -444,7 +440,7 @@ function generateFromNotes(){
     let problem = sentences[i % sentences.length] || "a concept from your notes";
     currentPaper.push({type: "EVAL", q: `Evaluate: ${problem}. Propose 2 solutions and justify which is best for ${grade} ${subject}`, keywords: ["solution", "justify", subject], modelAnswer: `Give 2 solutions and explain with reasons which one is better.`, explanation: "State 2 solutions, then justify with facts which is best.", marks: 6});
   }
-  let bankName = `${level} ${grade} ${subject} V4.1 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V4.2 - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} SMART Q+A with AI!`;
@@ -468,7 +464,7 @@ function showQuestion(){
   if(q.type==="MCQ"){
     q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; });
   } else {
-    html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:rgba(0,0,0,0.4); color:#fff; border-radius:8px; padding:10px; border:1px solid #374151;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`;
+    html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:var(--card); color:#fff; border-radius:8px; padding:10px; border:1px solid var(--border);">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`;
   }
   html+=`</div>`;
   document.getElementById('questionsArea').innerHTML=html;
@@ -511,7 +507,7 @@ function submitPaper(){
     </div>`;
   });
   let percent = ((score/total)*100).toFixed(1);
-  memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2><p style="color:#94a3b8; margin-bottom:15px;">Study the AI explanations below</p>` + memoHtml;
+  memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2><p style="color:#9aa0a6; margin-bottom:15px;">Study the AI explanations below</p>` + memoHtml;
   document.getElementById('memoArea').innerHTML=memoHtml;
   document.getElementById('memoArea').style.display='block';
   document.getElementById('submitBtn').style.display='none';
