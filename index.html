@@ -14,150 +14,68 @@
     --border:rgba(255,255,255,0.1);
   }
   *{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', 'Inter', sans-serif;}
-
-  body{
-    background: #0b0e14;
-    background-image: radial-gradient(circle at 25% 10%, rgba(66,133,244,0.15) 0%, transparent 50%);
-    color:var(--text); padding:0; min-height:100vh;
-  }
-
-.container{max-width:1200px; margin:auto; padding:20px;}
-
-  /* HERO SECTION LIKE SCREENSHOT */
-.hero{padding:60px 20px 40px; text-align:center;}
-.hero h1{font-size:48px; font-weight:700; margin-bottom:16px; line-height:1.2;}
-.hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
-.btn-primary{
-    padding:12px 24px; background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none;
-    border-radius:24px; color:#fff; cursor:pointer; font-weight:500; font-size:15px;
-    transition:0.3s; box-shadow:0 2px 6px rgba(66,133,244,0.4);
-  }
-.btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
-
-.section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
-.section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
-
-  /* TABS */
-.tabs{display:flex; gap:8px; margin-bottom:30px; justify-content:center; flex-wrap:wrap;}
-.tab-btn{
-    padding:10px 18px; background:var(--card2); border:1px solid var(--border);
-    border-radius:20px; color:#9aa0a6; cursor:pointer; font-weight:500; transition:0.3s; font-size:14px;
-  }
-.tab-btn:hover{background:#2d3748; color:#fff;}
-.tab-btn.active{
-    background: linear-gradient(90deg, #4285f4, #8ab4f8); color:#fff; border:none;
-  }
-
-.grid{display:grid; grid-template-columns: 1fr 1fr; gap:24px;}
+  body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, rgba(66,133,244,0.15) 0%, transparent 50%); color:var(--text); padding:0; min-height:100vh;}
+ .container{max-width:1200px; margin:auto; padding:20px;}
+ .hero{padding:60px 20px 40px; text-align:center;}
+ .hero h1{font-size:48px; font-weight:700; margin-bottom:16px; line-height:1.2;}
+ .hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
+ .btn-primary{padding:12px 24px; background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none; border-radius:24px; color:#fff; cursor:pointer; font-weight:500; font-size:15px; transition:0.3s; box-shadow:0 2px 6px rgba(66,133,244,0.4);}
+ .btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
+ .section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
+ .section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
+ .tabs{display:flex; gap:8px; margin-bottom:30px; justify-content:center; flex-wrap:wrap;}
+ .tab-btn{padding:10px 18px; background:var(--card2); border:1px solid var(--border); border-radius:20px; color:#9aa0a6; cursor:pointer; font-weight:500; transition:0.3s; font-size:14px;}
+ .tab-btn:hover{background:#2d3748; color:#fff;}
+ .tab-btn.active{background: linear-gradient(90deg, #4285f4, #8ab4f8); color:#fff; border:none;}
+ .grid{display:grid; grid-template-columns: 1fr 1fr; gap:24px;}
   @media(max-width:900px){.grid{grid-template-columns:1fr;}}
-
-  /* CARDS LIKE SCREENSHOT */
-.card{
-    background:var(--card); padding:24px; border-radius:16px;
-    border:1px solid var(--border);
-  }
-.card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
-
-.subject-btn{
-    padding:14px 16px; margin:8px 0; background: var(--card2);
-    border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer;
-    font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;
-  }
-.subject-btn:hover{background:#2d3748; border-color:var(--accent);}
-
-  /* UPLOAD BOX */
-.upload-box{
-    border:1px dashed var(--accent); border-radius:12px; padding:30px 20px; text-align:center;
-    cursor:pointer; transition:0.3s; background:rgba(66,133,244,0.05);
-  }
-.upload-box:hover{background:rgba(66,133,244,0.1); border-color:var(--accent2);}
-.upload-box input{display:none;}
-.upload-icon{font-size:32px; margin-bottom:8px;}
-
-  /* BUTTONS */
-.btn{
-    padding:12px 20px; background: var(--card2); border:1px solid var(--border);
-    border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px;
-    transition:0.2s;
-  }
-.btn:hover{background:#2d3748;}
-.btn.red{background:#ea4335; color:#fff; border:none;}
-.btn.yellow{background:var(--yellow); color:#000; border:none;}
-.btn.orange{
-    background: linear-gradient(90deg, #ff6d00, #ff9100); color:#fff; border:none;
-    font-weight:700; font-size:15px; padding:14px; width:100%; border-radius:8px;
-    box-shadow:0 2px 6px rgba(255,109,0,0.4);
-  }
-.btn.orange:hover{box-shadow:0 4px 12px rgba(255,109,0,0.6); transform:translateY(-1px);}
-
-.timer{
-    font-size:24px; font-weight:700; color:var(--accent); text-align:center;
-    background:var(--card2); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;
-  }
-
-.quiz-card{background:var(--card2); padding:20px; border-radius:12px; margin-bottom:16px; border-left:4px solid var(--accent);}
-.quiz-option{
-    padding:14px; margin:8px 0; background:var(--card); border-radius:8px; cursor:pointer;
-    border:1px solid var(--border); transition:0.2s;
-  }
-.quiz-option:hover{border-color:var(--accent); background:#2d3748;}
-.quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
-.quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
-
-.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
-.nav-btn{
-    padding:8px; background:var(--card2); border:1px solid var(--border);
-    border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500;
-  }
-.nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
-.nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
-.nav-btn.current{border:2px solid var(--accent);}
-
-  /* INPUTS */
-.ai-key{
-    width:100%; padding:12px; background:var(--card2); border:1px solid var(--border);
-    border-radius:8px; color:#e8eaed; margin-top:10px; font-size:14px;
-  }
-.ai-key:focus{border-color:var(--accent); outline:none;}
-
-.badge{
-    background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px;
-    font-weight:700; display:inline-block; margin-bottom:12px; color:#000;
-  }
-
+ .card{background:var(--card); padding:24px; border-radius:16px; border:1px solid var(--border);}
+ .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
+ .subject-btn{padding:14px 16px; margin:8px 0; background: var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer; font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;}
+ .subject-btn:hover{background:#2d3748; border-color:var(--accent);}
+ .upload-box{border:1px dashed var(--accent); border-radius:12px; padding:30px 20px; text-align:center; cursor:pointer; transition:0.3s; background:rgba(66,133,244,0.05);}
+ .upload-box:hover{background:rgba(66,133,244,0.1); border-color:var(--accent2);}
+ .upload-box input{display:none;}
+ .upload-icon{font-size:32px; margin-bottom:8px;}
+ .btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
+ .btn:hover{background:#2d3748;}
+ .btn.red{background:#ea4335; color:#fff; border:none;}
+ .btn.yellow{background:var(--yellow); color:#000; border:none;}
+ .btn.orange{background: linear-gradient(90deg, #ff6d00, #ff9100); color:#fff; border:none; font-weight:700; font-size:15px; padding:14px; width:100%; border-radius:8px; box-shadow:0 2px 6px rgba(255,109,0,0.4);}
+ .btn.orange:hover{box-shadow:0 4px 12px rgba(255,109,0,0.6); transform:translateY(-1px);}
+ .timer{font-size:24px; font-weight:700; color:var(--accent); text-align:center; background:var(--card2); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;}
+ .quiz-card{background:var(--card2); padding:20px; border-radius:12px; margin-bottom:16px; border-left:4px solid var(--accent);}
+ .quiz-option{padding:14px; margin:8px 0; background:var(--card); border-radius:8px; cursor:pointer; border:1px solid var(--border); transition:0.2s;}
+ .quiz-option:hover{border-color:var(--accent); background:#2d3748;}
+ .quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
+ .quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
+ .nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
+ .nav-btn{padding:8px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500;}
+ .nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
+ .nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
+ .nav-btn.current{border:2px solid var(--accent);}
+ .ai-key{width:100%; padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; margin-top:10px; font-size:14px;}
+ .ai-key:focus{border-color:var(--accent); outline:none;}
+ .badge{background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:12px; color:#000;}
   #ocrProgress{height:6px; background:var(--card2); border-radius:10px; overflow:hidden; margin-top:10px; display:none;}
   #ocrProgressBar{height:100%; width:0%; background:var(--accent); transition:0.3s;}
-
-.file-list{margin-top:12px; font-size:12px; color:var(--green);}
+ .file-list{margin-top:12px; font-size:12px; color:var(--green);}
   canvas{display:none;}
-
-.memo-item{
-    margin:15px 0; padding:18px; background:var(--card2); border-radius:12px;
-    border-left:3px solid var(--accent);
-  }
-.memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
-
-.mode-toggle{display:flex; gap:10px; margin:12px 0;}
-.mode-btn{
-    padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px;
-    color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
-  }
-.mode-btn:hover{border-color:var(--accent); color:#fff;}
-.mode-btn.active{
-    border-color:var(--accent); background:rgba(66,133,244,0.15); color:#8ab4f8;
-  }
-
-.explanation{
-    margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px;
-    font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);
-  }
+ .memo-item{margin:15px 0; padding:18px; background:var(--card2); border-radius:12px; border-left:3px solid var(--accent);}
+ .memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
+ .mode-toggle{display:flex; gap:10px; margin:12px 0;}
+ .mode-btn{padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;}
+ .mode-btn:hover{border-color:var(--accent); color:#fff;}
+ .mode-btn.active{border-color:var(--accent); background:rgba(66,133,244,0.15); color:#8ab4f8;}
+ .explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
+ .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>SHANA AI</h1>
-  <p>Unlock AI models to generate questions, auto-grade papers, and transform your study workflow with tools that work 100% offline.</p>
+  <p>Generate questions and auto-answer them. Uses your local KB first, then auto-researches online with DuckDuckGo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -181,8 +99,8 @@
 
       <div class="card">
         <h2>2. Smart AI: Upload Your Notes</h2>
-        <span class="badge">AUTO-ANSWER MODE</span>
-        <p style="font-size:13px; color:#9aa0a6; margin-bottom:12px;">Works with Notes OR Question Papers. AI will create answers</p>
+        <span class="badge">AUTO-RESEARCH MODE</span>
+        <p style="font-size:13px; color:#9aa0a6; margin-bottom:12px;">Works with Notes OR Question Papers. Uses internet if not in KB</p>
 
         <div class="mode-toggle">
           <button class="mode-btn active" id="modeNotes" onclick="setMode('notes')">📚 Notes Mode</button>
@@ -279,7 +197,7 @@ const KNOWLEDGE_ENGINE = {
   "Academic Literacy": [], "Programming 1": [], "Statistics 1": []
 }
 
-function getAIAnswer(questionText, subject) {
+async function getAIAnswer(questionText, subject) {
   const bank = KNOWLEDGE_ENGINE[subject] || [];
   questionText = questionText.toLowerCase();
   let bestMatch = null; let highestScore = 0;
@@ -288,10 +206,36 @@ function getAIAnswer(questionText, subject) {
     item.keywords.forEach(kw => { if(questionText.includes(kw)) score++; });
     if(score > highestScore) { highestScore = score; bestMatch = item; }
   });
-  if(!bestMatch || highestScore < 1) {
-    return {ans: "Not in Knowledge Base", wrong: ["Check notes", "Research topic", "Ask teacher"], exp: "Add this to KNOWLEDGE_ENGINE['"+subject+"'] to teach SHANA."}
+
+  if(bestMatch && highestScore >= 1) {
+    return {...bestMatch, source: "Local KB"};
   }
-  return bestMatch;
+
+  // DUCKDUCKGO RESEARCH
+  document.getElementById('uploadStatus').innerText = `⏳ Researching: ${questionText.substring(0,40)}...`;
+  await new Promise(r => setTimeout(r, 400)); // small delay so DDG doesn't block
+
+  try {
+    const searchQuery = `${questionText} ${subject} ${document.getElementById('gradeSelect').value} definition explanation`;
+    const url = `https://api.duckgo.com/?q=${encodeURIComponent(searchQuery)}&format=json&no_redirect=1&no_html=1&skip_disambig=1`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    let answer = data.AbstractText || data.Answer || data.RelatedTopics[0]?.Text || "Not found online. Add to KB.";
+
+    let wrongOptions = ["None of the above", "All of the above", "Cannot be determined"];
+    if(bank.length > 0) wrongOptions = bank.slice(0,3).map(i=>i.ans);
+
+    return {
+      ans: answer.substring(0, 80) + (answer.length > 80? "..." : ""),
+      wrong: wrongOptions,
+      exp: answer,
+      source: "DuckGo"
+    }
+  } catch(e){
+    return {ans: "Offline", wrong: ["Check internet", "Use notes", "Try again"], exp: "Could not search. " + e.message, source: "Error"}
+  }
 }
 
 window.onload = async () => {
@@ -401,7 +345,7 @@ async function handleUpload(e){
   document.getElementById('ocrProgress').style.display = 'none';
 }
 
-function generateFromNotes(){
+async function generateFromNotes(){
   const notes = document.getElementById('notesPaste').value || uploadedText;
   const level = document.getElementById('levelSelect').value;
   const grade = document.getElementById('gradeSelect').value;
@@ -414,36 +358,36 @@ function generateFromNotes(){
   currentPaper = [];
   const isQuestionPaper = questions.length > 3 || currentMode === 'questions';
   if(isQuestionPaper){
-    document.getElementById('uploadStatus').innerText = `⏳ AI matching to Knowledge Base...`;
+    document.getElementById('uploadStatus').innerText = `⏳ AI researching ${Math.min(10, questions.length)} questions...`;
     for(let i=0; i<Math.min(10, questions.length); i++){
       let q = questions[i].trim();
-      let ai = getAIAnswer(q, subject);
+      let ai = await getAIAnswer(q, subject);
       let options = shuffle([ai.ans,...ai.wrong]);
       let correctIndex = options.indexOf(ai.ans);
       let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: ai.ans, explanation: ai.exp, marks: 2});
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: ai.ans, explanation: ai.exp, marks: 2, source: ai.source});
     }
   } else {
     for(let i=0; i<10; i++){
       let correctAns = sentences[i % sentences.length] || "Based on your notes";
       let options = shuffle([correctAns, sentences[(i+3) % sentences.length], sentences[(i+7) % sentences.length], sentences[(i+11) % sentences.length]]);
       let correctLetter = ['A','B','C','D'][options.indexOf(correctAns)];
-      currentPaper.push({type: "MCQ", q: `According to your notes on ${subject}, which statement is MOST accurate?`, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: correctAns, explanation: "Based on uploaded notes.", marks: 2});
+      currentPaper.push({type: "MCQ", q: `According to your notes on ${subject}, which statement is MOST accurate?`, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: correctAns, explanation: "Based on uploaded notes.", marks: 2, source: "Notes"});
     }
   }
   for(let i=10; i<20; i++){
     let term1 = keywords[i % keywords.length] || "Concept A";
     let term2 = keywords[(i+5) % keywords.length] || "Concept B";
-    currentPaper.push({type: "ANALYSIS", q: `Analyze: Explain how "${term1}" and "${term2}" are connected in ${subject}. Give 1 example.`, keywords: [term1, term2, "example", subject], modelAnswer: `Explain the relationship between ${term1} and ${term2} with an example from ${subject}.`, explanation: "Link both concepts and give 1 relevant example.", marks: 4});
+    currentPaper.push({type: "ANALYSIS", q: `Analyze: Explain how "${term1}" and "${term2}" are connected in ${subject}. Give 1 example.`, keywords: [term1, term2, "example", subject], modelAnswer: `Explain the relationship between ${term1} and ${term2} with an example from ${subject}.`, explanation: "Link both concepts and give 1 relevant example.", marks: 4, source: "Generated"});
   }
   for(let i=20; i<30; i++){
     let problem = sentences[i % sentences.length] || "a concept from your notes";
-    currentPaper.push({type: "EVAL", q: `Evaluate: ${problem}. Propose 2 solutions and justify which is best for ${grade} ${subject}`, keywords: ["solution", "justify", subject], modelAnswer: `Give 2 solutions and explain with reasons which one is better.`, explanation: "State 2 solutions, then justify with facts which is best.", marks: 6});
+    currentPaper.push({type: "EVAL", q: `Evaluate: ${problem}. Propose 2 solutions and justify which is best for ${grade} ${subject}`, keywords: ["solution", "justify", subject], modelAnswer: `Give 2 solutions and explain with reasons which one is better.`, explanation: "State 2 solutions, then justify with facts which is best.", marks: 6, source: "Generated"});
   }
-  let bankName = `${level} ${grade} ${subject} V4.2 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V5.0-DDG - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
-  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} SMART Q+A with AI!`;
+  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} SMART Q+A with Research!`;
 }
 
 function startCustomBank(name){
@@ -461,6 +405,7 @@ function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementBy
 function showQuestion(){
   let q=currentPaper[currentQ];
   let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`;
+  if(q.source) html += `<div class="source-tag">Source: ${q.source}</div>`;
   if(q.type==="MCQ"){
     q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; });
   } else {
@@ -503,6 +448,7 @@ function submitPaper(){
       <b>Your Answer:</b> <span class="${correct?'memo-correct':'memo-wrong'}">${userAns || 'No answer'}</span><br>
       <b>Memo/Answer:</b> <span class="memo-correct">${q.type==="MCQ"? q.ans + ') ' + q.correctText : q.modelAnswer}</span><br>
       ${q.explanation? `<div class="explanation"><b>AI Explanation:</b> ${q.explanation}</div>` : ''}
+      ${q.source? `<div class="source-tag">Source: ${q.source}</div>` : ''}
       <b>Status:</b> ${correct?'<span class="memo-correct">✓ Correct</span>':'<span class="memo-wrong">✗ Review this</span>'}
     </div>`;
   });
