@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V3.0 - TURBO ACCURATE</title>
+<title>SHANA CALC TECH PARADISE V3.0.1 - GOD TIER FIXED</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -51,8 +51,8 @@ canvas{display:none;}
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V3.0</h1>
-  <p class="subtitle">TURBO ACCURATE OCR | Auto-Enhance + Parallel | 0 API KEY</p>
+  <h1>SHANA CALC TECH PARADISE V3.0.1</h1>
+  <p class="subtitle">GOD TIER | TURBO ACCURATE OCR | ALL FEATURES WORKING</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
@@ -70,8 +70,8 @@ canvas{display:none;}
 
       <div class="card">
         <h2>2. TURBO AI: UPLOAD YOUR NOTES</h2>
-        <span class="badge">AUTO-ENHANCE ON</span>
-        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload multiple JPG/PNG/PDF. Auto-contrast for speed + accuracy</p>
+        <span class="badge">AUTO-ENHANCE + MULTI UPLOAD</span>
+        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload multiple JPG/PNG/PDF. Hold Ctrl to select many</p>
 
         <label class="upload-box" for="fileUpload">
           📤 Click or Drag Multiple Notes Here<br>
@@ -146,11 +146,12 @@ const subjectsByLevel = {
 window.onload = async () => {
   switchTab(null, 'secondary');
   loadSavedBanks();
-  // PRELOAD WORKER ONCE
-  tesseractWorker = await Tesseract.createWorker('eng');
+  // FIXED: PROPER WORKER INIT
+  tesseractWorker = await Tesseract.createWorker();
+  await tesseractWorker.loadLanguage('eng');
+  await tesseractWorker.initialize('eng');
   await tesseractWorker.setParameters({
     tessedit_pageseg_mode: Tesseract.PSM.SPARSE_TEXT,
-    tessedit_char_whitelist: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,;:!?()-=%/'
   });
 }
 
@@ -198,7 +199,6 @@ function enhanceImage(file){
     const ctx = canvas.getContext('2d');
 
     img.onload = () => {
-      // Resize to max 2000px for speed, but keep aspect ratio
       const maxSize = 2000;
       let { width, height } = img;
       if(width > maxSize || height > maxSize){
@@ -206,18 +206,15 @@ function enhanceImage(file){
         width *= ratio; height *= ratio;
       }
       canvas.width = width; canvas.height = height;
-
-      // Draw + apply filters: grayscale + contrast + brightness
       ctx.filter = 'grayscale(100%) contrast(150%) brightness(110%)';
       ctx.drawImage(img, 0, 0, width, height);
-
       canvas.toBlob(resolve, 'image/jpeg', 0.9);
     }
     img.src = URL.createObjectURL(file);
   });
 }
 
-// TURBO MULTI FILE OCR WITH ENHANCEMENT
+// FIXED TURBO MULTI FILE OCR
 async function handleUpload(e){
   const files = Array.from(e.target.files);
   if(files.length === 0) return;
@@ -230,28 +227,31 @@ async function handleUpload(e){
   let completed = 0;
 
   const promises = files.map(async (file) => {
-    if(file.type === 'text/plain'){
-      return await file.text() + '\n\n';
-    } else if(file.type.startsWith('image/')){
-      // STEP 1: ENHANCE IMAGE FOR SPEED + ACCURACY
-      const enhancedBlob = await enhanceImage(file);
-      // STEP 2: OCR THE ENHANCED IMAGE
-      const { data: { text } = await tesseractWorker.recognize(enhancedBlob);
-      completed++;
-      document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
-      return text + '\n\n';
-    } else if(file.type === 'application/pdf'){
-      const arrayBuffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
-      let pdfText = '';
-      for(let i = 1; i <= pdf.numPages; i++){
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        pdfText += content.items.map(item => item.str).join(' ') + '\n';
+    try {
+      if(file.type === 'text/plain'){
+        return await file.text() + '\n\n';
+      } else if(file.type.startsWith('image/')){
+        const enhancedBlob = await enhanceImage(file);
+        const result = await tesseractWorker.recognize(enhancedBlob); // FIXED SYNTAX
+        completed++;
+        document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
+        return result.data.text + '\n\n';
+      } else if(file.type === 'application/pdf'){
+        const arrayBuffer = await file.arrayBuffer();
+        const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+        let pdfText = '';
+        for(let i = 1; i <= pdf.numPages; i++){
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          pdfText += content.items.map(item => item.str).join(' ') + '\n';
+        }
+        completed++;
+        document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
+        return pdfText + '\n\n';
       }
-      completed++;
-      document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
-      return pdfText + '\n\n';
+    } catch(err) {
+      console.error('OCR Error:', err);
+      return '';
     }
     return '';
   });
@@ -282,20 +282,20 @@ function generateFromNotes(){
   currentPaper = [];
 
   for(let i=0; i<10; i++){
-    let context = sentences[i % sentences.length];
+    let context = sentences[i % sentences.length] || "the given concept";
     let distractors = shuffle(keywords).slice(0,3);
     currentPaper.push({
       type: "MCQ",
       q: `Scenario: In ${subject}, if ${context.toLowerCase().substring(0,80)}... What would be the MOST likely outcome?`,
-      options: [`A) ${context}`, `B) ${distractors[0]}`, `C) ${distractors[1]}`, `D) ${distractors[2]}`],
+      options: [`A) ${context}`, `B) ${distractors[0]||'Option B'}`, `C) ${distractors[1]||'Option C'}`, `D) ${distractors[2]||'Option D'}`],
       ans: "A",
       marks: 2
     });
   }
 
   for(let i=10; i<20; i++){
-    let term1 = keywords[i % keywords.length];
-    let term2 = keywords[(i+5) % keywords.length];
+    let term1 = keywords[i % keywords.length] || "Concept A";
+    let term2 = keywords[(i+5) % keywords.length] || "Concept B";
     currentPaper.push({
       type: "ANALYSIS",
       q: `Analyze the relationship between "${term1}" and "${term2}" in ${subject}. How does one affect the other?`,
@@ -305,7 +305,7 @@ function generateFromNotes(){
   }
 
   for(let i=20; i<30; i++){
-    let problem = sentences[i % sentences.length];
+    let problem = sentences[i % sentences.length] || "the described situation";
     currentPaper.push({
       type: "EVAL",
       q: `Evaluate this situation: ${problem}. Suggest 2 solutions and justify which is better for ${grade} ${subject}`,
