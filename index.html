@@ -3,62 +3,170 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V4.0 - GOD TIER AI</title>
+<title>SHANA CALC TECH PARADISE V4.1 - GOD TIER AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
-  :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--purple:#a855f7;--orange:#f97316;}
+  :root{
+    --bg:#060710;--card:rgba(15,18,35,0.55);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;
+    --green:#22c55e;--red:#ef4444;--yellow:#f59e0b;--purple:#a855f7;--orange:#f97316;
+    --glass:rgba(255,255,255,0.05); --border:rgba(0,212,255,0.2);
+  }
   *{margin:0;padding:0;box-sizing:border-box;font-family: 'Inter', sans-serif;}
-  body{background: radial-gradient(circle at top, #1e1b4b, var(--bg)); color:var(--text); padding:15px; min-height:100vh;}
-.calc{max-width:1200px; margin:auto; background:var(--card); border-radius:28px; padding:25px; backdrop-filter:blur(25px); border:1px solid rgba(0,212,255,0.2); box-shadow:0 0 40px rgba(168,85,247,0.2);}
-  h1{background: linear-gradient(90deg, #00d4ff, #a855f7, #ef4444); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; font-size:26px; font-weight:800;}
-.subtitle{text-align:center; color:#94a3b8; margin-bottom:20px;}
-.tabs{display:flex; gap:10px; margin-bottom:20px; justify-content:center; flex-wrap:wrap;}
-.tab-btn{padding:12px 20px; background:#1f2937; border:none; border-radius:12px; color:#fff; cursor:pointer; font-weight:700;}
-.tab-btn.active{background:linear-gradient(135deg, #00d4ff, #a855f7);}
-.grid{display:grid; grid-template-columns: 1fr 1fr; gap:15px;}
+
+  /* AMBIENT 5/10 - Animated gradient + glow blobs */
+  body{
+    background: radial-gradient(circle at 20% 20%, #1e1b4b 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, #581c87 0%, transparent 50%),
+                linear-gradient(180deg, #060710, #030303);
+    color:var(--text); padding:15px; min-height:100vh; animation: bgMove 20s infinite alternate;
+  }
+  @keyframes bgMove {
+    0% {background-position: 0% 0%, 100% 100%, 0 0}
+    100% {background-position: 100% 0%, 0% 100%, 0 0}
+  }
+
+ .calc{
+    max-width:1200px; margin:auto; background:var(--card); border-radius:28px; padding:25px;
+    backdrop-filter:blur(25px); border:1px solid var(--border);
+    box-shadow:0 0 60px rgba(168,85,247,0.25), inset 0 0 0 1px rgba(255,255,255,0.05);
+  }
+
+  h1{
+    background: linear-gradient(90deg, #00d4ff, #a855f7, #f97316);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    text-align:center; font-size:28px; font-weight:800; letter-spacing:0.5px;
+    text-shadow: 0 0 20px rgba(0,212,255,0.3);
+  }
+ .subtitle{text-align:center; color:#94a3b8; margin-bottom:25px; font-size:14px;}
+
+  /* TABS 5/10 */
+ .tabs{display:flex; gap:10px; margin-bottom:25px; justify-content:center; flex-wrap:wrap;}
+ .tab-btn{
+    padding:12px 20px; background:var(--glass); border:1px solid var(--border);
+    border-radius:14px; color:#cbd5e1; cursor:pointer; font-weight:700; transition:0.3s;
+  }
+ .tab-btn:hover{border-color:var(--accent); transform:translateY(-2px);}
+ .tab-btn.active{
+    background:linear-gradient(135deg, #00d4ff, #a855f7); color:#fff;
+    box-shadow:0 0 20px rgba(0,212,255,0.4); border:none;
+  }
+
+ .grid{display:grid; grid-template-columns: 1fr 1fr; gap:20px;}
   @media(max-width:900px){.grid{grid-template-columns:1fr;}}
-.card{background:rgba(0,0,0,0.4); padding:20px; border-radius:18px; border:1px solid rgba(255,255,255,0.1);}
-.card h2{font-size:18px; margin-bottom:12px; color:var(--accent);}
-.subject-btn{padding:18px; margin:8px 0; background: linear-gradient(135deg, #3b0764, #581c87); border:1px solid rgba(168,85,247,0.3); border-radius:14px; color:#fff; cursor:pointer; font-weight:800; width:100%; font-size:15px; transition:0.3s;}
-.subject-btn:hover{transform:translateY(-2px); box-shadow:0 5px 20px rgba(168,85,247,0.4);}
-.upload-box{border:2px dashed var(--accent); border-radius:14px; padding:25px; text-align:center; cursor:pointer; transition:0.3s;}
-.upload-box:hover{background:rgba(0,212,255,0.1);}
-.upload-box input{display:none;}
-.btn{padding:14px 20px; background: linear-gradient(135deg, #00d4ff, #a855f7); border:none; border-radius:12px; color:#fff; cursor:pointer; font-weight:700; margin:5px; transition:0.3s;}
-.btn:hover{transform:scale(1.05);}
-.btn.red{background:linear-gradient(135deg, #ef4444, #dc2626);}
-.btn.yellow{background:var(--yellow); color:#000;}
-.btn.green{background:var(--green);}
-.btn.purple{background:var(--purple);}
-.btn.orange{background:var(--orange);}
-.timer{font-size:28px; font-weight:800; color:var(--accent); text-align:center; background:rgba(0,0,0,0.5); padding:10px; border-radius:12px;}
-.quiz-card{background:rgba(0,0,0,0.5); padding:20px; border-radius:16px; margin-bottom:16px; border-left:4px solid var(--accent);}
-.quiz-option{padding:14px; margin:8px 0; background:#1f2937; border-radius:10px; cursor:pointer; border:2px solid transparent; transition:0.2s;}
-.quiz-option:hover{border-color:var(--accent);}
-.quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
-.quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
-.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(35px, 1fr)); gap:6px; margin:12px 0; max-height:350px; overflow-y:auto;}
-.nav-btn{padding:8px; background:#1f2937; border:none; border-radius:8px; color:#fff; cursor:pointer; font-size:11px; font-weight:700;}
-.nav-btn.done{background:#065f46;}.nav-btn.wrong{background:#7f1d1d;}.nav-btn.current{border:2px solid var(--accent);}
-.ai-key{width:100%; padding:12px; background:#1f2937; border:1px solid #374151; border-radius:10px; color:#fff; margin-top:8px;}
-.badge{background:var(--orange); padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:10px;}
-#ocrProgress{height:6px; background:#1f2937; border-radius:10px; overflow:hidden; margin-top:8px; display:none;}
-#ocrProgressBar{height:100%; width:0%; background:var(--green); transition:0.3s;}
-.file-list{margin-top:10px; font-size:12px; color:var(--green);}
-canvas{display:none;}
-.memo-item{margin:15px 0; padding:15px; background:#111; border-radius:10px; border-left:3px solid var(--accent);}
-.memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
-.mode-toggle{display:flex; gap:10px; margin:10px 0;}
-.mode-btn{padding:10px; background:#1f2937; border:2px solid #374151; border-radius:10px; color:#fff; cursor:pointer; flex:1;}
-.mode-btn.active{border-color:var(--accent); background:rgba(0,212,255,0.1);}
-.explanation{margin-top:8px; padding:10px; background:rgba(0,212,255,0.1); border-radius:8px; font-size:13px; color:#a5f3fc;}
+
+  /* CARDS 5/10 - Glassmorphism */
+ .card{
+    background:var(--glass); padding:22px; border-radius:20px;
+    border:1px solid var(--border); backdrop-filter:blur(20px);
+    box-shadow:0 8px 30px rgba(0,0,0,0.3);
+  }
+ .card h2{font-size:17px; margin-bottom:14px; color:var(--accent); font-weight:800;}
+
+ .subject-btn{
+    padding:18px; margin:8px 0; background: linear-gradient(135deg, rgba(59,7,100,0.6), rgba(88,28,135,0.6));
+    border:1px solid rgba(168,85,247,0.3); border-radius:14px; color:#fff; cursor:pointer;
+    font-weight:800; width:100%; font-size:15px; transition:0.3s; text-align:left;
+  }
+ .subject-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px rgba(168,85,247,0.5);
+    border-color:var(--accent2);
+  }
+
+  /* UPLOAD BOX 5/10 */
+ .upload-box{
+    border:2px dashed var(--accent); border-radius:16px; padding:30px 20px; text-align:center;
+    cursor:pointer; transition:0.3s; background:rgba(0,212,255,0.05);
+  }
+ .upload-box:hover{background:rgba(0,212,255,0.12); border-color:var(--accent2); transform:scale(1.01);}
+ .upload-box input{display:none;}
+
+  /* BUTTONS 5/10 */
+ .btn{
+    padding:14px 20px; background: linear-gradient(135deg, #00d4ff, #a855f7); border:none;
+    border-radius:12px; color:#fff; cursor:pointer; font-weight:800; margin:5px;
+    transition:0.3s; box-shadow:0 4px 15px rgba(0,212,255,0.3);
+  }
+ .btn:hover{transform:translateY(-2px) scale(1.03); box-shadow:0 6px 25px rgba(168,85,247,0.5);}
+ .btn.red{background:linear-gradient(135deg, #ef4444, #dc2626);}
+ .btn.yellow{background:var(--yellow); color:#000; box-shadow:0 4px 15px rgba(245,158,11,0.3);}
+
+  /* ORANGE GENERATE BUTTON LIKE YOUR SCREENSHOT */
+ .btn.orange{
+    background: linear-gradient(135deg, #ff8c00, #ff6a00);
+    box-shadow: 0 0 25px rgba(249,115,22,0.6); font-size:16px; padding:16px; width:100%;
+  }
+ .btn.orange:hover{box-shadow: 0 0 35px rgba(249,115,22,0.9);}
+
+ .timer{
+    font-size:28px; font-weight:800; color:var(--accent); text-align:center;
+    background:rgba(0,0,0,0.5); padding:12px; border-radius:12px; border:1px solid var(--border);
+  }
+
+ .quiz-card{background:rgba(0,0,0,0.4); padding:20px; border-radius:16px; margin-bottom:16px; border-left:4px solid var(--accent);}
+ .quiz-option{
+    padding:14px; margin:8px 0; background:var(--glass); border-radius:12px; cursor:pointer;
+    border:2px solid transparent; transition:0.2s;
+  }
+ .quiz-option:hover{border-color:var(--accent); background:rgba(0,212,255,0.1);}
+ .quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
+ .quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
+
+ .nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(35px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
+ .nav-btn{
+    padding:8px; background:var(--glass); border:1px solid var(--border);
+    border-radius:10px; color:#fff; cursor:pointer; font-size:11px; font-weight:700;
+  }
+ .nav-btn.done{background:#065f46; border-color:#22c55e;}.nav-btn.wrong{background:#7f1d1d; border-color:#ef4444;}.nav-btn.current{border:2px solid var(--accent); box-shadow:0 0 10px var(--accent);}
+
+  /* INPUTS 5/10 */
+ .ai-key{
+    width:100%; padding:14px; background:rgba(0,0,0,0.4); border:1px solid #374151;
+    border-radius:12px; color:#fff; margin-top:10px; font-size:14px;
+    transition:0.3s;
+  }
+ .ai-key:focus{border-color:var(--accent); box-shadow:0 0 15px rgba(0,212,255,0.3); outline:none;}
+
+ .badge{
+    background:linear-gradient(135deg, #f97316, #ea580c); padding:6px 12px;
+    border-radius:20px; font-size:11px; font-weight:800; display:inline-block; margin-bottom:12px;
+    box-shadow:0 0 15px rgba(249,115,22,0.5);
+  }
+
+  #ocrProgress{height:8px; background:#1f2937; border-radius:10px; overflow:hidden; margin-top:10px; display:none;}
+  #ocrProgressBar{height:100%; width:0%; background:linear-gradient(90deg, #22c55e, #00d4ff); transition:0.3s;}
+
+ .file-list{margin-top:12px; font-size:12px; color:var(--green);}
+  canvas{display:none;}
+
+ .memo-item{
+    margin:15px 0; padding:18px; background:rgba(0,0,0,0.4); border-radius:12px;
+    border-left:3px solid var(--accent);
+  }
+ .memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
+
+ .mode-toggle{display:flex; gap:10px; margin:12px 0;}
+ .mode-btn{
+    padding:12px; background:var(--glass); border:2px solid #374151; border-radius:12px;
+    color:#cbd5e1; cursor:pointer; flex:1; font-weight:700; transition:0.3s; display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+ .mode-btn:hover{border-color:var(--accent);}
+ .mode-btn.active{
+    border-color:var(--accent); background:rgba(0,212,255,0.15); color:#fff;
+    box-shadow:0 0 15px rgba(0,212,255,0.3);
+  }
+
+ .explanation{
+    margin-top:10px; padding:12px; background:rgba(0,212,255,0.1); border-radius:10px;
+    font-size:13px; color:#a5f3fc; border-left:3px solid var(--accent);
+  }
 </style>
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V4.0</h1>
+  <h1>SHANA CALC TECH PARADISE V4.1</h1>
   <p class="subtitle">GOD TIER | OFFLINE AI | 47 SUBJECTS</p>
 
   <div class="tabs">
@@ -105,7 +213,7 @@ canvas{display:none;}
         <select id="gradeSelect" class="ai-key"></select>
         <select id="subjectSelect" class="ai-key"></select>
 
-        <button class="btn orange" style="width:100%; margin-top:10px;" onclick="generateFromNotes()">✨ GENERATE 30 QUESTIONS + AI ANSWERS</button>
+        <button class="btn orange" onclick="generateFromNotes()">✨ GENERATE 30 QUESTIONS + AI ANSWERS</button>
         <div id="uploadStatus" style="margin-top:10px; font-size:12px;"></div>
       </div>
     </div>
@@ -158,74 +266,32 @@ const subjectsByLevel = {
 
 // ========== SHANA V4.0 KNOWLEDGE ENGINE - FILL THIS UP ==========
 const KNOWLEDGE_ENGINE = {
-  // SECONDARY
-  "Mathematics": [],
-  "Math Literacy": [],
-  "Physical Science": [],
+  "Mathematics": [], "Math Literacy": [], "Physical Science": [],
   "Life Science": [
     {keywords: ["cellular respiration", "organelle", "atp"], ans: "Mitochondria", wrong: ["Chloroplast", "Ribosome", "Nucleus"], exp: "Mitochondria produce ATP through cellular respiration in both plant and animal cells."},
     {keywords: ["photosynthesis", "gas", "waste"], ans: "Oxygen", wrong: ["Carbon dioxide", "Nitrogen", "Glucose"], exp: "Oxygen is released as a waste product during the light-dependent reactions of photosynthesis."}
   ],
-  "Civil Technology": [],
-  "Mechanical Technology": [],
-  "Electrical Technology": [],
-  "Engineering Graphics": [],
-  "Accounting": [],
-  "Business Studies": [],
-  "Economics": [],
-  "Geography": [],
-  "History": [],
-  "English FAL": [],
-  "Afrikaans FAL": [],
-  "IsiZulu FAL": [],
-  "Life Orientation": [],
-  "IT": [],
-  "CAT": [],
-  "Consumer Studies": [],
-  "Tourism": [],
-  "Hospitality": [],
-  // PRIMARY
-  "Natural Science": [],
-  "Social Science": [],
-  "Life Skills": [],
-  "Technology": [],
-  "Creative Arts": [],
-  "Sepedi HL": [],
-  "IsiZulu HL": [],
-  "English HL": [],
-  // TVET
-  "Building Science": [],
-  "Engineering Drawing": [],
-  "Mathematics N3": [],
-  "Industrial Organisation": [],
-  "Civil Construction": [],
-  "Trade Theory": [],
-  "Plant Operation": [],
-  "Water Treatment": [],
-  "Electrical Trade Theory": [],
-  // UNIVERSITY
-  "Calculus 1": [],
-  "Physics 1": [],
-  "Chemistry 1": [],
-  "Biology 1": [],
-  "Introduction to Engineering": [],
-  "Academic Literacy": [],
-  "Programming 1": [],
-  "Statistics 1": []
+  "Civil Technology": [], "Mechanical Technology": [], "Electrical Technology": [], "Engineering Graphics": [],
+  "Accounting": [], "Business Studies": [], "Economics": [], "Geography": [], "History": [],
+  "English FAL": [], "Afrikaans FAL": [], "IsiZulu FAL": [], "Life Orientation": [], "IT": [], "CAT": [],
+  "Consumer Studies": [], "Tourism": [], "Hospitality": [],
+  "Natural Science": [], "Social Science": [], "Life Skills": [], "Technology": [], "Creative Arts": [],
+  "Sepedi HL": [], "IsiZulu HL": [], "English HL": [],
+  "Building Science": [], "Engineering Drawing": [], "Mathematics N3": [], "Industrial Organisation": [],
+  "Civil Construction": [], "Trade Theory": [], "Plant Operation": [], "Water Treatment": [], "Electrical Trade Theory": [],
+  "Calculus 1": [], "Physics 1": [], "Chemistry 1": [], "Biology 1": [], "Introduction to Engineering": [],
+  "Academic Literacy": [], "Programming 1": [], "Statistics 1": []
 }
 
-// SMART AI MATCHER
 function getAIAnswer(questionText, subject) {
   const bank = KNOWLEDGE_ENGINE[subject] || [];
   questionText = questionText.toLowerCase();
   let bestMatch = null; let highestScore = 0;
-
   bank.forEach(item => {
     let score = 0;
     item.keywords.forEach(kw => { if(questionText.includes(kw)) score++; });
     if(score > highestScore) { highestScore = score; bestMatch = item; }
   });
-
   if(!bestMatch || highestScore < 1) {
     return {ans: "Not in Knowledge Base", wrong: ["Check notes", "Research topic", "Ask teacher"], exp: "Add this to KNOWLEDGE_ENGINE['"+subject+"'] to teach SHANA."}
   }
@@ -273,7 +339,7 @@ function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBa
 function loadSavedBanks(){
   let html = '';
   for(let key in myBanks){
-    html += `<div style="background:#1f2937; padding:10px; border-radius:8px; margin:5px 0; display:flex; justify-content:space-between; align-items:center;">
+    html += `<div style="background:var(--glass); padding:12px; border-radius:10px; margin:5px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
       <span>${key} - ${myBanks[key].length} Qs</span>
       <button class="btn" onclick="startCustomBank('${key}')">Start Test</button>
     </div>`;
@@ -339,90 +405,46 @@ async function handleUpload(e){
   document.getElementById('ocrProgress').style.display = 'none';
 }
 
-// UPGRADED SMART QUESTION GENERATOR V4.0
 function generateFromNotes(){
   const notes = document.getElementById('notesPaste').value || uploadedText;
   const level = document.getElementById('levelSelect').value;
   const grade = document.getElementById('gradeSelect').value;
   const subject = document.getElementById('subjectSelect').value;
-
   if(notes.length < 50) return alert('Please upload files or paste notes first. Need at least 50 characters');
-
   document.getElementById('uploadStatus').innerText = `⏳ GOD TIER AI is analyzing...`;
-
   let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
   let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
   let keywords = [...new Set(notes.split(' ').filter(w => w.length > 5))].slice(0, 50);
-
   currentPaper = [];
   const isQuestionPaper = questions.length > 3 || currentMode === 'questions';
-
   if(isQuestionPaper){
     document.getElementById('uploadStatus').innerText = `⏳ AI matching to Knowledge Base...`;
     for(let i=0; i<Math.min(10, questions.length); i++){
       let q = questions[i].trim();
       let ai = getAIAnswer(q, subject);
-
       let options = shuffle([ai.ans,...ai.wrong]);
       let correctIndex = options.indexOf(ai.ans);
       let correctLetter = ['A','B','C','D'][correctIndex];
-
-      currentPaper.push({
-        type: "MCQ",
-        q: q,
-        options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`),
-        ans: correctLetter,
-        correctText: ai.ans,
-        explanation: ai.exp,
-        marks: 2
-      });
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: ai.ans, explanation: ai.exp, marks: 2});
     }
   } else {
     for(let i=0; i<10; i++){
       let correctAns = sentences[i % sentences.length] || "Based on your notes";
-      let wrong1 = sentences[(i+3) % sentences.length] || "Distractor 1";
-      let wrong2 = sentences[(i+7) % sentences.length] || "Distractor 2";
-      let wrong3 = sentences[(i+11) % sentences.length] || "Distractor 3";
-      let options = shuffle([correctAns, wrong1, wrong2, wrong3]);
+      let options = shuffle([correctAns, sentences[(i+3) % sentences.length], sentences[(i+7) % sentences.length], sentences[(i+11) % sentences.length]]);
       let correctLetter = ['A','B','C','D'][options.indexOf(correctAns)];
-      currentPaper.push({
-        type: "MCQ",
-        q: `According to your notes on ${subject}, which statement is MOST accurate?`,
-        options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`),
-        ans: correctLetter,
-        correctText: correctAns,
-        explanation: "Based on uploaded notes.",
-        marks: 2
-      });
+      currentPaper.push({type: "MCQ", q: `According to your notes on ${subject}, which statement is MOST accurate?`, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: correctAns, explanation: "Based on uploaded notes.", marks: 2});
     }
   }
-
   for(let i=10; i<20; i++){
     let term1 = keywords[i % keywords.length] || "Concept A";
     let term2 = keywords[(i+5) % keywords.length] || "Concept B";
-    currentPaper.push({
-      type: "ANALYSIS",
-      q: `Analyze: Explain how "${term1}" and "${term2}" are connected in ${subject}. Give 1 example.`,
-      keywords: [term1, term2, "example", subject],
-      modelAnswer: `Explain the relationship between ${term1} and ${term2} with an example from ${subject}.`,
-      explanation: "Link both concepts and give 1 relevant example.",
-      marks: 4
-    });
+    currentPaper.push({type: "ANALYSIS", q: `Analyze: Explain how "${term1}" and "${term2}" are connected in ${subject}. Give 1 example.`, keywords: [term1, term2, "example", subject], modelAnswer: `Explain the relationship between ${term1} and ${term2} with an example from ${subject}.`, explanation: "Link both concepts and give 1 relevant example.", marks: 4});
   }
-
   for(let i=20; i<30; i++){
     let problem = sentences[i % sentences.length] || "a concept from your notes";
-    currentPaper.push({
-      type: "EVAL",
-      q: `Evaluate: ${problem}. Propose 2 solutions and justify which is best for ${grade} ${subject}`,
-      keywords: ["solution", "justify", subject],
-      modelAnswer: `Give 2 solutions and explain with reasons which one is better.`,
-      explanation: "State 2 solutions, then justify with facts which is best.",
-      marks: 6
-    });
+    currentPaper.push({type: "EVAL", q: `Evaluate: ${problem}. Propose 2 solutions and justify which is best for ${grade} ${subject}`, keywords: ["solution", "justify", subject], modelAnswer: `Give 2 solutions and explain with reasons which one is better.`, explanation: "State 2 solutions, then justify with facts which is best.", marks: 6});
   }
-
-  let bankName = `${level} ${grade} ${subject} V4.0 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V4.1 - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} SMART Q+A with AI!`;
@@ -446,7 +468,7 @@ function showQuestion(){
   if(q.type==="MCQ"){
     q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; });
   } else {
-    html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:#1f2937; color:#fff; border-radius:8px; padding:10px;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`;
+    html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:rgba(0,0,0,0.4); color:#fff; border-radius:8px; padding:10px; border:1px solid #374151;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`;
   }
   html+=`</div>`;
   document.getElementById('questionsArea').innerHTML=html;
@@ -472,20 +494,14 @@ function gradeTextAnswer(userAns, q){
   return hits >= 2;
 }
 
-// UPGRADED SUBMIT WITH AI EXPLANATIONS
 function submitPaper(){
   clearInterval(timer); let score=0, total=0, memoHtml='<h2>📊 YOUR RESULTS + AI TUTOR MEMO</h2>';
   currentPaper.forEach((q,i)=>{
     total+=q.marks;
     let userAns = userAnswers[i];
     let correct=false;
-    if(q.type==="MCQ") {
-      correct = (userAns === q.ans);
-      if(correct) score+=q.marks;
-    } else {
-      correct = gradeTextAnswer(userAns, q);
-      if(correct) score+=q.marks;
-    }
+    if(q.type==="MCQ") { correct = (userAns === q.ans); if(correct) score+=q.marks; }
+    else { correct = gradeTextAnswer(userAns, q); if(correct) score+=q.marks; }
     memoHtml += `<div class="memo-item">
       <b>Q${i+1} [${q.marks} marks]:</b> ${q.q}<br><br>
       <b>Your Answer:</b> <span class="${correct?'memo-correct':'memo-wrong'}">${userAns || 'No answer'}</span><br>
