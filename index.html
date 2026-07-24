@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V3.0.1 - GOD TIER FIXED</title>
+<title>SHANA CALC TECH PARADISE V3.1 - EXAM MODE</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -47,12 +47,14 @@
 #ocrProgressBar{height:100%; width:0%; background:var(--green); transition:0.3s;}
 .file-list{margin-top:10px; font-size:12px; color:var(--green);}
 canvas{display:none;}
+.memo-item{margin:15px 0; padding:15px; background:#111; border-radius:10px; border-left:3px solid var(--accent);}
+.memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
 </style>
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V3.0.1</h1>
-  <p class="subtitle">GOD TIER | TURBO ACCURATE OCR | ALL FEATURES WORKING</p>
+  <h1>SHANA CALC TECH PARADISE V3.1</h1>
+  <p class="subtitle">EXAM MODE | RANDOM ANSWERS | STUDENT FRIENDLY MEMO</p>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab(event,'secondary')">SECONDARY G8-12</button>
@@ -70,8 +72,8 @@ canvas{display:none;}
 
       <div class="card">
         <h2>2. TURBO AI: UPLOAD YOUR NOTES</h2>
-        <span class="badge">AUTO-ENHANCE + MULTI UPLOAD</span>
-        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload multiple JPG/PNG/PDF. Hold Ctrl to select many</p>
+        <span class="badge">HARD MODE ON</span>
+        <p style="font-size:13px; color:#94a3b8; margin-bottom:10px;">Upload multiple JPG/PNG/PDF. Questions will be CHALLENGING</p>
 
         <label class="upload-box" for="fileUpload">
           📤 Click or Drag Multiple Notes Here<br>
@@ -93,7 +95,7 @@ canvas{display:none;}
         <select id="gradeSelect" class="ai-key"></select>
         <select id="subjectSelect" class="ai-key"></select>
 
-        <button class="btn purple" style="width:100%; margin-top:10px;" onclick="generateFromNotes()">✨ GENERATE 30 ADVANCED QUESTIONS</button>
+        <button class="btn purple" style="width:100%; margin-top:10px;" onclick="generateFromNotes()">✨ GENERATE 30 EXAM QUESTIONS</button>
         <div id="uploadStatus" style="margin-top:10px; font-size:12px;"></div>
       </div>
     </div>
@@ -146,13 +148,9 @@ const subjectsByLevel = {
 window.onload = async () => {
   switchTab(null, 'secondary');
   loadSavedBanks();
-  // FIXED: PROPER WORKER INIT
   tesseractWorker = await Tesseract.createWorker();
   await tesseractWorker.loadLanguage('eng');
   await tesseractWorker.initialize('eng');
-  await tesseractWorker.setParameters({
-    tessedit_pageseg_mode: Tesseract.PSM.SPARSE_TEXT,
-  });
 }
 
 function switchTab(event, tab){
@@ -191,13 +189,11 @@ function loadSavedBanks(){
   document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
 }
 
-// IMAGE ENHANCEMENT FUNCTION
 function enhanceImage(file){
   return new Promise((resolve) => {
     const img = new Image();
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-
     img.onload = () => {
       const maxSize = 2000;
       let { width, height } = img;
@@ -214,58 +210,44 @@ function enhanceImage(file){
   });
 }
 
-// FIXED TURBO MULTI FILE OCR
 async function handleUpload(e){
   const files = Array.from(e.target.files);
   if(files.length === 0) return;
-
   document.getElementById('fileList').innerHTML = files.map(f => `📄 ${f.name}`).join('<br>');
   document.getElementById('uploadStatus').innerText = `⏳ Enhancing + Reading ${files.length} files...`;
   document.getElementById('ocrProgress').style.display = 'block';
-
-  let allText = '';
-  let completed = 0;
-
+  let allText = ''; let completed = 0;
   const promises = files.map(async (file) => {
     try {
-      if(file.type === 'text/plain'){
-        return await file.text() + '\n\n';
-      } else if(file.type.startsWith('image/')){
+      if(file.type === 'text/plain'){ return await file.text() + '\n\n'; }
+      else if(file.type.startsWith('image/')){
         const enhancedBlob = await enhanceImage(file);
-        const result = await tesseractWorker.recognize(enhancedBlob); // FIXED SYNTAX
-        completed++;
-        document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
+        const result = await tesseractWorker.recognize(enhancedBlob);
+        completed++; document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
         return result.data.text + '\n\n';
       } else if(file.type === 'application/pdf'){
         const arrayBuffer = await file.arrayBuffer();
         const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
         let pdfText = '';
         for(let i = 1; i <= pdf.numPages; i++){
-          const page = await pdf.getPage(i);
-          const content = await page.getTextContent();
+          const page = await pdf.getPage(i); const content = await page.getTextContent();
           pdfText += content.items.map(item => item.str).join(' ') + '\n';
         }
-        completed++;
-        document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
+        completed++; document.getElementById('ocrProgressBar').style.width = `${(completed/files.length)*100}%`;
         return pdfText + '\n\n';
       }
-    } catch(err) {
-      console.error('OCR Error:', err);
-      return '';
-    }
+    } catch(err) { return ''; }
     return '';
   });
-
   const results = await Promise.all(promises);
   allText = results.join('');
-
   uploadedText = allText;
   document.getElementById('notesPaste').value = uploadedText;
   document.getElementById('uploadStatus').innerText = `✅ TURBO Complete! ${files.length} files, ${uploadedText.length} chars`;
   document.getElementById('ocrProgress').style.display = 'none';
 }
 
-// ADVANCED TEMPLATE AI ENGINE
+// EXAM MODE QUESTION GENERATOR
 function generateFromNotes(){
   const notes = document.getElementById('notesPaste').value || uploadedText;
   const level = document.getElementById('levelSelect').value;
@@ -274,57 +256,71 @@ function generateFromNotes(){
 
   if(notes.length < 50) return alert('Please upload files or paste notes first. Need at least 50 characters');
 
-  document.getElementById('uploadStatus').innerText = `⏳ Advanced AI is analyzing and creating HARD questions...`;
+  document.getElementById('uploadStatus').innerText = `⏳ Creating EXAM LEVEL questions...`;
 
-  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
+  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 20);
   let keywords = [...new Set(notes.split(' ').filter(w => w.length > 5))].slice(0, 50);
 
   currentPaper = [];
 
+  // 10 HARD MCQ - RANDOM ANSWER POSITION
   for(let i=0; i<10; i++){
-    let context = sentences[i % sentences.length] || "the given concept";
-    let distractors = shuffle(keywords).slice(0,3);
+    let correctAns = sentences[i % sentences.length] || "Based on your notes";
+    let wrong1 = sentences[(i+3) % sentences.length] || "Distractor 1";
+    let wrong2 = sentences[(i+7) % sentences.length] || "Distractor 2";
+    let wrong3 = sentences[(i+11) % sentences.length] || "Distractor 3";
+
+    let options = [correctAns, wrong1, wrong2, wrong3];
+    options = shuffle(options); // RANDOMIZE ORDER
+    let correctIndex = options.indexOf(correctAns);
+    let correctLetter = ['A','B','C','D'][correctIndex];
+
     currentPaper.push({
       type: "MCQ",
-      q: `Scenario: In ${subject}, if ${context.toLowerCase().substring(0,80)}... What would be the MOST likely outcome?`,
-      options: [`A) ${context}`, `B) ${distractors[0]||'Option B'}`, `C) ${distractors[1]||'Option C'}`, `D) ${distractors[2]||'Option D'}`],
-      ans: "A",
+      q: `Scenario: According to your notes on ${subject}, which statement is MOST accurate?`,
+      options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`),
+      ans: correctLetter,
+      correctText: correctAns,
       marks: 2
     });
   }
 
+  // 10 ANALYSIS
   for(let i=10; i<20; i++){
     let term1 = keywords[i % keywords.length] || "Concept A";
     let term2 = keywords[(i+5) % keywords.length] || "Concept B";
     currentPaper.push({
       type: "ANALYSIS",
-      q: `Analyze the relationship between "${term1}" and "${term2}" in ${subject}. How does one affect the other?`,
-      keywords: [term1, term2, "relationship", "affect", subject],
+      q: `Analyze: Explain how "${term1}" and "${term2}" are connected in ${subject}. Give 1 example.`,
+      keywords: [term1, term2, "example", "connected", subject],
+      modelAnswer: `You should explain the relationship between ${term1} and ${term2}, and give a relevant example from ${subject}.`,
       marks: 4
     });
   }
 
+  // 10 EVALUATION
   for(let i=20; i<30; i++){
-    let problem = sentences[i % sentences.length] || "the described situation";
+    let problem = sentences[i % sentences.length] || "the situation described in your notes";
     currentPaper.push({
       type: "EVAL",
-      q: `Evaluate this situation: ${problem}. Suggest 2 solutions and justify which is better for ${grade} ${subject}`,
-      keywords: [problem.substring(0,20), "solution", "justify", "better", subject],
+      q: `Evaluate: ${problem}. Propose 2 solutions and justify which one is best for ${grade} ${subject}`,
+      keywords: ["solution", "justify", "best", subject],
+      modelAnswer: `List 2 possible solutions, then explain with reasons why one solution is better than the other.`,
       marks: 6
     });
   }
 
-  let bankName = `${level} ${grade} ${subject} ADVANCED - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} EXAM - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
-  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} ADVANCED questions! Saved as "${bankName}"`;
+  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} EXAM questions! Saved as "${bankName}"`;
 }
 
 function startCustomBank(name){
   currentPaper = shuffle([...myBanks[name]]);
   userAnswers = new Array(currentPaper.length).fill(null); currentQ = 0; timeLeft = currentPaper.length * 60;
   document.getElementById('menu').style.display = 'none'; document.getElementById('examArea').style.display = 'block';
-  document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} ADVANCED QUESTIONS`;
+  document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} EXAM QUESTIONS`;
   buildNav(); showQuestion();
   clearInterval(timer); timer = setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0) submitPaper(); },1000);
 }
@@ -332,28 +328,66 @@ function startCustomBank(name){
 function updateTimer(){ let h=Math.floor(timeLeft/3600), m=Math.floor((timeLeft%3600)/60), s=timeLeft%60; document.getElementById('timer').innerText = `Time: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
 function buildNav(){ let html=''; currentPaper.forEach((_,i)=>{ html+=`<button class="nav-btn" id="nav${i}" onclick="goToQ(${i})">${i+1}</button>`; }); document.getElementById('navGrid').innerHTML=html; updateNav(); }
 function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add(userAnswers[i]?'done':'wrong'); } }); }
-function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:#1f2937; color:#fff; border-radius:8px; padding:10px;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
-function checkMCQ(el, choice){ userAnswers[currentQ] = (choice===currentPaper[currentQ].ans); el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong')); el.classList.add(userAnswers[currentQ]?'correct':'wrong'); updateNav(); }
+function showQuestion(){
+  let q=currentPaper[currentQ];
+  let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`;
+  if(q.type==="MCQ"){
+    q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; });
+  } else {
+    html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:#1f2937; color:#fff; border-radius:8px; padding:10px;">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`;
+  }
+  html+=`</div>`;
+  document.getElementById('questionsArea').innerHTML=html;
+  updateNav();
+}
+function checkMCQ(el, choice){
+  userAnswers[currentQ] = choice; // SAVE THE LETTER NOW
+  el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong'));
+  el.classList.add('done');
+  updateNav();
+}
 function saveText(){ userAnswers[currentQ] = document.getElementById('textAns').value; updateNav(); }
 function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion(); }
 function prevQ(){ if(currentQ>0) currentQ--; showQuestion(); }
 function goToQ(i){ currentQ=i; showQuestion(); }
 function backToMenu(){ clearInterval(timer); document.getElementById('examArea').style.display='none'; document.getElementById('menu').style.display='block'; }
 function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } }
-function gradeTextAnswer(userAns, keywords){ if(!userAns) return 0; let lower = userAns.toLowerCase(); let hits = keywords.filter(k=>lower.includes(k.toLowerCase())).length; return Math.min(1, hits/keywords.length); }
+
+function gradeTextAnswer(userAns, q){
+  if(!userAns) return false;
+  let lower = userAns.toLowerCase();
+  let hits = q.keywords.filter(k=>lower.includes(k.toLowerCase())).length;
+  return hits >= 2; // Need at least 2 keywords
+}
+
+// STUDENT FRIENDLY MEMO
 function submitPaper(){
-  clearInterval(timer); let score=0, total=0, memoHtml='<h2>MEMO + RESULTS</h2>';
+  clearInterval(timer); let score=0, total=0, memoHtml='<h2>📊 YOUR RESULTS + MEMO</h2>';
   currentPaper.forEach((q,i)=>{
     total+=q.marks;
+    let userAns = userAnswers[i];
     let correct=false;
-    if(q.type==="MCQ") correct=userAnswers[i];
-    else correct=gradeTextAnswer(userAnswers[i], q.keywords)>=0.4;
-    if(correct) score+=q.marks;
-    memoHtml+=`<div style="margin:10px 0;"><b>Q${i+1}:</b> ${q.q}<br><b>Keywords:</b> ${q.ans||q.keywords.join(', ')} ${correct?'<span style="color:var(--green)">✓</span>':'<span style="color:var(--red)">✗</span>'}</div>`;
+
+    if(q.type==="MCQ") {
+      correct = (userAns === q.ans);
+      if(correct) score+=q.marks;
+    } else {
+      correct = gradeTextAnswer(userAns, q);
+      if(correct) score+=q.marks;
+    }
+
+    memoHtml += `<div class="memo-item">
+      <b>Q${i+1} [${q.marks} marks]:</b> ${q.q}<br><br>
+      <b>Your Answer:</b> <span class="${correct?'memo-correct':'memo-wrong'}">${userAns || 'No answer'}</span><br>
+      <b>Correct Answer:</b> <span class="memo-correct">${q.type==="MCQ"? q.ans + ') ' + q.correctText : q.modelAnswer}</span><br>
+      <b>Status:</b> ${correct?'<span class="memo-correct">✓ Correct</span>':'<span class="memo-wrong">✗ Review this</span>'}
+    </div>`;
   });
   let percent = ((score/total)*100).toFixed(1);
-  memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2>` + memoHtml;
-  document.getElementById('memoArea').innerHTML=memoHtml; document.getElementById('memoArea').style.display='block'; document.getElementById('submitBtn').style.display='none';
+  memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2><p style="color:#94a3b8; margin-bottom:15px;">Review the memo below to understand your mistakes</p>` + memoHtml;
+  document.getElementById('memoArea').innerHTML=memoHtml;
+  document.getElementById('memoArea').style.display='block';
+  document.getElementById('submitBtn').style.display='none';
 }
 </script>
 </body>
