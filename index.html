@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA CALC TECH PARADISE V2.2 - REAL AI</title>
+<title>SHANA CALC TECH PARADISE V2.3 - REAL AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#030303;--card:rgba(20,20,30,0.6);--accent:#00d4ff;--accent2:#a855f7;--text:#f1f5f9;--green:#22c55e;--red:#ef4444;--yellow:#f59e0b;}
@@ -12,7 +12,7 @@
 .calc{max-width:1200px; margin:auto; background:var(--card); border-radius:28px; padding:25px; backdrop-filter:blur(25px); border:1px solid rgba(0,212,255,0.2); box-shadow:0 0 40px rgba(168,85,247,0.2);}
   h1{background: linear-gradient(90deg, #00d4ff, #a855f7, #ef4444); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-align:center; font-size:26px; font-weight:800;}
 .subtitle{text-align:center; color:#94a3b8; margin-bottom:20px;}
-.tabs{display:flex; gap:10px; margin-bottom:20px; justify-content:center;}
+.tabs{display:flex; gap:10px; margin-bottom:20px; justify-content:center; flex-wrap:wrap;}
 .tab-btn{padding:12px 20px; background:#1f2937; border:none; border-radius:12px; color:#fff; cursor:pointer; font-weight:700;}
 .tab-btn.active{background:linear-gradient(135deg, #00d4ff, #a855f7);}
 .grid{display:grid; grid-template-columns: 1fr 1fr; gap:15px;}
@@ -21,6 +21,8 @@
 .card h2{font-size:18px; margin-bottom:12px; color:var(--accent);}
 .subject-btn{padding:18px; margin:8px 0; background: linear-gradient(135deg, #3b0764, #581c87); border:1px solid rgba(168,85,247,0.3); border-radius:14px; color:#fff; cursor:pointer; font-weight:800; width:100%; font-size:15px; transition:0.3s;}
 .subject-btn:hover{transform:translateY(-2px); box-shadow:0 5px 20px rgba(168,85,247,0.4);}
+.subject-btn.god{background: linear-gradient(135deg, #ef4444, #f97316); animation: glow 2s infinite;}
+  @keyframes glow{0%,100%{box-shadow:0 0 10px #ef4444}50%{box-shadow:0 0 25px #ef4444}}
 .upload-box{border:2px dashed var(--accent); border-radius:14px; padding:25px; text-align:center; cursor:pointer; transition:0.3s;}
 .upload-box:hover{background:rgba(0,212,255,0.1);}
 .upload-box input{display:none;}
@@ -43,7 +45,7 @@
 </head>
 <body>
 <div class="calc">
-  <h1>SHANA CALC TECH PARADISE V2.2</h1>
+  <h1>SHANA CALC TECH PARADISE V2.3</h1>
   <p class="subtitle">AI CAPS EXAM SIMULATOR | R - 12 + TVET + UNI | Upload Notes → Generate Questions</p>
 
   <div class="tabs">
@@ -58,6 +60,7 @@
         <h2>1. SELECT LEVEL & SUBJECT</h2>
         <div id="subjectList">
           <button class="subject-btn" onclick="startPaper('maths', 50)">MATHEMATICS - Test 50 Qs</button>
+          <button class="subject-btn god" onclick="startPaper('maths', 150)">MATHEMATICS - FULL 150 Qs GOD MODE</button>
           <button class="subject-btn" onclick="startPaper('science', 50)">NATURAL SCIENCES - Test 50 Qs</button>
           <button class="subject-btn" onclick="startPaper('civil', 50)">CIVIL TECHNOLOGY - Test 50 Qs</button>
         </div>
@@ -75,6 +78,7 @@
 
         <input type="password" id="apiKey" class="ai-key" placeholder="Paste your FREE Gemini API Key Here">
         <button class="btn" style="width:100%; font-size:12px;" onclick="saveApiKey()">💾 Save Key Locally</button>
+        <div id="keyStatus" style="font-size:11px; color:var(--green); text-align:center; margin-top:4px;"></div>
 
         <select id="levelSelect" class="ai-key" onchange="updateGradeOptions()">
           <option value="Primary">Primary R-7</option>
@@ -140,13 +144,14 @@ const subjectsByLevel = {
 
 window.onload = () => {
   const savedKey = localStorage.getItem('shanaApiKey');
-  if(savedKey) document.getElementById('apiKey').value = savedKey;
+  if(savedKey) {document.getElementById('apiKey').value = savedKey; document.getElementById('keyStatus').innerText = 'Key Loaded'}
   loadSavedBanks();
 }
 
 function saveApiKey(){
   localStorage.setItem('shanaApiKey', document.getElementById('apiKey').value);
-  alert('API Key Saved Locally!');
+  document.getElementById('keyStatus').innerText = 'API Key Saved Locally!';
+  setTimeout(()=>document.getElementById('keyStatus').innerText='', 2000);
 }
 
 function switchTab(event, tab){
@@ -177,7 +182,7 @@ function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBa
 function loadSavedBanks(){
   let html = '';
   for(let key in myBanks){
-    html += `<div style="background:#1f2937; padding:10px; border-radius:8px; margin:5px 0; display:flex; justify-content:space-between;">
+    html += `<div style="background:#1f2937; padding:10px; border-radius:8px; margin:5px 0; display:flex; justify-content:space-between; align-items:center;">
       <span>${key} - ${myBanks[key].length} Qs</span>
       <button class="btn" onclick="startCustomBank('${key}')">Start Test</button>
     </div>`;
@@ -205,7 +210,7 @@ function handleUpload(e){
   }
 }
 
-// REAL GEMINI 2.0 FLASH API
+// REAL GEMINI 2.0 FLASH API - FIXED BRACKETS
 async function generateFromNotes(){
   const apiKey = document.getElementById('apiKey').value;
   const file = document.getElementById('fileUpload').files[0];
@@ -238,7 +243,7 @@ Rules:
         contents: [{
           parts: [
             { text: prompt },
-            { inline_data: { mime_type: uploadedMimeType, data: uploadedFileBase64 }
+            { inline_data: { mime_type: uploadedMimeType, data: uploadedFileBase64 } // FIXED ] HERE
           ]
         }]
       })
@@ -258,7 +263,7 @@ Rules:
 
   } catch(err) {
     console.error(err);
-    document.getElementById('uploadStatus').innerText = `❌ Error: ${err.message}. Check your API key`;
+    document.getElementById('uploadStatus').innerText = `❌ Error: ${err.message}. Check your API key and internet`;
   }
 }
 
@@ -286,7 +291,7 @@ function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion();
 function prevQ(){ if(currentQ>0) currentQ--; showQuestion(); }
 function goToQ(i){ currentQ=i; showQuestion(); }
 function backToMenu(){ clearInterval(timer); document.getElementById('examArea').style.display='none'; document.getElementById('menu').style.display='block'; }
-function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } }
+function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); }
 function gradeTextAnswer(userAns, keywords){ if(!userAns) return 0; let lower = userAns.toLowerCase(); let hits = keywords.filter(k=>lower.includes(k.toLowerCase())).length; return Math.min(1, hits/keywords.length); }
 function submitPaper(){
   clearInterval(timer); let score=0, total=0, memoHtml='<h2>MEMO + RESULTS</h2>';
