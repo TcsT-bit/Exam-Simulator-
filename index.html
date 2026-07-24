@@ -410,25 +410,47 @@ async function generateFromNotes(){
   if(notes.length < 50) return alert('Please upload files or paste notes first. Need at least 50 characters');
   document.getElementById('uploadStatus').innerText = `⏳ TIER 5 AI is analyzing with Bloom's Taxonomy...`;
 
-  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
-  let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
-
   notesKeywords = extractKeywords(notes);
-  if(notesKeywords.length < 5) notesKeywords = ["Mitochondria","Photosynthesis","Cell","DNA","Ecosystem","Respiration","Biodiversity","Chromosome","Chloroplast","Nucleus"];
+  
+  // FIX 1: IF KEYWORDS ARE EMPTY, USE DEFAULT CAPS KEYWORDS
+  if(notesKeywords.length < 5) {
+    notesKeywords = ["Atom","Element","Compound","Mixture","Acid","Base","Energy","Cell","Mitochondria","Photosynthesis","DNA","Ecosystem","Gravity","Force","Circuit"];
+  }
+
+  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
+  if(sentences.length < 10) sentences = notes.split(" ").slice(0,30); // fallback
+
+  let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
 
   let keywords = notesKeywords;
   currentPaper = [];
-  const isQuestionPaper = questions.length > 3 || currentMode === 'questions';
+  const isQuestionPaper = questions.length > 3 && currentMode === 'questions';
 
   if(isQuestionPaper){
-    for(let i=0; i<Math.min(10, questions.length); i++){
-      let q = questions[i].trim();
+    for(let i=0; i<Math.min(30, questions.length + 20); i++){
+      let q = questions[i % questions.length] || `Explain: ${keywords[i % keywords.length]}`;
       let ai = await getAIAnswer(q, subject);
       let options = shuffle([ai.ans,...ai.wrong]);
       let correctIndex = options.indexOf(ai.ans);
       let correctLetter = ['A','B','C','D'][correctIndex];
       currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: ai.ans, explanation: ai.exp, marks: 2, source: ai.source});
     }
+  } else {
+    // FIX 2: FORCE 30 QUESTIONS NO MATTER WHAT
+    for(let i=0; i<30; i++){
+      let term1 = keywords[i % keywords.length];
+      let term2 = keywords[(i+3) % keywords.length];
+      let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
+      let modelAns = generateModelAnswer(bq.q, keywords);
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SHANA T5"});
+    }
+  }
+
+  let bankName = `${level} ${grade} ${subject} V7.3-FIXED - ${new Date().toLocaleDateString()}`;
+  myBanks[bankName] = currentPaper;
+  saveToStorage();
+  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} TIER 5 SMART Q+A!`;
+}
   } else {
     for(let i=0; i<30; i++){
       let term1 = keywords[i % keywords.length];
