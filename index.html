@@ -37,7 +37,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
 .nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
 .nav-btn.current{border:2px solid var(--accent);}
-.ai-key{width:100%; padding:14px; background:var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; margin-top:10px; font-size:14px; appearance:none;}
+.ai-key{width:100%; padding:14px; background:var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; margin-top:10px; font-size:14px; appearance:auto; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%239aa0a6' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center;}
 .ai-key:focus{border-color:var(--accent); outline:none;}
 .badge{background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:12px; color:#000;}
 .memo-item{margin:15px 0; padding:18px; background:var(--card2); border-radius:12px; border-left:3px solid var(--accent);}
@@ -50,13 +50,16 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
 .tier-badge{background:var(--green); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-left:8px; color:#000;}
 .label{font-size:12px; color:#9aa0a6; margin:10px 0 5px; font-weight:500;}
+.upload-box{border:2px dashed var(--border); padding:20px; border-radius:12px; text-align:center; margin:10px 0; cursor:pointer; background:var(--card2);}
+.upload-box:hover{border-color:var(--accent);}
+#fileInput{display:none;}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">SA CAPS COMPLETE</span></h1>
-  <p>Smart Exam Generator v7.11 - All SA Subjects. Paste Notes. Get Real Memo.</p>
+  <p>Smart Exam Generator v7.12 - All SA Subjects. Paste Notes or Upload Image. Get Real Memo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -73,13 +76,18 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
       </div>
 
       <div class="card">
-        <h2>2. Smart AI: Paste Your Notes</h2>
+        <h2>2. Smart AI: Add Your Content</h2>
         <span class="badge">TIER 5: FULL SA CAPS KNOWLEDGE ENGINE</span>
 
         <div class="mode-toggle">
           <button class="mode-btn active" id="modeNotes" onclick="setMode('notes')">📚 Notes Mode</button>
           <button class="mode-btn" id="modeQuestions" onclick="setMode('questions')">❓ Question Paper Mode</button>
         </div>
+
+        <div class="upload-box" onclick="document.getElementById('fileInput').click()">
+          📎 Click to Upload Image/PDF or Paste Notes Below
+        </div>
+        <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFileUpload(event)">
 
         <textarea id="notesPaste" class="ai-key" placeholder="PASTE YOUR CAPS NOTES HERE..." style="height:180px; margin-top:10px;"></textarea>
 
@@ -104,7 +112,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
       <div class="card">
         <h2>3. My Saved Question Banks</h2>
         <div id="savedBanks">No banks yet. Generate from notes above.</div>
-        <button class="btn yellow" onclick="clearStorage()">Clear All Local Data</button>
+        <button class="btn red" onclick="clearAllStorage()">Clear All Data</button>
       </div>
     </div>
   </div>
@@ -145,7 +153,7 @@ const subjectsByLevel = {
   university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
 }
 
-// ====== V7.11 KNOWLEDGE ENGINE ======
+// ====== V7.12 KNOWLEDGE ENGINE ======
 const KNOWLEDGE_ENGINE = {
   "Natural Science and Technology": [],
   "Physical Sciences": [],
@@ -242,7 +250,6 @@ function loadQuickDropdown(){
 
 function syncQuickToMain(){
   const selected = document.getElementById('quickSubject').value;
-  // find which level it belongs to
   for(let level in subjectsByLevel){
     if(subjectsByLevel[level].includes(selected)){
       document.getElementById('levelSelect').value = level;
@@ -263,16 +270,50 @@ function updateGradeOptions(){
   subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join('');
 }
 
+function handleFileUpload(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  document.getElementById('uploadStatus').innerText = `📄 Loaded: ${file.name}. Please paste extracted text for now. OCR coming in v7.13`;
+  // For now: user must copy text from image. Full OCR needs API.
+}
+
 function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
 function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBanks)); loadSavedBanks(); }
-function loadSavedBanks(){ let html = ''; for(let key in myBanks){ html += `<div style="background:var(--card2); padding:12px; border-radius:8px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);"> <span>${key} - ${myBanks[key].length} Qs</span> <button class="btn" onclick="startCustomBank('${key}')">Start Test</button> </div>`; } document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.'; }
+function loadSavedBanks(){
+  let html = '';
+  for(let key in myBanks){
+    html += `<div style="background:var(--card2); padding:12px; border-radius:8px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
+    <span>${key} - ${myBanks[key].length} Qs</span>
+    <div>
+    <button class="btn" onclick="startCustomBank('${key}')">Start</button>
+    <button class="btn red" onclick="deleteBank('${key}')">Delete</button>
+    </div>
+    </div>`;
+  }
+  document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
+}
+
+function deleteBank(key){
+  if(confirm(`Delete ${key}?`)){
+    delete myBanks[key];
+    saveToStorage();
+  }
+}
+
+function clearAllStorage(){
+  if(confirm('Delete ALL saved banks?')){
+    localStorage.removeItem('shanaBanks');
+    myBanks={};
+    loadSavedBanks();
+  }
+}
 
 async function generateFromNotes(){
   const notes = document.getElementById('notesPaste').value;
   const level = document.getElementById('levelSelect').value;
   const grade = document.getElementById('gradeSelect').value;
   const subject = document.getElementById('subjectSelect').value;
-  if(notes.length < 50) return alert('Please paste CAPS notes first.');
+  if(notes.length < 50) return alert('Please paste CAPS notes or upload image first.');
   document.getElementById('uploadStatus').innerText = `⏳ SHANA AI is analyzing...`;
 
   notesKeywords = extractKeywords(notes);
@@ -293,7 +334,7 @@ async function generateFromNotes(){
       let options = shuffle([kbItem.term, keywords[(i+1)%keywords.length], keywords[(i+2)%keywords.length], keywords[(i+3)%keywords.length]]);
       let correctIndex = options.indexOf(kbItem.term);
       let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.11"});
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.12"});
     }
   } else {
     for(let i=0; i<30; i++){
@@ -301,11 +342,11 @@ async function generateFromNotes(){
       let term2 = keywords[(i+3) % keywords.length];
       let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
       let modelAns = generateModelAnswer(bq.q, keywords);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.11"});
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.12"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.11 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V7.12 - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} QUESTIONS!`;
@@ -322,7 +363,6 @@ function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion();
 function prevQ(){ if(currentQ>0) currentQ--; showQuestion(); }
 function goToQ(i){ currentQ=i; showQuestion(); }
 function backToMenu(){ clearInterval(timer); document.getElementById('examArea').style.display='none'; document.getElementById('menu').style.display='block'; }
-function clearStorage(){ if(confirm('Delete all saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } }
 function gradeTextAnswer(userAns, q){ if(!userAns) return false; let lower = userAns.toLowerCase(); let hits = q.keywords.filter(k=>lower.includes(k.toLowerCase())).length; return hits >= 1; }
 function submitPaper(){ clearInterval(timer); let score=0, total=0, memoHtml='<h2>📊 YOUR RESULTS + CAPS MEMO</h2>'; currentPaper.forEach((q,i)=>{ total+=q.marks; let userAns = userAnswers[i]; let correct=false; if(q.type==="MCQ") { correct = (userAns === q.ans); if(correct) score+=q.marks; } else { correct = gradeTextAnswer(userAns, q); if(correct) score+=q.marks; } memoHtml += `<div class="memo-item"> <b>Q${i+1} [${q.marks} marks]:</b> ${q.q}<br><br> <b>Your Answer:</b> <span class="${correct?'memo-correct':'memo-wrong'}">${userAns || 'No answer'}</span><br> <b>Memo/Answer:</b> <span class="memo-correct">${q.type==="MCQ"? q.ans + ') ' + q.correctText : q.modelAnswer}</span><br> ${q.explanation? `<div class="explanation"><b>AI Explanation:</b> ${q.explanation}</div>` : ''} ${q.source? `<div class="source-tag">Source: ${q.source}</div>` : ''} <b>Status:</b> ${correct?'<span class="memo-correct">✓ Correct</span>':'<span class="memo-wrong">✗ Review this</span>'} </div>`; }); let percent = ((score/total)*100).toFixed(1); memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2><p style="color:#9aa0a6; margin-bottom:15px;">Study the memo below</p>` + memoHtml; document.getElementById('memoArea').innerHTML=memoHtml; document.getElementById('memoArea').style.display='block'; document.getElementById('submitBtn').style.display='none'; }
 </script>
