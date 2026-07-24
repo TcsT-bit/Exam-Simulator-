@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHANA AI - SA CAPS COMPLETE TIER 5</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--bg:#0b0e14;--card:#111827;--card2:#1f2937;--accent:#4285f4;--accent2:#8ab4f8;--text:#e8eaed;--green:#34a853;--red:#ea4335;--yellow:#fbbc04;--orange:#ff6d00;--border:rgba(255,255,255,0.1);}
 *{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', 'Inter', sans-serif;}
@@ -29,10 +27,6 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
 .subject-btn{padding:14px 16px; margin:8px 0; background: var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; cursor:pointer; font-weight:500; width:100%; font-size:14px; transition:0.2s; text-align:left;}
 .subject-btn:hover{background:#2d3748; border-color:var(--accent);}
-.upload-box{border:1px dashed var(--accent); border-radius:12px; padding:30px 20px; text-align:center; cursor:pointer; transition:0.3s; background:rgba(66,133,244,0.05);}
-.upload-box:hover{background:rgba(66,133,244,0.1); border-color:var(--accent2);}
-.upload-box input{display:none;}
-.upload-icon{font-size:32px; margin-bottom:8px;}
 .btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
 .btn:hover{background:#2d3748;}
 .btn.red{background:#ea4335; color:#fff; border:none;}
@@ -53,10 +47,6 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
 .ai-key{width:100%; padding:12px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; margin-top:10px; font-size:14px;}
 .ai-key:focus{border-color:var(--accent); outline:none;}
 .badge{background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:12px; color:#000;}
-#ocrProgress{height:6px; background:var(--card2); border-radius:10px; overflow:hidden; margin-top:10px; display:none;}
-#ocrProgressBar{height:100%; width:0%; background:var(--accent); transition:0.3s;}
-.file-list{margin-top:12px; font-size:12px; color:var(--green);}
-canvas{display:none;}
 .memo-item{margin:15px 0; padding:18px; background:var(--card2); border-radius:12px; border-left:3px solid var(--accent);}
 .memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
 .mode-toggle{display:flex; gap:10px; margin:12px 0;}
@@ -72,7 +62,7 @@ canvas{display:none;}
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">SA CAPS COMPLETE</span></h1>
-  <p>Smart Exam Generator v7.7 - All SA Subjects. Paste Notes. Get Real Memo.</p>
+  <p>Smart Exam Generator v7.8 - All SA Subjects. Paste Notes. Get Real Memo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -142,16 +132,11 @@ canvas{display:none;}
     <div id="memoArea" style="margin-top:20px; padding:18px; background:var(--card); border-radius:14px; display:none;"></div>
   </div>
 </div>
-<canvas id="canvas"></canvas>
 
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
 let currentPaper=[], userAnswers=[], timer, timeLeft=7200, currentQ=0;
 let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
 let currentTab = 'secondary';
-let uploadedText = '';
-let tesseractWorker = null;
 let currentMode = 'notes';
 let notesKeywords = [];
 
@@ -170,332 +155,10 @@ const subjectsByLevel = {
   university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
 }
 
-// ====== V7.7 KNOWLEDGE ENGINE - EMPTY BLOCKS FOR YOU TO FILL ======
-// JUST PASTE YOUR NOTES UNDER EACH SUBJECT. FORMAT: {term: "Term", define: "Def", explain: "Exp"}
+// ====== V7.8 KNOWLEDGE ENGINE - PASTE YOUR NOTES HERE ======
+// FORMAT: {term: "Atom", define: "Def", explain: "Exp", apply: "App", ana: "Compare", eval: "Importance"}
 const KNOWLEDGE_ENGINE = {
-  "Natural Science and Technology": [
-GRADE 9 NATURAL SCIENCES - COMPLETE CAPS NOTES 2026
-DEPARTMENT OF BASIC EDUCATION
-
-
-TERM 1: MATTER AND MATERIALS
-
-
-TOPIC 1: THE NATURE OF MATTER
-
-1.1 ATOMS
-An atom is the smallest particle of an element that can take part in a chemical reaction.
-
-Structure of an atom:
-           Nucleus
-          / \
-  Protons(+) Neutrons(0)
-           |
-     Electrons(-) orbit around
-
-Proton : Positive charge, mass = 1
-Neutron : No charge, mass = 1
-Electron : Negative charge, mass = almost 0
-
-Atomic number = number of protons
-Mass number = protons + neutrons
-
-1.2 ELEMENTS
-An element is a substance made up of only ONE type of atom.
-Examples: O, H, C, Fe, Na, Au, Cl
-The Periodic Table arranges elements by atomic number.
-
-Groups to know:
-Group 1 : Alkali metals - very reactive
-Group 2 : Alkaline earth metals
-Group 17 : Halogens - very reactive non-metals
-Group 18 : Noble gases - do not react
-
-1.3 COMPOUNDS
-A compound is formed when 2 or more elements chemically combine.
-Examples:
-Water = H2O = Hydrogen + Oxygen
-Carbon dioxide = CO2 = Carbon + Oxygen
-Salt = NaCl = Sodium + Chlorine
-
-Properties of a compound are different from the elements that made it.
-
-1.4 MIXTURES
-A mixture is formed when 2 or more substances are mixed but NOT chemically joined.
-Can be separated by physical methods.
-
-Types:
-Homogeneous : Looks the same. Example: salt water, air
-Heterogeneous: Can see different parts. Example: sand + water, salad
-
-DIFFERENCES: MIXTURE VS COMPOUND
-Mixture : Can be separated physically
-Compound : Can only be separated chemically
-
-Mixture : Properties of elements stay
-Compound : New properties formed
-
-Mixture : No fixed ratio
-Compound : Fixed ratio
-
-ACTIVITY 1.1
-1. Define an atom.
-2. What is the difference between an element and a compound? Give 1 example of each.
-3. Is air a mixture or a compound? Explain. [6]
-
-MEMO ACTIVITY 1.1
-1. Smallest particle of an element that can take part in a chemical reaction.
-2. Element = 1 type of atom. Ex: Oxygen.
-   Compound = 2 or more elements joined. Ex: Water
-3. Mixture. Because oxygen and nitrogen are not chemically joined.
-
-TOPIC 2: CHEMICAL REACTIONS
-
-2.1 ACIDS AND BASES
-Acid:
-- pH 0-6
-- Tastes sour
-- Turns blue litmus red
-- Conducts electricity
-Examples: HCl, H2SO4, Citric acid in lemon
-
-Base/Alkali:
-- pH 8-14
-- Tastes bitter
-- Turns red litmus blue
-- Feels soapy
-Examples: NaOH, CaOH, Ammonia
-
-INDICATORS:
-Litmus : Acid = Red, Base = Blue
-Phenolphthalein : Acid = Clear, Base = Pink
-
-2.2 NEUTRALIZATION REACTION
-Acid + Base -> Salt + Water
-Example: HCl + NaOH -> NaCl + H2O
-
-Used for: antacids for heartburn, treating acidic soil
-
-2.3 REACTIVITY OF METALS
-Metals react with oxygen to form metal oxides.
-Example: 2Mg + O2 -> 2MgO
-
-Metals react with acids to form salt + hydrogen gas.
-Example: Zn + 2HCl -> ZnCl2 + H2
-
-REACTIVITY SERIES: K > Na > Ca > Mg > Al > Zn > Fe > Cu > Ag > Au
-Metals above hydrogen can react with acid.
-
-2.4 CONSERVATION OF MASS
-In a chemical reaction, mass of reactants = mass of products.
-Atoms are just rearranged, not lost.
-
-ACTIVITY 2.1
-Balance the following:
-1. Mg + O2 -> MgO
-2. HCl + NaOH -> NaCl + H2O
-
-MEMO ACTIVITY 2.1
-1. 2Mg + O2 -> 2MgO
-2. Already balanced
-
-TERM 2: ENERGY AND CHANGE
-
-
-TOPIC 3: ENERGY AND ENERGY TRANSFER
-
-3.1 FORMS OF ENERGY
-1. Chemical : in food and batteries
-2. Electrical : in wires
-3. Heat : from sun, fire
-4. Light : from sun, bulb
-5. Sound : from speaker
-6. Kinetic : moving objects
-7. Potential : stored due to height
-8. Nuclear : in nucleus of atom
-
-3.2 ENERGY TRANSFERS
-Energy cannot be created or destroyed. It is only transferred.
-
-Example 1: Food chemical -> Kinetic for running
-Example 2: Sun light -> Chemical in plants -> Chemical in us
-
-3.3 ENERGY IN FOOD
-We get energy from food. Measured in Joules or Calories.
-Carbohydrates, fats and proteins store chemical energy.
-
-ACTIVITY 3.1
-Name the energy transfer:
-1. Battery to torch
-2. Eating an apple then running
-
-MEMO ACTIVITY 3.1
-1. Chemical -> Electrical -> Light + Heat
-2. Chemical -> Kinetic
-
-TOPIC 4: ELECTRICITY AND MAGNETISM
-
-4.1 STATIC ELECTRICITY
-Build up of electric charge on a surface.
-Example: rubbing balloon on hair, lightning
-
-4.2 CURRENT ELECTRICITY
-Flow of electrons through a conductor.
-Current = Measured in Amps with Ammeter [A]
-Voltage = Measured with Voltmeter [V]
-
-4.3 ELECTRICAL CIRCUITS
-Components: Battery, switch, bulb, wires, resistor
-
-Series Circuit : 1 path. If 1 bulb blows, all go off.
-Parallel Circuit: Multiple paths. If 1 bulb blows, others stay on.
-
-OHM'S LAW: V = I x R
-Voltage = Current x Resistance
-
-4.4 ELECTROMAGNETISM
-When current flows through a wire, it creates a magnetic field.
-Electromagnet = wire coiled around iron core + battery
-
-Uses: electric bell, crane, doorbell
-
-ACTIVITY 4.1
-Draw a series circuit with 1 battery and 2 bulbs.
-
-TERM 3: EARTH AND BEYOND
-
-
-TOPIC 5: THE EARTH
-
-5.1 STRUCTURE OF THE EARTH
-Crust : 5-70km thick. Where we live
-Mantle : Hot rock, convection currents
-Outer Core : Liquid metal
-Inner Core : Solid metal, very hot
-
-5.2 PLATE TECTONICS
-Earth's crust is broken into plates that move.
-Causes: Earthquakes, Volcanoes, Mountains
-
-5.3 TYPES OF ROCKS
-1. Igneous : Cooled magma. Ex: Granite
-2. Sedimentary : Layers of sand/mud. Ex: Sandstone. Has fossils
-3. Metamorphic : Changed by heat/pressure. Ex: Marble from limestone
-
-ROCK CYCLE:
-Igneous -> Weathering -> Sedimentary -> Heat -> Metamorphic -> Melting -> Igneous
-
-5.4 SOIL
-Made of: rock particles, humus, water, air, living organisms
-Topsoil is most important for plants.
-Conservation: crop rotation, contour plowing
-
-TOPIC 6: THE SOLAR SYSTEM
-
-6.1 THE SUN
-A star. Made of hydrogen and helium.
-Energy made by nuclear fusion.
-Gives us light and heat.
-
-6.2 THE 8 PLANETS
-Inner Rocky Planets: Mercury, Venus, Earth, Mars - small, close to sun
-Outer Gas Giants : Jupiter, Saturn, Uranus, Neptune - big, far
-
-6.3 THE MOON
-Natural satellite of Earth.
-Phases: New moon -> Crescent -> Half -> Full -> Half -> Crescent -> New
-Causes tides
-
-6.4 ECLIPSES
-Solar Eclipse: Moon blocks sun
-Lunar Eclipse: Earth blocks sun from moon
-
-TOPIC 7: BEYOND THE SOLAR SYSTEM
-
-7.1 GALAXY
-We live in Milky Way Galaxy. Billions of stars.
-
-7.2 LIFE CYCLE OF A STAR
-Nebula -> Protostar -> Main Sequence -> Red Giant -> White Dwarf/Supernova -> Neutron Star/Black Hole
-
-7.3 LIGHT YEAR
-Distance light travels in 1 year = 9.5 trillion km
-
-TERM 4: LIFE AND LIVING
-
-
-TOPIC 8: CELLS AND CELL DIVISION
-
-8.1 PLANT CELL VS ANIMAL CELL
-
-PLANT CELL:
-- Has cell wall
-- Has chloroplast
-- Has large vacuole
-
-ANIMAL CELL:
-- No cell wall
-- No chloroplast
-- Small vacuole
-
-8.2 ORGANELLES AND FUNCTIONS
-Nucleus : Controls cell. Has DNA
-Mitochondria : Powerhouse. Makes ATP by respiration
-Chloroplast : Photosynthesis
-Cell membrane : Controls what enters/exits
-Ribosome : Makes protein
-
-8.3 CELL DIVISION
-Mitosis : For growth and repair. 1 cell -> 2 identical cells
-Meiosis : For reproduction. 1 cell -> 4 different cells
-
-TOPIC 9: REPRODUCTION IN HUMANS
-
-9.1 MALE REPRODUCTIVE SYSTEM
-Testes -> make sperm.
-Sperm -> Vas deferens -> Urethra
-
-9.2 FEMALE REPRODUCTIVE SYSTEM
-Ovaries -> release egg.
-Egg -> Oviduct -> Uterus -> Vagina
-
-9.3 FERTILIZATION TO BIRTH
-Sperm + Egg -> Zygote -> Embryo -> Foetus -> Baby. 9 months.
-
-9.4 HIV AND AIDS
-HIV attacks immune system.
-Transmission: sex, blood, mother to baby
-Prevention: condoms, no shared needles, ARVs
-
-TOPIC 10: RESPONDING TO THE ENVIRONMENT
-
-10.1 NERVOUS SYSTEM
-Brain + Spinal cord + Nerves
-Reflex arc: Stimulus -> Sensory neuron -> Spinal cord -> Motor neuron -> Response
-
-10.2 ENDOCRINE SYSTEM
-Glands that release hormones into blood.
-Examples:
-Adrenalin = fight or flight
-Insulin = controls blood sugar
-
-10.3 PLANT RESPONSES
-Tropism: growth towards/away from stimulus
-Phototropism : towards light
-Geotropism : towards gravity
-Hydrotropism : towards water
-
-FINAL REVISION QUESTIONS
-
-1. Draw and label a plant cell.
-2. Explain 3 differences between mitosis and meiosis.
-3. Why is the ozone layer important?
-4. Name 3 renewable sources of energy.
-5. What is the function of mitochondria?
-
-TOTAL: ~50 PAGES WHEN FORMATTED: FONT 11, SPACING 1.15, MARGINS NORMAL
-
-END OF NOTES ],
+  "Natural Science and Technology": [],
   "Physical Sciences": [],
   "Life Sciences": [],
   "Mathematics": [],
@@ -542,7 +205,6 @@ function extractKeywords(text){
     if(lowerText.includes(item.term.toLowerCase())) found.push(item.term);
   });
 
-  // Fallback: extract big words from notes
   if(found.length < 3){
     let words = text.split(/\W+/).filter(w => w.length > 5);
     found = [...new Set(words)].slice(0,20);
@@ -553,7 +215,7 @@ function extractKeywords(text){
 function generateModelAnswer(question, keywords){
   let subject = document.getElementById('subjectSelect').value;
   let bank = KNOWLEDGE_ENGINE[subject] || [];
-  let term1 = keywords[0];
+  let term1 = keywords[0] || "Concept";
   
   let kbItem = bank.find(item => item.term.toLowerCase() === term1.toLowerCase());
   
@@ -566,7 +228,6 @@ function generateModelAnswer(question, keywords){
     return `Memo: ${kbItem.explain}`;
   }
   
-  // FALLBACK TO NOTES
   return `Memo from Notes: ${term1} is a key concept in ${subject}. Refer to your notes for a detailed explanation.`;
 }
 
@@ -586,7 +247,7 @@ function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
   return {q:`Evaluate the importance of ${term1} in ${subject}.`, type:"EVAL"};
 }
 
-window.onload = async () => {
+window.onload = () => {
   switchTab(null, 'secondary');
   loadSavedBanks();
 }
@@ -607,6 +268,7 @@ async function generateFromNotes(){
   document.getElementById('uploadStatus').innerText = `⏳ SHANA AI is analyzing...`;
 
   notesKeywords = extractKeywords(notes);
+  if(notesKeywords.length === 0) notesKeywords = ["Concept1","Concept2","Concept3"];
 
   let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
   let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
@@ -623,7 +285,7 @@ async function generateFromNotes(){
       let options = shuffle([kbItem.term, keywords[(i+1)%keywords.length], keywords[(i+2)%keywords.length], keywords[(i+3)%keywords.length]]);
       let correctIndex = options.indexOf(kbItem.term);
       let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.7"});
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.8"});
     }
   } else {
     for(let i=0; i<30; i++){
@@ -631,11 +293,11 @@ async function generateFromNotes(){
       let term2 = keywords[(i+3) % keywords.length];
       let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
       let modelAns = generateModelAnswer(bq.q, keywords);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.7"});
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.8"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.7 - ${new Date().toLocaleDateString()}`;
+  let bankName = `${level} ${grade} ${subject} V7.8 - ${new Date().toLocaleDateString()}`;
   myBanks[bankName] = currentPaper;
   saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} QUESTIONS!`;
@@ -644,7 +306,7 @@ async function generateFromNotes(){
 function startCustomBank(name){ currentPaper = shuffle([...myBanks[name]]); userAnswers = new Array(currentPaper.length).fill(null); currentQ = 0; timeLeft = currentPaper.length * 120; document.getElementById('menu').style.display = 'none'; document.getElementById('examArea').style.display = 'block'; document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} QUESTIONS`; buildNav(); showQuestion(); clearInterval(timer); timer = setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0) submitPaper(); },1000); }
 function updateTimer(){ let h=Math.floor(timeLeft/3600), m=Math.floor((timeLeft%3600)/60), s=timeLeft%60; document.getElementById('timer').innerText = `Time: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
 function buildNav(){ let html=''; currentPaper.forEach((_,i)=>{ html+=`<button class="nav-btn" id="nav${i}" onclick="goToQ(${i})">${i+1}</button>`; }); document.getElementById('navGrid').innerHTML=html; updateNav(); }
-function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add(userAnswers[i]?'done':'wrong'); } }); }
+function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add('done'); } }); }
 function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.source) html += `<div class="source-tag">Source: ${q.source}</div>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:var(--card); color:#fff; border-radius:8px; padding:10px; border:1px solid var(--border);">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
 function checkMCQ(el, choice){ userAnswers[currentQ] = choice; el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong')); el.classList.add('done'); updateNav(); }
 function saveText(){ userAnswers[currentQ] = document.getElementById('textAns').value; updateNav(); }
