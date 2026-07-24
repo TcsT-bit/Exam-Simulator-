@@ -6,60 +6,133 @@
 <title>SHANA AI - SA CAPS COMPLETE TIER 5</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0b0e14;--card:#111827;--card2:#1f2937;--accent:#4285f4;--accent2:#8ab4f8;--text:#e8eaed;--green:#34a853;--red:#ea4335;--yellow:#fbbc04;--orange:#ff6d00;--border:rgba(255,255,255,0.1);}
+:root{
+  --bg:#05070d;
+  --card:rgba(17,24,39,0.6);
+  --card2:rgba(31,41,55,0.6);
+  --accent:#4285f4;
+  --accent2:#8ab4f8;
+  --text:#e8eaed;
+  --green:#34a853;--red:#ea4335;--yellow:#fbbc04;--orange:#ff6d00;
+  --border:rgba(66,133,244,0.2);
+  --glow:0 0 40px rgba(66,133,244,0.15);
+}
 *{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', 'Inter', sans-serif;}
-body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, rgba(66,133,244,0.15) 0%, transparent 50%); color:var(--text); padding:0; min-height:100vh;}
+
+body{
+  background: #05070d; 
+  color:var(--text); 
+  padding:0; 
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* LIVE AMBIENT BACKGROUND */
+.bg-ambient{
+  position:fixed; top:0; left:0; width:100%; height:100%; z-index:-1;
+  background: radial-gradient(circle at 20% 20%, rgba(66,133,244,0.25) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(52,168,83,0.15) 0%, transparent 50%),
+              radial-gradient(circle at 50% 50%, rgba(251,188,4,0.1) 0%, transparent 60%);
+  animation: float 20s ease-in-out infinite;
+}
+@keyframes float{
+  0%,100%{transform:translate(0,0) scale(1);}
+ 33%{transform:translate(-20px,-20px) scale(1.05);}
+ 66%{transform:translate(20px,10px) scale(0.95);}
+}
+
 .container{max-width:1200px; margin:auto; padding:20px;}
-.hero{padding:60px 20px 40px; text-align:center;}
-.hero h1{font-size:48px; font-weight:700; margin-bottom:16px; line-height:1.2;}
+.hero{padding:80px 20px 60px; text-align:center;}
+.hero h1{
+  font-size:56px; font-weight:700; margin-bottom:16px; line-height:1.2;
+  background: linear-gradient(90deg, #fff, #8ab4f8);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
 .hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
-.btn-primary{padding:12px 24px; background: linear-gradient(90deg, #4285f4, #8ab4f8); border:none; border-radius:24px; color:#fff; cursor:pointer; font-weight:500; font-size:15px; transition:0.3s; box-shadow:0 2px 6px rgba(66,133,244,0.4);}
-.btn-primary:hover{transform:translateY(-2px); box-shadow:0 4px 12px rgba(66,133,244,0.6);}
-.section-title{text-align:center; font-size:32px; font-weight:700; margin:40px 0 10px;}
+.btn-primary{
+  padding:14px 28px; background: linear-gradient(90deg, #4285f4, #8ab4f8); 
+  border:none; border-radius:24px; color:#fff; cursor:pointer; font-weight:600; 
+  font-size:15px; transition:0.3s; box-shadow:0 4px 20px rgba(66,133,244,0.4);
+}
+.btn-primary:hover{transform:translateY(-3px); box-shadow:0 8px 30px rgba(66,133,244,0.6);}
+
+.section-title{text-align:center; font-size:36px; font-weight:700; margin:40px 0 10px;}
 .section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
 .grid{display:grid; grid-template-columns: 1fr; gap:24px;}
-.card{background:var(--card); padding:24px; border-radius:16px; border:1px solid var(--border);}
+
+.card{
+  background:var(--card); 
+  padding:28px; 
+  border-radius:20px; 
+  border:1px solid var(--border);
+  backdrop-filter: blur(20px);
+  box-shadow: var(--glow);
+  transition:0.3s;
+}
+.card:hover{border-color:var(--accent); box-shadow:0 0 50px rgba(66,133,244,0.25);}
 .card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
-.btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s;}
-.btn:hover{background:#2d3748;}
-.btn.red{background:#ea4335; color:#fff; border:none;}
-.btn.yellow{background:var(--yellow); color:#000; border:none;}
-.btn.orange{background: linear-gradient(90deg, #ff6d00, #ff9100); color:#fff; border:none; font-weight:700; font-size:15px; padding:14px; width:100%; border-radius:8px; box-shadow:0 2px 6px rgba(255,109,0,0.4);}
-.btn.orange:hover{box-shadow:0 4px 12px rgba(255,109,0,0.6); transform:translateY(-1px);}
-.timer{font-size:24px; font-weight:700; color:var(--accent); text-align:center; background:var(--card2); padding:12px; border-radius:12px; border:1px solid var(--border); margin-bottom:20px;}
-.quiz-card{background:var(--card2); padding:20px; border-radius:12px; margin-bottom:16px; border-left:4px solid var(--accent);}
-.quiz-option{padding:14px; margin:8px 0; background:var(--card); border-radius:8px; cursor:pointer; border:1px solid var(--border); transition:0.2s;}
-.quiz-option:hover{border-color:var(--accent); background:#2d3748;}
-.quiz-option.correct{background:var(--green)!important; border-color:var(--green);}
-.quiz-option.wrong{background:var(--red)!important; border-color:var(--red);}
-.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
-.nav-btn{padding:8px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500;}
-.nav-btn.done{background:var(--green); border-color:var(--green); color:#fff;}
-.nav-btn.wrong{background:var(--red); border-color:var(--red); color:#fff;}
-.nav-btn.current{border:2px solid var(--accent);}
-.ai-key{width:100%; padding:14px; background:var(--card2); border:1px solid var(--border); border-radius:12px; color:#e8eaed; margin-top:10px; font-size:14px; appearance:auto; background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%239aa0a6' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center;}
-.ai-key:focus{border-color:var(--accent); outline:none;}
-.badge{background:var(--orange); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:12px; color:#000;}
-.memo-item{margin:15px 0; padding:18px; background:var(--card2); border-radius:12px; border-left:3px solid var(--accent);}
-.memo-correct{color:var(--green);}.memo-wrong{color:var(--red);}
-.mode-toggle{display:flex; gap:10px; margin:12px 0;}
-.mode-btn{padding:14px; background:var(--card2); border:1px solid var(--border); border-radius:12px; color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px; font-size:14px;}
-.mode-btn:hover{border-color:var(--accent); color:#fff;}
-.mode-btn.active{border-color:var(--accent); background:rgba(66,133,244,0.15); color:#8ab4f8;}
-.explanation{margin-top:10px; padding:12px; background:rgba(66,133,244,0.1); border-radius:8px; font-size:13px; color:var(--accent2); border-left:3px solid var(--accent);}
-.source-tag{font-size:11px; color:#8ab4f8; margin-top:5px;}
-.tier-badge{background:var(--green); padding:4px 12px; border-radius:16px; font-size:11px; font-weight:700; display:inline-block; margin-left:8px; color:#000;}
-.label{font-size:12px; color:#9aa0a6; margin:10px 0 5px; font-weight:500;}
-.upload-box{border:2px dashed var(--border); padding:20px; border-radius:12px; text-align:center; margin:10px 0; cursor:pointer; background:var(--card2);}
-.upload-box:hover{border-color:var(--accent);}
+
+.btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:10px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s; backdrop-filter: blur(10px);}
+.btn:hover{background:rgba(66,133,244,0.2); border-color:var(--accent);}
+.btn.red{background:rgba(234,67,53,0.2); color:#fff; border-color:rgba(234,67,53,0.4);}
+.btn.yellow{background:rgba(251,188,4,0.2); color:#fff; border-color:rgba(251,188,4,0.4);}
+.btn.orange{
+  background: linear-gradient(90deg, #ff6d00, #ff9100); 
+  color:#fff; border:none; font-weight:700; font-size:15px; padding:16px; 
+  width:100%; border-radius:12px; box-shadow:0 4px 20px rgba(255,109,0,0.4);
+}
+.btn.orange:hover{box-shadow:0 8px 30px rgba(255,109,0,0.6); transform:translateY(-2px);}
+
+.ai-key{
+  width:100%; padding:16px; background:rgba(31,41,55,0.8); 
+  border:1px solid var(--border); border-radius:14px; color:#e8eaed; 
+  margin-top:10px; font-size:14px; backdrop-filter: blur(10px);
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%238ab4f8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); 
+  background-repeat: no-repeat; background-position: right 16px center;
+}
+.ai-key:focus{border-color:var(--accent); outline:none; box-shadow:0 0 0 3px rgba(66,133,244,0.2);}
+
+.badge{background:linear-gradient(90deg, #ff6d00, #ff9100); padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:16px; color:#000;}
+.upload-box{
+  border:2px dashed var(--border); padding:24px; border-radius:16px; 
+  text-align:center; margin:10px 0; cursor:pointer; background:rgba(31,41,55,0.4);
+  transition:0.3s;
+}
+.upload-box:hover{border-color:var(--accent); background:rgba(66,133,244,0.1);}
 #fileInput{display:none;}
+
+.mode-toggle{display:flex; gap:12px; margin:16px 0;}
+.mode-btn{
+  padding:16px; background:rgba(31,41,55,0.6); border:1px solid var(--border); 
+  border-radius:14px; color:#9aa0a6; cursor:pointer; flex:1; font-weight:500; 
+  transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px; 
+  font-size:14px; backdrop-filter: blur(10px);
+}
+.mode-btn:hover{border-color:var(--accent); color:#fff;}
+.mode-btn.active{
+  border-color:var(--accent); 
+  background:linear-gradient(90deg, rgba(66,133,244,0.2), rgba(138,180,248,0.2)); 
+  color:#8ab4f8;
+  box-shadow:0 0 20px rgba(66,133,244,0.3);
+}
+
+.tier-badge{
+  background:linear-gradient(90deg, #34a853, #8ab4f8); 
+  padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; 
+  display:inline-block; margin-left:10px; color:#000;
+}
+.label{font-size:12px; color:#8ab4f8; margin:14px 0 6px; font-weight:600; letter-spacing:0.5px;}
+
+.memo-item{margin:15px 0; padding:20px; background:var(--card2); border-radius:14px; border-left:4px solid var(--accent); backdrop-filter: blur(10px);}
+.timer{font-size:26px; font-weight:700; color:var(--accent); text-align:center; background:var(--card2); padding:14px; border-radius:14px; border:1px solid var(--border); margin-bottom:20px; backdrop-filter: blur(10px);}
 </style>
 </head>
 <body>
+<div class="bg-ambient"></div>
 
 <div class="hero">
   <h1>SHANA AI<span class="tier-badge">SA CAPS COMPLETE</span></h1>
-  <p>Smart Exam Generator v7.12 - All SA Subjects. Paste Notes or Upload Image. Get Real Memo.</p>
+  <p>Smart Exam Generator v8.0 - Live Ambient UI. Paste Notes or Upload Image. Get Real Memo.</p>
   <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
 </div>
 
@@ -71,7 +144,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
     <div class="grid">
       <div class="card">
         <h2>1. Quick Select Subject</h2>
-        <div class="label">Choose Subject</div>
+        <div class="label">CHOOSE SUBJECT</div>
         <select id="quickSubject" class="ai-key" onchange="syncQuickToMain()"></select>
       </div>
 
@@ -89,9 +162,9 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
         </div>
         <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFileUpload(event)">
 
-        <textarea id="notesPaste" class="ai-key" placeholder="PASTE YOUR CAPS NOTES HERE..." style="height:180px; margin-top:10px;"></textarea>
+        <textarea id="notesPaste" class="ai-key" placeholder="PASTE YOUR CAPS NOTES HERE..." style="height:200px; margin-top:10px;"></textarea>
 
-        <div class="label">Level</div>
+        <div class="label">LEVEL</div>
         <select id="levelSelect" class="ai-key" onchange="updateGradeOptions()">
           <option value="primary">Primary R-7</option>
           <option value="secondary" selected>Secondary G8-12</option>
@@ -99,14 +172,14 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
           <option value="university">University</option>
         </select>
 
-        <div class="label">Grade</div>
+        <div class="label">GRADE</div>
         <select id="gradeSelect" class="ai-key"></select>
 
-        <div class="label">Subject</div>
+        <div class="label">SUBJECT</div>
         <select id="subjectSelect" class="ai-key"></select>
 
         <button class="btn orange" onclick="generateFromNotes()">✨ GENERATE 30 CAPS QUESTIONS</button>
-        <div id="uploadStatus" style="margin-top:10px; font-size:12px; color:#9aa0a6;"></div>
+        <div id="uploadStatus" style="margin-top:12px; font-size:12px; color:#8ab4f8;"></div>
       </div>
 
       <div class="card">
@@ -128,7 +201,7 @@ body{background: #0b0e14; background-image: radial-gradient(circle at 25% 10%, r
     </div>
     <button class="btn" onclick="backToMenu()">← Back to Menu</button>
     <button class="btn red" id="submitBtn" onclick="submitPaper()">SUBMIT PAPER</button>
-    <div id="memoArea" style="margin-top:20px; padding:18px; background:var(--card); border-radius:14px; display:none;"></div>
+    <div id="memoArea" style="margin-top:20px; padding:20px; background:var(--card); border-radius:16px; display:none; backdrop-filter: blur(20px);"></div>
   </div>
 </div>
 
@@ -138,7 +211,6 @@ let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
 let currentMode = 'notes';
 let notesKeywords = [];
 
-// ====== 100% COMPLETE SA DBE SUBJECTS ======
 const subjectData = {
   primary: ['Grade R','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7'],
   secondary: ['Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'],
@@ -153,60 +225,30 @@ const subjectsByLevel = {
   university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
 }
 
-// ====== V7.12 KNOWLEDGE ENGINE ======
 const KNOWLEDGE_ENGINE = {
-  "Natural Science and Technology": [],
-  "Physical Sciences": [],
-  "Life Sciences": [],
-  "Mathematics": [],
-  "Mathematical Literacy": [],
-  "Accounting": [],
-  "Business Studies": [],
-  "Economics": [],
-  "Geography": [],
-  "History": [],
-  "English First Additional Language": [],
-  "Afrikaans First Additional Language": [],
-  "IsiZulu First Additional Language": [],
-  "Sepedi Home Language": [],
-  "Life Orientation": [],
-  "Information Technology": [],
-  "Computer Applications Technology": [],
-  "Civil Technology": [],
-  "Mechanical Technology": [],
-  "Electrical Technology": [],
-  "Engineering Graphics and Design": [],
-  "Consumer Studies": [],
-  "Tourism": [],
-  "Hospitality Studies": [],
-  "Social Sciences": [],
-  "Life Skills": []
+  "Natural Science and Technology": [], "Physical Sciences": [], "Life Sciences": [],
+  "Mathematics": [], "Mathematical Literacy": [], "Accounting": [], "Business Studies": [],
+  "Economics": [], "Geography": [], "History": [], "English First Additional Language": [],
+  "Afrikaans First Additional Language": [], "IsiZulu First Additional Language": [],
+  "Sepedi Home Language": [], "Life Orientation": [], "Information Technology": [],
+  "Computer Applications Technology": [], "Civil Technology": [], "Mechanical Technology": [],
+  "Electrical Technology": [], "Engineering Graphics and Design": [], "Consumer Studies": [],
+  "Tourism": [], "Hospitality Studies": [], "Social Sciences": [], "Life Skills": []
 }
 
 function extractKeywords(text){
-  let found = [];
-  let lowerText = text.toLowerCase();
+  let found = []; let lowerText = text.toLowerCase();
   let subject = document.getElementById('subjectSelect').value;
   let keywordBank = KNOWLEDGE_ENGINE[subject] || [];
-
-  keywordBank.forEach(item => {
-    if(lowerText.includes(item.term.toLowerCase())) found.push(item.term);
-  });
-
-  if(found.length < 3){
-    let words = text.split(/\W+/).filter(w => w.length > 5);
-    found = [...new Set(words)].slice(0,20);
-  }
+  keywordBank.forEach(item => { if(lowerText.includes(item.term.toLowerCase())) found.push(item.term); });
+  if(found.length < 3){ let words = text.split(/\W+/).filter(w => w.length > 5); found = [...new Set(words)].slice(0,20); }
   return [...new Set(found)].slice(0,30);
 }
 
 function generateModelAnswer(question, keywords){
   let subject = document.getElementById('subjectSelect').value;
-  let bank = KNOWLEDGE_ENGINE[subject] || [];
-  let term1 = keywords[0] || "Concept";
-
+  let bank = KNOWLEDGE_ENGINE[subject] || []; let term1 = keywords[0] || "Concept";
   let kbItem = bank.find(item => item.term.toLowerCase() === term1.toLowerCase());
-
   if(kbItem){
     if(question.includes('Define')) return `Memo: ${kbItem.define}`;
     if(question.includes('Explain')) return `Memo: ${kbItem.explain}`;
@@ -215,19 +257,15 @@ function generateModelAnswer(question, keywords){
     if(question.includes('Evaluate')) return `Memo: ${kbItem.eval || kbItem.explain}`;
     return `Memo: ${kbItem.explain}`;
   }
-
   return `Memo from Notes: ${term1} is a key concept in ${subject}. Refer to your notes for a detailed explanation.`;
 }
 
 function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
   const blooms = ["Remember","Understand","Apply","Analyze","Evaluate"];
-  let bloom = blooms[i % 5];
-  let subject = document.getElementById('subjectSelect').value;
-
+  let bloom = blooms[i % 5]; let subject = document.getElementById('subjectSelect').value;
   if(!term1) term1 = keywords[0] || "Concept";
   if(!term2) term2 = keywords[1] || "Process";
   if(term1 === term2) term2 = keywords[2] || "System";
-
   if(bloom === "Remember") return {q:`Define ${term1}.`, type:"REM"};
   if(bloom === "Understand") return {q:`Explain the role of ${term1} in ${subject}.`, type:"UND"};
   if(bloom === "Apply") return {q:`Give one application of ${term1} in real life.`, type:"APP"};
@@ -235,15 +273,10 @@ function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
   return {q:`Evaluate the importance of ${term1} in ${subject}.`, type:"EVAL"};
 }
 
-window.onload = () => {
-  loadQuickDropdown();
-  updateGradeOptions();
-  loadSavedBanks();
-}
+window.onload = () => { loadQuickDropdown(); updateGradeOptions(); loadSavedBanks(); }
 
 function loadQuickDropdown(){
-  let allSubjects = [];
-  Object.values(subjectsByLevel).forEach(arr => allSubjects.push(...arr));
+  let allSubjects = []; Object.values(subjectsByLevel).forEach(arr => allSubjects.push(...arr));
   allSubjects = [...new Set(allSubjects)];
   document.getElementById('quickSubject').innerHTML = allSubjects.map(s=>`<option>${s}</option>`).join('');
 }
@@ -273,8 +306,7 @@ function updateGradeOptions(){
 function handleFileUpload(event){
   const file = event.target.files[0];
   if(!file) return;
-  document.getElementById('uploadStatus').innerText = `📄 Loaded: ${file.name}. Please paste extracted text for now. OCR coming in v7.13`;
-  // For now: user must copy text from image. Full OCR needs API.
+  document.getElementById('uploadStatus').innerText = `📄 Loaded: ${file.name}. Extract text and paste below. OCR API coming in v8.1`;
 }
 
 function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
@@ -282,7 +314,7 @@ function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBa
 function loadSavedBanks(){
   let html = '';
   for(let key in myBanks){
-    html += `<div style="background:var(--card2); padding:12px; border-radius:8px; margin:8px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border);">
+    html += `<div style="background:var(--card2); padding:14px; border-radius:12px; margin:10px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); backdrop-filter: blur(10px);">
     <span>${key} - ${myBanks[key].length} Qs</span>
     <div>
     <button class="btn" onclick="startCustomBank('${key}')">Start</button>
@@ -293,20 +325,8 @@ function loadSavedBanks(){
   document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
 }
 
-function deleteBank(key){
-  if(confirm(`Delete ${key}?`)){
-    delete myBanks[key];
-    saveToStorage();
-  }
-}
-
-function clearAllStorage(){
-  if(confirm('Delete ALL saved banks?')){
-    localStorage.removeItem('shanaBanks');
-    myBanks={};
-    loadSavedBanks();
-  }
-}
+function deleteBank(key){ if(confirm(`Delete ${key}?`)){ delete myBanks[key]; saveToStorage(); } }
+function clearAllStorage(){ if(confirm('Delete ALL saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } }
 
 async function generateFromNotes(){
   const notes = document.getElementById('notesPaste').value;
@@ -321,8 +341,7 @@ async function generateFromNotes(){
 
   let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
   let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
-  let keywords = notesKeywords;
-  currentPaper = [];
+  let keywords = notesKeywords; currentPaper = [];
   const isQuestionPaper = questions.length > 3 && currentMode === 'questions';
 
   if(isQuestionPaper){
@@ -334,7 +353,7 @@ async function generateFromNotes(){
       let options = shuffle([kbItem.term, keywords[(i+1)%keywords.length], keywords[(i+2)%keywords.length], keywords[(i+3)%keywords.length]]);
       let correctIndex = options.indexOf(kbItem.term);
       let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v7.12"});
+      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v8.0"});
     }
   } else {
     for(let i=0; i<30; i++){
@@ -342,13 +361,12 @@ async function generateFromNotes(){
       let term2 = keywords[(i+3) % keywords.length];
       let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
       let modelAns = generateModelAnswer(bq.q, keywords);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v7.12"});
+      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v8.0"});
     }
   }
 
-  let bankName = `${level} ${grade} ${subject} V7.12 - ${new Date().toLocaleDateString()}`;
-  myBanks[bankName] = currentPaper;
-  saveToStorage();
+  let bankName = `${level} ${grade} ${subject} V8.0 - ${new Date().toLocaleDateString()}`;
+  myBanks[bankName] = currentPaper; saveToStorage();
   document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} QUESTIONS!`;
 }
 
@@ -356,7 +374,7 @@ function startCustomBank(name){ currentPaper = shuffle([...myBanks[name]]); user
 function updateTimer(){ let h=Math.floor(timeLeft/3600), m=Math.floor((timeLeft%3600)/60), s=timeLeft%60; document.getElementById('timer').innerText = `Time: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
 function buildNav(){ let html=''; currentPaper.forEach((_,i)=>{ html+=`<button class="nav-btn" id="nav${i}" onclick="goToQ(${i})">${i+1}</button>`; }); document.getElementById('navGrid').innerHTML=html; updateNav(); }
 function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add('done'); } }); }
-function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.source) html += `<div class="source-tag">Source: ${q.source}</div>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:var(--card); color:#fff; border-radius:8px; padding:10px; border:1px solid var(--border);">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
+function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.source) html += `<div class="source-tag">Source: ${q.source}</div>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:var(--card2); color:#fff; border-radius:10px; padding:12px; border:1px solid var(--border); backdrop-filter: blur(10px);">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
 function checkMCQ(el, choice){ userAnswers[currentQ] = choice; el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong')); el.classList.add('done'); updateNav(); }
 function saveText(){ userAnswers[currentQ] = document.getElementById('textAns').value; updateNav(); }
 function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion(); }
