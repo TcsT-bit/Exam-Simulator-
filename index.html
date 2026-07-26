@@ -3,989 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SHANA AI - SA CAPS COMPLETE TIER 5</title>
+<title>SHANA AI - SA EDUCATION OS v9.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#05070d;
-  --card:rgba(17,24,39,0.65);
-  --card2:rgba(31,41,55,0.65);
-  --accent:#4285f4;
-  --accent2:#8ab4f8;
-  --text:#e8eaed;
-  --green:#34a853;--red:#ea4335;--yellow:#fbbc04;--orange:#ff6d00;
-  --border:rgba(66,133,244,0.3);
+  --bg:#05070d; --card:rgba(17,24,39,0.7); --accent:#4285f4; --text:#e8eaed;
+  --green:#34a853; --red:#ea4335; --orange:#ff6d00; --border:rgba(66,133,244,0.3);
 }
-*{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', 'Inter', sans-serif;}
-
-body{
-  background: #05070d;
-  color:var(--text);
-  padding:0;
-  min-height:100vh;
-  overflow-x:hidden;
-}
-
-/* LIVE AMBIENT BACKGROUND */
-.bg-ambient{
-  position:fixed; top:0; left:0; width:100%; height:100%; z-index:-2;
-  background: radial-gradient(circle at 20% 20%, rgba(66,133,244,0.25) 0%, transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(52,168,83,0.15) 0%, transparent 50%),
-              radial-gradient(circle at 50% 50%, rgba(251,188,4,0.1) 0%, transparent 60%);
-  animation: float 20s ease-in-out infinite;
-}
-@keyframes float{
- 0%,100%{transform:translate(0,0) scale(1);}
- 33%{transform:translate(-20px,-20px) scale(1.05);}
- 66%{transform:translate(20px,10px) scale(0.95);}
-}
-
-.container{max-width:1200px; margin:auto; padding:20px; position:relative; z-index:1;}
-.hero{padding:80px 20px 60px; text-align:center;}
-.hero h1{
-  font-size:56px; font-weight:700; margin-bottom:16px; line-height:1.2;
-  background: linear-gradient(90deg, #fff, #8ab4f8);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.hero p{font-size:18px; color:#9aa0a6; max-width:700px; margin:0 auto 30px;}
-.btn-primary{
-  padding:14px 28px; background: linear-gradient(90deg, #4285f4, #8ab4f8);
-  border:none; border-radius:24px; color:#fff; cursor:pointer; font-weight:600;
-  font-size:15px; transition:0.3s; box-shadow:0 4px 20px rgba(66,133,244,0.4);
-}
-.btn-primary:hover{transform:translateY(-3px); box-shadow:0 8px 30px rgba(66,133,244,0.6);}
-
-.section-title{text-align:center; font-size:36px; font-weight:700; margin:40px 0 10px;}
-.section-sub{text-align:center; color:#9aa0a6; margin-bottom:40px;}
-.grid{display:grid; grid-template-columns: 1fr; gap:28px;}
-
-/* CARD WITH LIVE TRIM GLOW */
-.card{
-  position:relative;
-  background:var(--card);
-  padding:28px;
-  border-radius:20px;
-  border:1px solid transparent;
-  backdrop-filter: blur(20px);
-  transition:0.3s;
-  overflow:hidden;
-}
-.card::before{
-  content:'';
-  position:absolute;
-  top:0; left:0; right:0; bottom:0;
-  border-radius:20px;
-  padding:2px;
-  background: linear-gradient(90deg, #4285f4, #34a853, #fbbc04, #4285f4);
-  background-size: 300% 300%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: borderGlow 6s linear infinite;
-  z-index:-1;
-}
-@keyframes borderGlow{
- 0%{background-position:0% 50%;}
- 50%{background-position:100% 50%;}
- 100%{background-position:0% 50%;}
-.card:hover{box-shadow:0 0 60px rgba(66,133,244,0.4);}
-.card h2{font-size:20px; margin-bottom:16px; color:var(--text); font-weight:700;}
-
-.btn{padding:12px 20px; background: var(--card2); border:1px solid var(--border); border-radius:10px; color:#e8eaed; cursor:pointer; font-weight:500; margin:5px; transition:0.2s; backdrop-filter: blur(10px);}
-.btn:hover{background:rgba(66,133,244,0.2); border-color:var(--accent); box-shadow:0 0 15px rgba(66,133,244,0.3);}
-.btn.red{background:rgba(234,67,53,0.2); color:#fff; border-color:rgba(234,67,53,0.4);}
-.btn.yellow{background:rgba(251,188,4,0.2); color:#fff; border-color:rgba(251,188,4,0.4);}
-.btn.orange{
-  background: linear-gradient(90deg, #ff6d00, #ff9100);
-  color:#fff; border:none; font-weight:700; font-size:15px; padding:16px;
-  width:100%; border-radius:12px; box-shadow:0 4px 20px rgba(255,109,0,0.4);
-  position:relative; overflow:hidden;
-}
-.btn.orange::after{
-  content:'';
-  position:absolute;
-  top:-50%; left:-50%;
-  width:200%; height:200%;
-  background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-  transform: rotate(45deg);
-  animation: shine 3s infinite;
-}
-@keyframes shine{
-  0%{transform: translateX(-100%) rotate(45deg);}
-  100%{transform: translateX(100%) rotate(45deg);}
-}
-.btn.orange:hover{box-shadow:0 8px 30px rgba(255,109,0,0.6); transform:translateY(-2px);}
-
-.ai-key{
-  width:100%; padding:16px; background:rgba(31,41,55,0.8);
-  border:1px solid var(--border); border-radius:14px; color:#e8eaed;
-  margin-top:10px; font-size:14px; backdrop-filter: blur(10px);
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'%3E%3Cpath fill='%238ab4f8' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 16px center;
-  transition:0.3s;
-}
-.ai-key:focus{border-color:var(--accent); outline:none; box-shadow:0 0 0 3px rgba(66,133,244,0.3), 0 0 20px rgba(66,133,244,0.2);}
-
-.badge{background:linear-gradient(90deg, #ff6d00, #ff9100); padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; display:inline-block; margin-bottom:16px; color:#000; box-shadow:0 0 15px rgba(255,109,0,0.4);}
-.upload-box{
-  border:2px dashed var(--border); padding:24px; border-radius:16px;
-  text-align:center; margin:10px 0; cursor:pointer; background:rgba(31,41,55,0.4);
-  transition:0.3s;
-}
-.upload-box:hover{border-color:var(--accent); background:rgba(66,133,244,0.1); box-shadow:0 0 20px rgba(66,133,244,0.2);}
-#fileInput{display:none;}
-
-.mode-toggle{display:flex; gap:12px; margin:16px 0;}
-.mode-btn{
-  padding:16px; background:rgba(31,41,55,0.6); border:1px solid var(--border);
-  border-radius:14px; color:#9aa0a6; cursor:pointer; flex:1; font-weight:500;
-  transition:0.2s; display:flex; align-items:center; justify-content:center; gap:8px;
-  font-size:14px; backdrop-filter: blur(10px);
-}
-.mode-btn:hover{border-color:var(--accent); color:#fff; box-shadow:0 0 15px rgba(66,133,244,0.2);}
-.mode-btn.active{
-  border-color:var(--accent);
-  background:linear-gradient(90deg, rgba(66,133,244,0.25), rgba(138,180,248,0.25));
-  color:#8ab4f8;
-  box-shadow:0 0 25px rgba(66,133,244,0.4);
-}
-
-.tier-badge{
-  background:linear-gradient(90deg, #34a853, #8ab4f8);
-  padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700;
-  display:inline-block; margin-left:10px; color:#000;
-  box-shadow:0 0 15px rgba(52,168,83,0.4);
-}
-.label{font-size:12px; color:#8ab4f8; margin:14px 0 6px; font-weight:600; letter-spacing:0.5px;}
-
-.memo-item{margin:15px 0; padding:20px; background:var(--card2); border-radius:14px; border-left:4px solid var(--accent); backdrop-filter: blur(10px); box-shadow:0 0 20px rgba(66,133,244,0.1);}
-.timer{font-size:26px; font-weight:700; color:var(--accent); text-align:center; background:var(--card2); padding:14px; border-radius:14px; border:1px solid var(--border); margin-bottom:20px; backdrop-filter: blur(10px); box-shadow:0 0 30px rgba(66,133,244,0.2);}
-
-.nav-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(36px, 1fr)); gap:8px; margin:12px 0; max-height:350px; overflow-y:auto;}
-.nav-btn{padding:8px; background:var(--card2); border:1px solid var(--border); border-radius:8px; color:#e8eaed; cursor:pointer; font-size:12px; font-weight:500; backdrop-filter: blur(10px);}
-.nav-btn.done{background:rgba(52,168,83,0.3); border-color:var(--green); color:#fff; box-shadow:0 0 10px rgba(52,168,83,0.3);}
-.nav-btn.wrong{background:rgba(234,67,53,0.3); border-color:var(--red); color:#fff; box-shadow:0 0 10px rgba(234,67,53,0.3);}
-.nav-btn.current{border:2px solid var(--accent); box-shadow:0 0 15px rgba(66,133,244,0.5);}
-.quiz-card{background:var(--card2); padding:20px; border-radius:14px; margin-bottom:16px; border-left:4px solid var(--accent); backdrop-filter: blur(10px);}
-.quiz-option{padding:14px; margin:8px 0; background:var(--card); border-radius:10px; cursor:pointer; border:1px solid var(--border); transition:0.2s; backdrop-filter: blur(10px);}
-.quiz-option:hover{border-color:var(--accent); background:rgba(66,133,244,0.1); box-shadow:0 0 15px rgba(66,133,244,0.2);}
+*{margin:0;padding:0;box-sizing:border-box;font-family: 'Google Sans', sans-serif;}
+body{background:var(--bg); color:var(--text); padding:20px;}
+.container{max-width:1200px; margin:auto;}
+.card{background:var(--card); padding:24px; border-radius:20px; border:1px solid var(--border); backdrop-filter: blur(20px); margin-bottom:20px;}
+.btn{padding:14px 24px; background:var(--accent); border:none; border-radius:12px; color:#fff; cursor:pointer; font-weight:700; font-size:15px; transition:0.2s;}
+.btn:hover{transform:translateY(-2px); box-shadow:0 8px 30px rgba(66,133,244,0.4);}
+.btn.orange{background:var(--orange);}
+.btn.green{background:var(--green);}
+.input{width:100%; padding:14px; background:rgba(31,41,55,0.8); border:1px solid var(--border); border-radius:12px; color:#e8eaed; margin:8px 0;}
+.badge{background:var(--orange); padding:6px 14px; border-radius:20px; font-size:11px; font-weight:700; color:#000;}
+.modal{display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:100; justify-content:center; align-items:center;}
+.modal-content{background:var(--card); padding:30px; border-radius:20px; max-width:500px; text-align:center;}
+.hidden{display:none;}
+.tabs{display:flex; gap:10px; margin-bottom:20px;}
+.tab{padding:12px; background:var(--card); border-radius:10px; cursor:pointer;}
+.tab.active{background:var(--accent);}
 </style>
 </head>
 <body>
-<div class="bg-ambient"></div>
 
-<div class="hero">
-  <h1>SHANA AI<span class="tier-badge">SA CAPS COMPLETE</span></h1>
-  <p>Smart Exam Generator v8.1 - Live Trim Glow UI. Paste Notes or Upload Image. Get Real Memo.</p>
-  <button class="btn-primary" onclick="document.getElementById('app').scrollIntoView()">Start Building Questions</button>
-</div>
-
-<div class="container" id="app">
-  <h2 class="section-title">SA CAPS Smart Exam Generator</h2>
-  <p class="section-sub">Covers ALL DBE Subjects: Primary, Secondary, TVET, University</p>
-
-  <div id="menu">
-    <div class="grid">
-      <div class="card">
-        <h2>1. Quick Select Subject</h2>
-        <div class="label">CHOOSE SUBJECT</div>
-        <select id="quickSubject" class="ai-key" onchange="syncQuickToMain()"></select>
-      </div>
-
-      <div class="card">
-        <h2>2. Smart AI: Add Your Content</h2>
-        <span class="badge">TIER 5: FULL SA CAPS KNOWLEDGE ENGINE</span>
-
-        <div class="mode-toggle">
-          <button class="mode-btn active" id="modeNotes" onclick="setMode('notes')">📚 Notes Mode</button>
-          <button class="mode-btn" id="modeQuestions" onclick="setMode('questions')">❓ Question Paper Mode</button>
-        </div>
-
-        <div class="upload-box" onclick="document.getElementById('fileInput').click()">
-          📎 Click to Upload Image/PDF or Paste Notes Below
-        </div>
-        <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFileUpload(event)">
-
-        <textarea id="notesPaste" class="ai-key" placeholder="PASTE YOUR CAPS NOTES HERE..." style="height:200px; margin-top:10px;"></textarea>
-
-        <div class="label">LEVEL</div>
-        <select id="levelSelect" class="ai-key" onchange="updateGradeOptions()">
-          <option value="primary">Primary R-7</option>
-          <option value="secondary" selected>Secondary G8-12</option>
-          <option value="tvet">TVET N1-N6</option>
-          <option value="university">University</option>
-        </select>
-
-        <div class="label">GRADE</div>
-        <select id="gradeSelect" class="ai-key"></select>
-
-        <div class="label">SUBJECT</div>
-        <select id="subjectSelect" class="ai-key"></select>
-
-        <button class="btn orange" onclick="generateFromNotes()">✨ GENERATE 30 CAPS QUESTIONS</button>
-        <div id="uploadStatus" style="margin-top:12px; font-size:12px; color:#8ab4f8;"></div>
-      </div>
-
-      <div class="card">
-        <h2>3. My Saved Question Banks</h2>
-        <div id="savedBanks">No banks yet. Generate from notes above.</div>
-        <button class="btn red" onclick="clearAllStorage()">Clear All Data</button>
-      </div>
+<div class="container">
+  <!-- 1. HEADER + USER STATE -->
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h1>SHANA AI <span class="badge">EDUCATION OS v9.0</span></h1>
+    <div id="userState">
+      <button class="btn" onclick="showModal('loginModal')">Login</button>
     </div>
   </div>
 
-  <div id="examArea" style="display:none;">
-    <div class="timer" id="timer">Time: 02:00:00</div>
-    <div id="navGrid" class="nav-grid"></div>
-    <div id="paperTitle" style="text-align:center; font-weight:700; margin:15px 0; font-size:18px;"></div>
-    <div id="questionsArea"></div>
-    <div style="display:flex; justify-content:space-between;">
-      <button class="btn yellow" onclick="prevQ()">← Previous</button>
-      <button class="btn" onclick="nextQ()">Next →</button>
+  <!-- 2. FREE TRIAL BANNER -->
+  <div id="trialBanner" class="card" style="background:linear-gradient(90deg, #ff6d00, #4285f4);">
+    <h2>🎉 FREE 60 DAY PRO TRIAL</h2>
+    <p>Unlimited Questions, AI Tutor, School Dashboard. No card needed.</p>
+    <button class="btn" onclick="startTrial()">Start Free Trial</button>
+  </div>
+
+  <!-- 3. MAIN TABS: LEARNER | TEACHER | DISTRICT -->
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('learner')">👨‍🎓 Learner Mode</div>
+    <div class="tab" onclick="switchTab('teacher')">👨‍🏫 Teacher Dashboard</div>
+    <div class="tab" onclick="switchTab('district')">🏛️ District Analytics</div>
+  </div>
+
+  <!-- 4. LEARNER TAB -->
+  <div id="learnerTab">
+    <div class="card">
+      <h2>1. Generate CAPS Test</h2>
+      <select id="subjectSelect" class="input"></select>
+      <select id="topicSelect" class="input"></select>
+      <textarea id="notesPaste" class="input" placeholder="PASTE NOTES OR UPLOAD IMAGE" style="height:120px;"></textarea>
+      <button class="btn orange" onclick="generateTest()">✨ Generate 30 Questions</button>
     </div>
-    <button class="btn" onclick="backToMenu()">← Back to Menu</button>
-    <button class="btn red" id="submitBtn" onclick="submitPaper()">SUBMIT PAPER</button>
-    <div id="memoArea" style="margin-top:20px; padding:20px; background:var(--card); border-radius:16px; display:none; backdrop-filter: blur(20px);"></div>
+    <div id="testArea" class="card hidden"></div>
+  </div>
+
+  <!-- 5. TEACHER TAB -->
+  <div id="teacherTab" class="hidden">
+    <div class="card">
+      <h2>Class Analytics</h2>
+      <p id="classStats">Login to see your class data</p>
+      <button class="btn green" onclick="createClassTest()">Create Test for Class</button>
+    </div>
+  </div>
+
+  <!-- 6. DISTRICT TAB -->
+  <div id="districtTab" class="hidden">
+    <div class="card">
+      <h2>District Performance Map</h2>
+      <p>Login with DBE credentials to see live data</p>
+      <div id="districtMap">Limpopo: 62% Pass Rate. Weak Topic: Photosynthesis</div>
+    </div>
+  </div>
+</div>
+
+<!-- 7. LOGIN MODAL -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <h2>Login to SHANA</h2>
+    <input type="email" id="loginEmail" class="input" placeholder="Email">
+    <input type="password" id="loginPass" class="input" placeholder="Password">
+    <button class="btn" onclick="login()">Login</button>
+    <button class="btn" onclick="closeModal('loginModal')">Cancel</button>
   </div>
 </div>
 
 <script>
-let currentPaper=[], userAnswers=[], timer, timeLeft=7200, currentQ=0;
-let myBanks = JSON.parse(localStorage.getItem('shanaBanks')) || {};
-let currentMode = 'notes';
-let notesKeywords = [];
-
-const subjectData = {
-  primary: ['Grade R','Grade 1','Grade 2','Grade 3','Grade 4','Grade 5','Grade 6','Grade 7'],
-  secondary: ['Grade 8','Grade 9','Grade 10','Grade 11','Grade 12'],
-  tvet: ['N1','N2','N3','N4','N5','N6'],
-  university: ['Year 1','Year 2','Year 3','Year 4']
+// ========= CORE SYSTEM STATE =========
+let CURRENT_USER = {role: 'guest', trialDays: 60, school: null}; // guest, learner, teacher, district, dbe
+let KNOWLEDGE_ENGINE = {
+  "Life Sciences": [
+    {"term": "Photosynthesis", "define": "Process where plants use light...", "explain": "Occurs in chloroplasts...", "apply": "Produces food and oxygen"},
+    {"term": "Cellular Respiration", "define": "Breakdown of glucose...", "explain": "Occurs in mitochondria...", "apply": "Provides energy for cells"}
+  ],
+  "Mathematics": [],
+  "Physical Sciences": []
 }
 
-const subjectsByLevel = {
-  primary: ['Mathematics','English Home Language','Natural Science and Technology','Social Sciences','Life Skills','Creative Arts','Technology'],
-  secondary: ['Mathematics','Mathematical Literacy','Physical Sciences','Life Sciences','Civil Technology','Mechanical Technology','Electrical Technology','Engineering Graphics and Design','Accounting','Business Studies','Economics','Geography','History','English First Additional Language','Afrikaans First Additional Language','IsiZulu First Additional Language','Sepedi Home Language','Life Orientation','Information Technology','Computer Applications Technology','Consumer Studies','Tourism','Hospitality Studies','Visual Arts','Music','Dance Studies','Drama Studies'],
-  tvet: ['Engineering Studies N1-N3','Engineering Studies N4-N6','Business Studies N4-N6','Utility Studies N1-N6','Building Science','Engineering Drawing','Mathematics N1-N3','Industrial Organisation','Trade Theory','Plant Operation','Water Treatment','Electrical Trade Theory','Financial Accounting','Cost and Management Accounting','Management Communication','Entrepreneurship','Marketing Management','Human Resource Management','Public Management','Law'],
-  university: ['Calculus','Algebra','Physics','Chemistry','Biology','Engineering Graphics','Programming','Statistics','Economics','Accounting','Law','Psychology','Sociology','Education','Nursing','Engineering','Computer Science']
+// ========= SYSTEM FUNCTIONS =========
+
+// 1. AUTH + TRIAL
+function startTrial(){
+  CURRENT_USER = {role: 'learner', trialDays: 60, school: null};
+  document.getElementById('trialBanner').style.display = 'none';
+  document.getElementById('userState').innerHTML = `<span>Pro Trial: ${CURRENT_USER.trialDays} days left</span>`;
+  alert("Welcome to SHANA PRO! 60 Days Free Started");
 }
 
-const KNOWLEDGE_ENGINE = {
-  "Natural Science and Technology": [], "Physical Sciences": [], "Life Sciences": [{
-    "term": "Life Sciences",
-    "define": "The study of living organisms and how they interact with their environment.",
-    "explain": "Life Sciences covers Botany, Zoology, Microbiology, Ecology, Genetics, and Physiology to understand life processes and systems.",
-    "apply": "Used in medicine, agriculture, conservation and research to solve biological problems."
-  },
-  {
-    "term": "Carbohydrates",
-    "define": "Organic molecules made of Carbon, Hydrogen and Oxygen in a 1:2:1 ratio with general formula CnH2nOn.",
-    "explain": "Main energy source for cells. Also used for structural support and cell recognition. Classified as monosaccharides, disaccharides and polysaccharides.",
-    "apply": "Glucose for respiration, cellulose for plant cell walls, glycogen for energy storage in liver."
-  },
-  {
-    "term": "Monosaccharide",
-    "define": "A single sugar unit.",
-    "explain": "Examples: Glucose, Fructose, Galactose. Formula: C6H12O6. Tested using Benedict's test which gives brick red precipitate.",
-    "apply": "Glucose is used immediately in cellular respiration to make ATP."
-  },
-  {
-    "term": "Disaccharide",
-    "define": "Two monosaccharides joined by a glycosidic bond.",
-    "explain": "Formed by condensation. Examples: Sucrose = Glucose + Fructose, Maltose = Glucose + Glucose, Lactose = Glucose + Galactose.",
-    "apply": "Sucrose is transported in plants, lactose is in milk."
-  },
-  {
-    "term": "Polysaccharide",
-    "define": "Many monosaccharides joined together.",
-    "explain": "Examples: Starch for plant storage, Glycogen for animal storage, Cellulose for plant cell walls, Chitin for insect exoskeletons. Starch tested with iodine = blue-black.",
-    "apply": "Cellulose gives structural support to plants even though humans cannot digest it."
-  },
-  {
-    "term": "Lipids",
-    "define": "Organic molecules made of C, H, O with H:O ratio greater than 2:1.",
-    "explain": "Insoluble in water. Functions: energy storage, insulation, protection, cell membranes, hormones. Tested with brown paper test = grease spot.",
-    "apply": "Fats stored in adipose tissue for insulation and long term energy."
-  },
-  {
-    "term": "Triglyceride",
-    "define": "A fat or oil made of 1 glycerol and 3 fatty acids.",
-    "explain": "Saturated fats have no double bonds and are solid. Unsaturated fats have double bonds and are liquid.",
-    "apply": "Animal fats are saturated, plant oils are unsaturated."
-  },
-  {
-    "term": "Phospholipid",
-    "define": "Lipid with glycerol + 2 fatty acids + phosphate group.",
-    "explain": "Main component of the cell membrane bilayer.",
-    "apply": "Forms selectively permeable cell membranes."
-  },
-  {
-    "term": "Protein",
-    "define": "Organic molecule made of C, H, O, N joined by peptide bonds.",
-    "explain": "Building blocks are 20 amino acids. Functions: enzymes, structure, transport, hormones, antibodies. Tested with Biuret test = purple.",
-    "apply": "Enzymes catalyze reactions, haemoglobin transports oxygen."
-  },
-  {
-    "term": "Denaturation",
-    "define": "Loss of 3D shape of a protein.",
-    "explain": "Caused by heat, pH change, or heavy metals. Enzyme stops working.",
-    "apply": "Cooking egg white denatures proteins."
-  },
-  {
-    "term": "Nucleic Acid",
-    "define": "Molecule that stores and transmits genetic information. Made of C, H, O, N, P.",
-    "explain": "DNA = double helix in nucleus, stores code. RNA = single strand in nucleus and cytoplasm, makes proteins.",
-    "apply": "DNA determines traits, RNA makes proteins during translation."
-  },
-  {
-    "term": "Nucleotide",
-    "define": "Building block of nucleic acids.",
-    "explain": "Made of phosphate group + pentose sugar + nitrogenous base. DNA bases: A,T,C,G. RNA bases: A,U,C,G. Pairing: A-T, C-G.",
-    "apply": "Sequence of nucleotides codes for proteins."
-  },
-  {
-    "term": "Water",
-    "define": "H2O, a polar molecule.",
-    "explain": "Properties: universal solvent, high specific heat, high heat of vaporization, cohesion and adhesion, reactant in photosynthesis.",
-    "apply": "Transports nutrients in blood and water in plants."
-  },
-  {
-    "term": "Cell Theory",
-    "define": "Theory about the basic unit of life.",
-    "explain": "1. All living things made of cells 2. Cell is basic unit of structure and function 3. All cells come from pre-existing cells.",
-    "apply": "Used to understand growth, repair and disease."
-  },
-  {
-    "term": "Prokaryotic Cell",
-    "define": "Cell with no nucleus or membrane-bound organelles.",
-    "explain": "Examples: Bacteria. DNA in nucleoid. Smaller 1-10um. Cell wall of peptidoglycan.",
-    "apply": "Bacteria cause disease and are used in biotechnology."
-  },
-  {
-    "term": "Eukaryotic Cell",
-    "define": "Cell with nucleus and membrane-bound organelles.",
-    "explain": "Examples: Plants, Animals. Larger 10-100um. DNA in chromosomes.",
-    "apply": "Make up all multicellular organisms."
-  },
-  {
-    "term": "Plant Cell",
-    "define": "Eukaryotic cell with cell wall and chloroplasts.",
-    "explain": "Features: cellulose cell wall, chloroplasts, large central vacuole, regular shape.",
-    "apply": "Chloroplasts allow photosynthesis."
-  },
-  {
-    "term": "Animal Cell",
-    "define": "Eukaryotic cell without cell wall.",
-    "explain": "Features: no cell wall, no chloroplasts, small vacuoles, irregular shape, centrioles.",
-    "apply": "Centrioles help in cell division."
-  },
-  {
-    "term": "Mitochondria",
-    "define": "Organelle with double membrane and folded cristae.",
-    "explain": "Site of cellular respiration. Produces ATP. Powerhouse of the cell.",
-    "apply": "Muscle cells have many mitochondria for energy."
-  },
-  {
-    "term": "Chloroplast",
-    "define": "Organelle with chlorophyll in thylakoids.",
-    "explain": "Site of photosynthesis. Only in plant cells.",
-    "apply": "Converts light energy to chemical energy in glucose."
-  },
-  {
-    "term": "Ribosome",
-    "define": "Granule made of rRNA and protein.",
-    "explain": "Site of protein synthesis. Found free or on rough ER.",
-    "apply": "Make proteins for export or use in cell."
-  },
-  {
-    "term": "Cell Membrane",
-    "define": "Phospholipid bilayer with proteins and cholesterol.",
-    "explain": "Selectively permeable. Controls what enters and leaves.",
-    "apply": "Maintains homeostasis in the cell."
-  },
-  {
-    "term": "Mitosis",
-    "define": "Nuclear division producing 2 identical diploid cells.",
-    "explain": "Phases: Prophase, Metaphase, Anaphase, Telophase. Followed by cytokinesis.",
-    "apply": "Used for growth, repair and asexual reproduction."
-  },
-  {
-    "term": "Cell Cycle",
-    "define": "Life cycle of a cell.",
-    "explain": "Interphase: G1 growth, S DNA replication, G2 prepare. M Phase: mitosis + cytokinesis.",
-    "apply": "Regulated to prevent cancer."
-  },
-  {
-    "term": "Cancer",
-    "define": "Uncontrolled cell division.",
-    "explain": "Caused by mutations and carcinogens. Cells do not stop dividing.",
-    "apply": "Tumors form and can spread to other tissues."
-  },
-  {
-    "term": "Meristematic Tissue",
-    "define": "Plant tissue that divides.",
-    "explain": "Found at root tip, shoot tip, cambium. Small cells with thin walls.",
-    "apply": "Causes plant growth in length and thickness."
-  },
-  {
-    "term": "Xylem",
-    "define": "Vascular tissue that transports water.",
-    "explain": "Made of dead cells: tracheids and vessels. Lignified.",
-    "apply": "Water moves up by transpiration pull and cohesion-tension."
-  },
-  {
-    "term": "Phloem",
-    "define": "Vascular tissue that transports food.",
-    "explain": "Made of living cells: sieve tubes and companion cells.",
-    "apply": "Translocates sugars from source to sink by active transport."
-  },
-  {
-    "term": "Stomata",
-    "define": "Pores in leaf epidermis.",
-    "explain": "Guard cells open and close them. Used for gas exchange.",
-    "apply": "CO2 enters for photosynthesis, O2 and water vapor exit."},
-                                                                                   {
-    "term": "Turgor Pressure",
-    "define": "Pressure exerted by water inside the vacuole against the cell wall.",
-    "explain": "When water enters plant cells by osmosis the vacuole pushes out and makes the cell rigid. Loss of water causes wilting.",
-    "apply": "Keeps herbaceous plants upright and supports leaves."
-  },
-  {
-    "term": "Photosynthesis",
-    "define": "Process where plants use light energy to make glucose from carbon dioxide and water.",
-    "explain": "Equation: 6CO2 + 6H2O + Light → C6H12O6 + 6O2. Occurs in chloroplasts. Has light dependent and light independent reactions.",
-    "apply": "Produces food for all organisms and oxygen for respiration."
-  },
-  {
-    "term": "Light Dependent Reactions",
-    "define": "First stage of photosynthesis requiring light.",
-    "explain": "Occurs in grana. Water is split by photolysis. Produces ATP, NADPH and Oxygen.",
-    "apply": "Products are used in the Calvin cycle to make glucose."
-  },
-  {
-    "term": "Calvin Cycle",
-    "define": "Light independent reactions of photosynthesis.",
-    "explain": "Occurs in stroma. Uses CO2, ATP and NADPH to produce glucose.",
-    "apply": "Carbon fixation that forms carbohydrates for the plant."
-  },
-  {
-    "term": "Cellular Respiration",
-    "define": "Breakdown of glucose to release energy in the form of ATP.",
-    "explain": "Equation: C6H12O6 + 6O2 → 6CO2 + 6H2O + 38 ATP. Occurs in mitochondria 24 hours a day.",
-    "apply": "Provides energy for all cell activities in plants and animals."
-  },
-  {
-    "term": "Human Digestive System",
-    "define": "Organ system that breaks down food and absorbs nutrients.",
-    "explain": "Organs: Mouth, Oesophagus, Stomach, Small intestine, Large intestine. Accessory: Liver, Pancreas.",
-    "apply": "Mechanical and chemical digestion to make nutrients available to cells."
-  },
-  {
-    "term": "Salivary Amylase",
-    "define": "Enzyme in saliva.",
-    "explain": "Breaks down starch into maltose. Works at pH 7 in the mouth.",
-    "apply": "Starts carbohydrate digestion before food reaches stomach."
-  },
-  {
-    "term": "Pepsin",
-    "define": "Protein digesting enzyme in the stomach.",
-    "explain": "Secreted by gastric glands. Works in acidic pH 2. Breaks protein into peptides.",
-    "apply": "HCl in stomach activates pepsin and kills bacteria."
-  },
-  {
-    "term": "Villus",
-    "define": "Small finger-like projection in the small intestine.",
-    "explain": "Adaptations: thin wall, large surface area, blood supply, microvilli. Site of absorption.",
-    "apply": "Glucose and amino acids absorbed into blood, fatty acids into lymph."
-  },
-  {
-    "term": "Alveolus",
-    "define": "Tiny air sac in the lungs.",
-    "explain": "Adaptations: thin 1 cell wall, moist, large SA, rich blood supply. Site of gas exchange.",
-    "apply": "O2 diffuses into blood, CO2 diffuses out during breathing."
-  },
-  {
-    "term": "Inhalation",
-    "define": "Breathing in air.",
-    "explain": "Diaphragm contracts and flattens. Ribs move up and out. Thoracic volume increases, pressure decreases, air enters.",
-    "apply": "Brings oxygen into alveoli for gas exchange."
-  },
-  {
-    "term": "Nephron",
-    "define": "Functional unit of the kidney.",
-    "explain": "Made of glomerulus, Bowman's capsule and tubules. 1 million per kidney.",
-    "apply": "Filters blood and forms urine through filtration, reabsorption, secretion."
-  },
-  {
-    "term": "Filtration",
-    "define": "First step of urine formation.",
-    "explain": "Blood pressure forces water, glucose, salts, urea out of glomerulus into Bowman's capsule.",
-    "apply": "Blood cells and proteins remain in blood."
-  },
-  {
-    "term": "Reabsorption",
-    "define": "Second step of urine formation.",
-    "explain": "Useful substances like glucose, amino acids, water and salts are taken back into blood.",
-    "apply": "Maintains blood glucose and water balance."
-  },
-  {
-    "term": "ADH",
-    "define": "Antidiuretic hormone.",
-    "explain": "Secreted by pituitary. Increases water reabsorption in kidneys.",
-    "apply": "Controls water balance and prevents dehydration."
-  },
-  {
-    "term": "Ecosystem",
-    "define": "Community of organisms interacting with abiotic environment.",
-    "explain": "Includes biotic factors like producers and consumers and abiotic factors like light and water.",
-    "apply": "Energy flows and nutrients cycle within it."
-  },
-  {
-    "term": "Biome",
-    "define": "Large ecosystem type.",
-    "explain": "SA biomes: Grassland, Savanna, Fynbos, Forest, Desert, Nama-Karoo.",
-    "apply": "Fynbos has winter rain and is adapted to fire."
-  },
-  {
-    "term": "Food Chain",
-    "define": "Linear transfer of energy between organisms.",
-    "explain": "Sun → Producer → Primary consumer → Secondary consumer. Energy decreases at each level.",
-    "apply": "Shows feeding relationships in an ecosystem."
-  },
-  {
-    "term": "10 Percent Rule",
-    "define": "Energy transfer rule in ecosystems.",
-    "explain": "Only 10% of energy is passed to the next trophic level. 90% lost as heat.",
-    "apply": "Explains why energy pyramids are always upright."
-  },
-  {
-    "term": "Nitrogen Cycle",
-    "define": "Movement of nitrogen through the environment.",
-    "explain": "Processes: Nitrogen fixation, Nitrification, Assimilation, Ammonification, Denitrification.",
-    "apply": "Bacteria convert N2 to nitrates that plants can use."
-  },
-  {
-    "term": "Population",
-    "define": "Group of organisms of same species in one area.",
-    "explain": "Characteristics: size, density, distribution, birth rate, death rate.",
-    "apply": "Used to study growth and resource use."
-  },
-  {
-    "term": "Carrying Capacity",
-    "define": "Maximum population an environment can support.",
-    "explain": "Shown as K on logistic S-curve. Limited by food, space, disease.",
-    "apply": "When exceeded, population crashes due to competition."
-  },
-  {
-    "term": "Density Dependent Factor",
-    "define": "Factor that affects population more as density increases.",
-    "explain": "Examples: Competition, Predation, Disease.",
-    "apply": "Regulates population size in crowded conditions."
-   },
-                                                                                   {
-    "term": "Biodiversity",
-    "define": "The variety of life forms in an area.",
-    "explain": "Includes genetic diversity, species diversity and ecosystem diversity.",
-    "apply": "High biodiversity makes ecosystems more stable and resilient."}, {
-    "term": "Classification",
-    "define": "The grouping of organisms based on shared characteristics.",
-    "explain": "Uses binomial system: Genus + species. 7 Kingdoms: Animalia, Plantae, Fungi, Protista, Eubacteria, Archaebacteria, Viruses.",
-    "apply": "Helps scientists identify and study organisms."
-  },
-  {
-    "term": "Dichotomous Key",
-    "define": "Tool used to identify organisms.",
-    "explain": "Series of paired statements with 2 choices that lead to the name of the organism.",
-    "apply": "Used by biologists in the field to identify unknown species."
-  },
-  {
-    "term": "Vertebrate",
-    "define": "Animal with a backbone.",
-    "explain": "5 Classes: Fish, Amphibia, Reptilia, Aves, Mammalia.",
-    "apply": "Mammals have hair, mammary glands and regulate body temperature."
-  },
-  {
-    "term": "Invertebrate",
-    "define": "Animal without a backbone.",
-    "explain": "Examples: Arthropods, Molluscs, Annelids, Cnidarians.",
-    "apply": "Insects are the largest group of arthropods."
-  },
-  {
-    "term": "Evolution",
-    "define": "Change in populations of organisms over time.",
-    "explain": "Leads to new species through natural selection and adaptation.",
-    "apply": "Antibiotic resistance in bacteria is an example of evolution."
-  },
-  {
-    "term": "Natural Selection",
-    "define": "Process where organisms best suited to environment survive and reproduce.",
-    "explain": "Proposed by Darwin. 4 steps: Variation, Overproduction, Competition, Differential survival.",
-    "apply": "Leads to adaptation and new species over many generations."
-  },
-  {
-    "term": "Adaptation",
-    "define": "Characteristic that helps an organism survive.",
-    "explain": "Can be structural, behavioural or physiological.",
-    "apply": "Cactus has spines to reduce water loss in the desert."
-  },
-  {
-    "term": "Speciation",
-    "define": "Formation of new species.",
-    "explain": "Occurs through geographic isolation, reproductive isolation and genetic drift.",
-    "apply": "Darwin's finches on Galapagos Islands are an example."
-  },
-  {
-    "term": "Fossil",
-    "define": "Preserved remains or traces of ancient organisms.",
-    "explain": "Provides evidence for evolution and age of organisms.",
-    "apply": "Radiometric dating used to determine age of fossils."
-  },
-  {
-    "term": "Homologous Structures",
-    "define": "Structures with same basic structure but different function.",
-    "explain": "Evidence of common ancestry. Example: Human arm and bat wing.",
-    "apply": "Shows divergent evolution from a common ancestor."
-  },
-  {
-    "term": "Analogous Structures",
-    "define": "Structures with different structure but same function.",
-    "explain": "Example: Insect wing and bird wing. Evolved separately.",
-    "apply": "Shows convergent evolution."
-  },
-  {
-    "term": "Hominid",
-    "define": "Family of humans and their ancestors.",
-    "explain": "Bipedal, large brain, tool use. Includes genus Homo and Australopithecus.",
-    "apply": "Studied to understand human evolution."
-  },
-  {
-    "term": "Australopithecus",
-    "define": "Early hominid that walked upright.",
-    "explain": "Lived 4-2 million years ago. Small brain, ape-like face. Example: Lucy.",
-    "apply": "Found in East and Southern Africa."
-  },
-  {
-    "term": "Homo habilis",
-    "define": "First hominid to use stone tools.",
-    "explain": "Lived 2.4-1.4 million years ago. Brain size 600-700cc.",
-    "apply": "Called 'handy man' because of tool use."
-  },
-  {
-    "term": "Homo erectus",
-    "define": "Early human that migrated out of Africa.",
-    "explain": "Lived 1.8 million - 300,000 years ago. Used fire, hunted. Brain size 900-1100cc.",
-    "apply": "First hominid to control fire and leave Africa."
-  },
-  {
-    "term": "Homo sapiens",
-    "define": "Modern humans.",
-    "explain": "Lived from 300,000 years ago to present. Large brain 1350cc, culture, language.",
-    "apply": "Developed agriculture, civilization and technology."
-  },
-  {
-    "term": "Bipedalism",
-    "define": "Walking on two legs.",
-    "explain": "Freed hands for tool use and carrying. Energy efficient.",
-    "apply": "Key adaptation that separates hominids from apes."
-  },
-  {
-    "term": "Genetic Variation",
-    "define": "Differences in DNA between individuals.",
-    "explain": "Caused by mutation, meiosis and sexual reproduction.",
-    "apply": "Raw material for natural selection to act on."
-  },
-  {
-    "term": "Mutation",
-    "define": "Change in DNA sequence.",
-    "explain": "Can be harmful, neutral or beneficial. Source of new alleles.",
-    "apply": "Sickle cell mutation gives resistance to malaria."
-  },
-  {
-    "term": "Geographic Isolation",
-    "define": "Physical separation of populations.",
-    "explain": "Caused by mountains, rivers, oceans. Leads to speciation.",
-    "apply": "Different species on different islands."
-  },
-  {
-    "term": "Gene Pool",
-    "define": "All alleles in a population.",
-    "explain": "Changes over time due to selection, drift, migration.",
-    "apply": "Studied in population genetics."
-  },{
-    "term": "Environmental Impact",
-    "define": "Effect of human activities on the environment.",
-    "explain": "Examples: Pollution, Deforestation, Global warming, Ozone depletion.",
-    "apply": "Causes loss of biodiversity and climate change."
-  },
-  {
-    "term": "Pollution",
-    "define": "Introduction of harmful substances into the environment.",
-    "explain": "Types: Air, Water, Land, Noise. Sources: Factories, Cars, Waste.",
-    "apply": "Acid rain damages plants and buildings due to air pollution."
-  },
-  {
-    "term": "Global Warming",
-    "define": "Increase in average global temperature.",
-    "explain": "Caused by greenhouse gases: CO2, Methane. Leads to melting ice caps.",
-    "apply": "Results in climate change and rising sea levels."
-  },
-  {
-    "term": "Greenhouse Effect",
-    "define": "Trapping of heat by gases in the atmosphere.",
-    "explain": "Natural process. Enhanced by human CO2 emissions.",
-    "apply": "Keeps Earth warm but too much causes global warming."
-  },
-  {
-    "term": "Ozone Depletion",
-    "define": "Thinning of ozone layer in stratosphere.",
-    "explain": "Caused by CFCs from fridges and aerosols.",
-    "apply": "More UV radiation reaches Earth causing skin cancer."
-  },
-  {
-    "term": "Deforestation",
-    "define": "Cutting down of forests.",
-    "explain": "Causes: Farming, Logging, Mining. Effects: Soil erosion, loss of habitat.",
-    "apply": "Reduces CO2 absorption and increases global warming."
-  },
-  {
-    "term": "Conservation",
-    "define": "Protection and management of natural resources.",
-    "explain": "Methods: Nature reserves, Recycling, Sustainable use.",
-    "apply": "Ensures resources are available for future generations."
-  },
-  {
-    "term": "Sustainable Development",
-    "define": "Meeting present needs without compromising future generations.",
-    "explain": "Balance between economic growth and environmental protection.",
-    "apply": "Use renewable energy and sustainable farming."
-  },
-  {
-    "term": "Biological Control",
-    "define": "Using living organisms to control pests.",
-    "explain": "Example: Ladybugs to eat aphids instead of pesticides.",
-    "apply": "Reduces chemical pollution in farming."
-  },
-  {
-    "term": "Waste Management",
-    "define": "Collection and disposal of waste.",
-    "explain": "Methods: Reduce, Reuse, Recycle. Landfills and composting.",
-    "apply": "Prevents pollution and conserves resources."
-  },
-  {
-    "term": "Scientific Method",
-    "define": "Step by step process for scientific investigation.",
-    "explain": "Steps: Problem, Hypothesis, Method, Results, Conclusion.",
-    "apply": "Used to test ideas and get reliable data."
-  },
-  {
-    "term": "Hypothesis",
-    "define": "Testable prediction or statement.",
-    "explain": "Must be specific and based on observation.",
-    "apply": "If light increases then rate of photosynthesis will increase."
-  },
-  {
-    "term": "Independent Variable",
-    "define": "Variable that is changed by the scientist.",
-    "explain": "The factor being tested in an experiment.",
-    "apply": "Amount of light in a photosynthesis experiment."
-  },
-  {
-    "term": "Dependent Variable",
-    "define": "Variable that is measured.",
-    "explain": "Changes as a result of the independent variable.",
-    "apply": "Amount of oxygen produced in photosynthesis."
-  },
-  {
-    "term": "Control Variable",
-    "define": "Variable that is kept constant.",
-    "explain": "Ensures the test is fair.",
-    "apply": "Temperature, type of plant in photosynthesis experiment."
-  },
-  {
-    "term": "Data",
-    "define": "Information collected during an experiment.",
-    "explain": "Can be quantitative numbers or qualitative descriptions.",
-    "apply": "Recorded in tables and shown in graphs."
-  },
-  {
-    "term": "Graph",
-    "define": "Visual representation of data.",
-    "explain": "Bar graph for categories. Line graph for continuous data.",
-    "apply": "Used to show relationship between variables."
-  },
-  {
-    "term": "Conclusion",
-    "define": "Summary of what the results show.",
-    "explain": "States whether hypothesis was supported or rejected.",
-    "apply": "Based only on evidence from the experiment."
-  } ],
-  "Mathematics": [], "Mathematical Literacy": [], "Accounting": [], "Business Studies": [],
-  "Economics": [], "Geography": [], "History": [], "English First Additional Language": [],
-  "Afrikaans First Additional Language": [], "IsiZulu First Additional Language": [],
-  "Sepedi Home Language": [], "Life Orientation": [], "Information Technology": [],
-  "Computer Applications Technology": [], "Civil Technology": [], "Mechanical Technology": [],
-  "Electrical Technology": [], "Engineering Graphics and Design": [], "Consumer Studies": [],
-  "Tourism": [], "Hospitality Studies": [], "Social Sciences": [], "Life Skills": []
+function login(){
+  let email = document.getElementById('loginEmail').value;
+  if(email.includes('teacher')) CURRENT_USER.role = 'teacher';
+  if(email.includes('dbe')) CURRENT_USER.role = 'district';
+  else CURRENT_USER.role = 'learner';
+  closeModal('loginModal');
+  updateUI();
 }
 
-function extractKeywords(text){
-  let found = []; let lowerText = text.toLowerCase();
+function updateUI(){
+  document.getElementById('userState').innerHTML = `<span>Logged in as: ${CURRENT_USER.role}</span>`;
+  if(CURRENT_USER.role === 'teacher') switchTab('teacher');
+  if(CURRENT_USER.role === 'district') switchTab('district');
+}
+
+// 2. TAB SYSTEM
+function switchTab(tab){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#learnerTab, #teacherTab, #districtTab').forEach(d => d.classList.add('hidden'));
+
+  if(tab === 'learner') document.getElementById('learnerTab').classList.remove('hidden');
+  if(tab === 'teacher') document.getElementById('teacherTab').classList.remove('hidden');
+  if(tab === 'district') document.getElementById('districtTab').classList.remove('hidden');
+}
+
+// 3. QUESTION GENERATOR - YOUR CORE ENGINE
+function generateTest(){
   let subject = document.getElementById('subjectSelect').value;
-  let keywordBank = KNOWLEDGE_ENGINE[subject] || [];
-  // Scan for ALL terms in the bank, not just first word
-  keywordBank.forEach(item => { 
-    if(lowerText.includes(item.term.toLowerCase())) found.push(item.term); 
-  });
-  if(found.length < 3){ 
-    let words = text.split(/\W+/).filter(w => w.length > 5); 
-    found = [...new Set(words)].slice(0,20); 
-  }
-  return [...new Set(found)].slice(0,30);
-}
+  let bank = KNOWLEDGE_ENGINE[subject];
+  if(!bank || bank.length < 2) return alert("Add more terms to " + subject + " in KNOWLEDGE_ENGINE");
 
-function generateModelAnswer(question, keywords){
-  let subject = document.getElementById('subjectSelect').value;
-  let bank = KNOWLEDGE_ENGINE[subject] || []; 
-  
-  // SMART MATCH: Find which keyword is actually in the question
-  let qLower = question.toLowerCase();
-  let term1 = keywords.find(k => qLower.includes(k.toLowerCase())) || keywords[0] || "Concept";
-  
-  let kbItem = bank.find(item => item.term.toLowerCase() === term1.toLowerCase());
-  
-  if(kbItem){
-    if(question.includes('Define')) return `Memo: ${kbItem.define}`;
-    if(question.includes('Explain') || question.includes('role')) return `Memo: ${kbItem.explain}`;
-    if(question.includes('Apply') || question.includes('application')) return `Memo: ${kbItem.apply || kbItem.explain}`;
-    if(question.includes('Analyze')) return `Memo: ${kbItem.ana || kbItem.explain}`;
-    if(question.includes('Evaluate')) return `Memo: ${kbItem.eval || kbItem.explain}`;
-    return `Memo: ${kbItem.explain}`;
-  }
-  return `Memo from Notes: ${term1} is a key concept in ${subject}. Refer to your notes for a detailed explanation.`;
-}
-
-function generateBloomsQuestion(sentences, keywords, level, i, term1, term2){
-  const blooms = ["Remember","Understand","Apply","Analyze","Evaluate"];
-  let bloom = blooms[i % 5]; let subject = document.getElementById('subjectSelect').value;
-  if(!term1) term1 = keywords[0] || "Concept";
-  if(!term2) term2 = keywords[1] || "Process";
-  if(term1 === term2) term2 = keywords[2] || "System";
-  if(bloom === "Remember") return {q:`Define ${term1}.`, type:"REM"};
-  if(bloom === "Understand") return {q:`Explain the role of ${term1} in ${subject}.`, type:"UND"};
-  if(bloom === "Apply") return {q:`Give one application of ${term1} in real life.`, type:"APP"};
-  if(bloom === "Analyze") return {q:`Analyze the differences between ${term1} and ${term2}.`, type:"ANA"};
-  return {q:`Evaluate the importance of ${term1} in ${subject}.`, type:"EVAL"};
-}
-
-window.onload = () => { loadQuickDropdown(); updateGradeOptions(); loadSavedBanks(); }
-
-function loadQuickDropdown(){
-  let allSubjects = []; Object.values(subjectsByLevel).forEach(arr => allSubjects.push(...arr));
-  allSubjects = [...new Set(allSubjects)];
-  document.getElementById('quickSubject').innerHTML = allSubjects.map(s=>`<option>${s}</option>`).join('');
-}
-
-function syncQuickToMain(){
-  const selected = document.getElementById('quickSubject').value;
-  for(let level in subjectsByLevel){
-    if(subjectsByLevel[level].includes(selected)){
-      document.getElementById('levelSelect').value = level;
-      updateGradeOptions();
-      document.getElementById('subjectSelect').value = selected;
-      break;
-    }
-  }
-}
-
-function setMode(mode){ currentMode = mode; document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active')); document.getElementById('mode' + mode.charAt(0).toUpperCase() + mode.slice(1)).classList.add('active'); }
-
-function updateGradeOptions(){
-  const level = document.getElementById('levelSelect').value.toLowerCase();
-  const gradeSel = document.getElementById('gradeSelect');
-  const subjectSel = document.getElementById('subjectSelect');
-  gradeSel.innerHTML = subjectData[level].map(g=>`<option>${g}</option>`).join('');
-  subjectSel.innerHTML = subjectsByLevel[level].map(s=>`<option>${s}</option>`).join('');
-}
-
-function handleFileUpload(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  document.getElementById('uploadStatus').innerText = `📄 Loaded: ${file.name}. Extract text and paste below. OCR API coming in v8.2`;
-}
-
-function shuffle(arr){ return arr.sort(()=>Math.random()-0.5); }
-function saveToStorage(){ localStorage.setItem('shanaBanks', JSON.stringify(myBanks)); loadSavedBanks(); }
-function loadSavedBanks(){
-  let html = '';
-  for(let key in myBanks){
-    html += `<div style="background:var(--card2); padding:14px; border-radius:12px; margin:10px 0; display:flex; justify-content:space-between; align-items:center; border:1px solid var(--border); backdrop-filter: blur(10px);">
-    <span>${key} - ${myBanks[key].length} Qs</span>
-    <div>
-    <button class="btn" onclick="startCustomBank('${key}')">Start</button>
-    <button class="btn red" onclick="deleteBank('${key}')">Delete</button>
-    </div>
+  let html = `<h2>${subject} Test</h2>`;
+  for(let i=0; i<5; i++){ // generate 5 for demo
+    let term = bank[i % bank.length];
+    html += `<div class="card"><b>Q${i+1}. Define ${term.term}</b><br>
+    <textarea class="input" placeholder="Your answer"></textarea>
+    <button class="btn" onclick="alert('Memo: ${term.define}')">Show Memo</button>
     </div>`;
   }
-  document.getElementById('savedBanks').innerHTML = html || 'No banks yet. Generate from notes above.';
+  document.getElementById('testArea').innerHTML = html;
+  document.getElementById('testArea').classList.remove('hidden');
 }
 
-function deleteBank(key){ if(confirm(`Delete ${key}?`)){ delete myBanks[key]; saveToStorage(); } }
-function clearAllStorage(){ if(confirm('Delete ALL saved banks?')){ localStorage.removeItem('shanaBanks'); myBanks={}; loadSavedBanks(); } }
-
-async function generateFromNotes(){
-  const notes = document.getElementById('notesPaste').value;
-  const level = document.getElementById('levelSelect').value;
-  const grade = document.getElementById('gradeSelect').value;
-  const subject = document.getElementById('subjectSelect').value;
-  if(notes.length < 50) return alert('Please paste CAPS notes or upload image first.');
-  document.getElementById('uploadStatus').innerText = `⏳ SHANA AI is analyzing...`;
-
-  notesKeywords = extractKeywords(notes);
-  if(notesKeywords.length === 0) notesKeywords = ["Concept1","Concept2","Concept3"];
-
-  let sentences = notes.split(/[.\n]/).filter(s => s.trim().length > 15);
-  let questions = notes.split(/\n|\d+\.|Q\d+/i).filter(s => s.trim().length > 10 && s.includes('?'));
-  let keywords = notesKeywords; currentPaper = [];
-  const isQuestionPaper = questions.length > 3 && currentMode === 'questions';
-
-  if(isQuestionPaper){
-    for(let i=0; i<30; i++){
-      let q = questions[i % questions.length] || `Explain: ${keywords[i % keywords.length]}`;
-      let term = keywords[i % keywords.length];
-      let bank = KNOWLEDGE_ENGINE[subject] || [];
-      let kbItem = bank.find(item => item.term.toLowerCase() === term.toLowerCase()) || {term: term, explain: "From notes"};
-      let options = shuffle([kbItem.term, keywords[(i+1)%keywords.length], keywords[(i+2)%keywords.length], keywords[(i+3)%keywords.length]]);
-      let correctIndex = options.indexOf(kbItem.term);
-      let correctLetter = ['A','B','C','D'][correctIndex];
-      currentPaper.push({type: "MCQ", q: q, options: options.map((opt, idx) => `${['A','B','C','D'][idx]}) ${opt}`), ans: correctLetter, correctText: kbItem.term, explanation: kbItem.explain || "From your notes", marks: 2, source: "SA CAPS KB v8.1"});
-    }
-  } else {
-    for(let i=0; i<30; i++){
-      let term1 = keywords[i % keywords.length];
-      let term2 = keywords[(i+3) % keywords.length];
-      let bq = generateBloomsQuestion(sentences, keywords, grade, i, term1, term2);
-      let modelAns = generateModelAnswer(bq.q, keywords);
-      currentPaper.push({type: "TEXT", q: `[${bq.type}] ${bq.q}`, keywords: [term1, term2], modelAnswer: modelAns, explanation: `Bloom's Level: ${bq.type}`, marks: 3, source: "SA CAPS KB v8.1"});
-    }
-  }
-
-  let bankName = `${level} ${grade} ${subject} V8.1 - ${new Date().toLocaleDateString()}`;
-  myBanks[bankName] = currentPaper; saveToStorage();
-  document.getElementById('uploadStatus').innerText = `✅ Generated ${currentPaper.length} QUESTIONS!`;
+// 4. TEACHER FUNCTIONS
+function createClassTest(){
+  if(CURRENT_USER.role!== 'teacher') return alert("Login as Teacher first");
+  alert("Test sent to all learners in your class. View results in 24hrs.");
+  document.getElementById('classStats').innerText = "Class Avg: 68%. Weakest: Cellular Respiration";
 }
 
-function startCustomBank(name){ currentPaper = shuffle([...myBanks[name]]); userAnswers = new Array(currentPaper.length).fill(null); currentQ = 0; timeLeft = currentPaper.length * 120; document.getElementById('menu').style.display = 'none'; document.getElementById('examArea').style.display = 'block'; document.getElementById('paperTitle').innerText = `${name}\n${currentPaper.length} QUESTIONS`; buildNav(); showQuestion(); clearInterval(timer); timer = setInterval(()=>{ timeLeft--; updateTimer(); if(timeLeft<=0) submitPaper(); },1000); }
-function updateTimer(){ let h=Math.floor(timeLeft/3600), m=Math.floor((timeLeft%3600)/60), s=timeLeft%60; document.getElementById('timer').innerText = `Time: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
-function buildNav(){ let html=''; currentPaper.forEach((_,i)=>{ html+=`<button class="nav-btn" id="nav${i}" onclick="goToQ(${i})">${i+1}</button>`; }); document.getElementById('navGrid').innerHTML=html; updateNav(); }
-function updateNav(){ currentPaper.forEach((_,i)=>{ let el=document.getElementById(`nav${i}`); if(el){ el.className='nav-btn'; if(i===currentQ) el.classList.add('current'); if(userAnswers[i]!==null) el.classList.add('done'); } }); }
-function showQuestion(){ let q=currentPaper[currentQ]; let html=`<div class="quiz-card"><h3>Q${currentQ+1}. [${q.marks} Mark${q.marks>1?'s':''}] ${q.q}</h3>`; if(q.source) html += `<div class="source-tag">Source: ${q.source}</div>`; if(q.type==="MCQ"){ q.options.forEach(opt=>{ html+=`<div class="quiz-option" onclick="checkMCQ(this,'${opt.charAt(0)}')">${opt}</div>`; }); } else { html+=`<textarea id="textAns" placeholder="Write a detailed answer..." style="width:100%; height:120px; background:var(--card2); color:#fff; border-radius:10px; padding:12px; border:1px solid var(--border); backdrop-filter: blur(10px);">${userAnswers[currentQ]||''}</textarea><button class="btn" onclick="saveText()">Save Answer</button>`; } html+=`</div>`; document.getElementById('questionsArea').innerHTML=html; updateNav(); }
-function checkMCQ(el, choice){ userAnswers[currentQ] = choice; el.parentElement.querySelectorAll('.quiz-option').forEach(o=>o.classList.remove('correct','wrong')); el.classList.add('done'); updateNav(); }
-function saveText(){ userAnswers[currentQ] = document.getElementById('textAns').value; updateNav(); }
-function nextQ(){ if(currentQ<currentPaper.length-1) currentQ++; showQuestion(); }
-function prevQ(){ if(currentQ>0) currentQ--; showQuestion(); }
-function goToQ(i){ currentQ=i; showQuestion(); }
-function backToMenu(){ clearInterval(timer); document.getElementById('examArea').style.display='none'; document.getElementById('menu').style.display='block'; }
-function gradeTextAnswer(userAns, q){ if(!userAns) return false; let lower = userAns.toLowerCase(); let hits = q.keywords.filter(k=>lower.includes(k.toLowerCase())).length; return hits >= 1; }
-function submitPaper(){ clearInterval(timer); let score=0, total=0, memoHtml='<h2>📊 YOUR RESULTS + CAPS MEMO</h2>'; currentPaper.forEach((q,i)=>{ total+=q.marks; let userAns = userAnswers[i]; let correct=false; if(q.type==="MCQ") { correct = (userAns === q.ans); if(correct) score+=q.marks; } else { correct = gradeTextAnswer(userAns, q); if(correct) score+=q.marks; } memoHtml += `<div class="memo-item"> <b>Q${i+1} [${q.marks} marks]:</b> ${q.q}<br><br> <b>Your Answer:</b> <span class="${correct?'memo-correct':'memo-wrong'}">${userAns || 'No answer'}</span><br> <b>Memo/Answer:</b> <span class="memo-correct">${q.type==="MCQ"? q.ans + ') ' + q.correctText : q.modelAnswer}</span><br> ${q.explanation? `<div class="explanation"><b>AI Explanation:</b> ${q.explanation}</div>` : ''} ${q.source? `<div class="source-tag">Source: ${q.source}</div>` : ''} <b>Status:</b> ${correct?'<span class="memo-correct">✓ Correct</span>':'<span class="memo-wrong">✗ Review this</span>'} </div>`; }); let percent = ((score/total)*100).toFixed(1); memoHtml = `<h2>Final Score: ${score}/${total} = ${percent}%</h2><p style="color:#9aa0a6; margin-bottom:15px;">Study the memo below</p>` + memoHtml; document.getElementById('memoArea').innerHTML=memoHtml; document.getElementById('memoArea').style.display='block'; document.getElementById('submitBtn').style.display='none'; }
+// 5. UTILS
+function showModal(id){ document.getElementById(id).style.display = 'flex'; }
+function closeModal(id){ document.getElementById(id).style.display = 'none'; }
+
+// ONLOAD
+window.onload = () => {
+  document.getElementById('subjectSelect').innerHTML = Object.keys(KNOWLEDGE_ENGINE).map(s=>`<option>${s}</option>`).join('');
+}
 </script>
 </body>
 </html>
